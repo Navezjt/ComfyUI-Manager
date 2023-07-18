@@ -487,6 +487,16 @@
             "description": "Unofficial ComfyUI nodes for restart sampling based on the paper 'Restart Sampling for Improving Generative Processes' <a href='https://arxiv.org/abs/2306.14878'>[paper]</a> <a href='https://github.com/Newbeeer/diffusion_restart_sampling'>[repo]</a>"
         },
         {
+            "author": "ssitu",
+            "title": "ComfyUI roop",
+            "reference": "https://github.com/ssitu/ComfyUI_roop",
+            "files": [
+                "https://github.com/ssitu/ComfyUI_roop"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI nodes for the roop A1111 webui script."
+        },
+        {
             "author": "space-nuko",
             "title": "Disco Diffusion",
             "reference": "https://github.com/space-nuko/ComfyUI-Disco-Diffusion",
@@ -545,7 +555,7 @@
             ],
             "nodename_pattern": "\\(mtb\\)$",
             "install_type": "git-clone",
-            "description": "NODES: Latent Lerp, Int To Number, Bounding Box, Crop, Uncrop, ImageBlur, Denoise, ImageCompare, RGV to HSV, HSV to RGB, Color Correct, Modulo, Deglaze Image, Smart Step, ..."
+            "description": "NODES: Face Swap, Film Interpolation, Latent Lerp, Int To Number, Bounding Box, Crop, Uncrop, ImageBlur, Denoise, ImageCompare, RGV to HSV, HSV to RGB, Color Correct, Modulo, Deglaze Image, Smart Step, ..."
         },
         {
             "author": "xXAdonesXx",
@@ -608,16 +618,6 @@
             "description": "ComfyUI node that pixelizes images."
         },
         {
-            "author": "lcolok",
-            "title": "LogicAI",
-            "reference": "https://github.com/lcolok/ComfyUI-LogicAI",
-            "files": [
-                "https://github.com/lcolok/ComfyUI-LogicAI"
-            ],
-            "install_type": "git-clone",
-            "description": "NODES: GroundingDINO"
-        },
-        {
             "author": "shiimizu",
             "title": "smZNodes",
             "reference": "https://github.com/shiimizu/ComfyUI_smZNodes",
@@ -638,6 +638,46 @@
             "description": "NODES: ImageRewardLoader, ImageRewardScore"
         },
         {
+            "author": "SeargeDP",
+            "title": "SeargeSDXL",
+            "reference": "https://github.com/SeargeDP/SeargeSDXL",
+            "files": [
+                "https://github.com/SeargeDP/SeargeSDXL"
+            ],
+            "install_type": "git-clone",
+            "description": "Custom nodes for easier use of SDXL in ComfyUI including an img2img workflow that utilizes both the base and refiner checkpoints."
+        },
+        {
+            "author": "cubiq",
+            "title": "Simple Math",
+            "reference": "https://github.com/cubiq/ComfyUI_SimpleMath",
+            "files": [
+                "https://github.com/cubiq/ComfyUI_SimpleMath"
+            ],
+            "install_type": "git-clone",
+            "description": "custom node for ComfyUI to perform simple math operations"
+        },
+        {
+            "author": "shockz0rz",
+            "title": "InterpolateEverything",
+            "reference": "https://github.com/shockz0rz/ComfyUI_InterpolateEverything",
+            "files": [
+                "https://github.com/shockz0rz/ComfyUI_InterpolateEverything"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Interpolate Poses, Interpolate Lineart, ... Custom nodes for interpolating between, well, everything in the Stable Diffusion ComfyUI."
+        },
+        {
+            "author": "yolanother",
+            "title": "DTAIComfyPromptAgent",
+            "reference": "https://github.com/yolanother/DTAIComfyPromptAgent",
+            "files": [
+                "https://github.com/yolanother/DTAIComfyPromptAgent"
+            ],
+            "install_type": "git-clone",
+            "description": "This script provides a prompt agent node for the Comfy UI stable diffusion client."
+        },
+        {
             "author": "taabata",
             "title": "Syrian Falcon Nodes",
             "reference": "https://github.com/taabata/Comfy_Syrian_Falcon_Nodes",
@@ -646,6 +686,16 @@
             ],
             "install_type": "copy",
             "description": "Nodes:Prompt editing, Word as Image"
+        },
+        {
+            "author": "Ser-Hilary",
+            "title": "SDXL_sizing",
+            "reference": "https://github.com/Ser-Hilary/SDXL_sizing",
+            "files": [
+                "https://github.com/Ser-Hilary/SDXL_sizing/raw/main/conditioning_sizing_for_SDXL.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:sizing_node. Size calculation node related to image size in prompts supported by SDXL."
         },
         {
             "author": "ailex000",
@@ -713,6 +763,36 @@
             ],
             "install_type": "copy",
             "description": "KSampler is provided, based on GPU random noise"
+        },
+        {
+            "author": "fitCorder",
+            "title": "fcSuite",
+            "reference": "https://github.com/fitCorder/fcSuite",
+            "files": [
+                "https://github.com/fitCorder/fcSuite/raw/main/fcSuite.py"
+            ],
+            "install_type": "copy",
+            "description": "fcFloatMatic is a custom module, that when configured correctly will increment through the lines generating you loras at different strengths. The JSON file will load the config."
+        },
+        {
+            "author": "lrzjason",
+            "title": "ComfyUIJasonNode",
+            "reference": "https://github.com/lrzjason/ComfyUIJasonNode",
+            "files": [
+                "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/SDXLMixSampler.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:SDXLMixSampler"
+        },
+        {
+            "author": "alpertunga-bile",
+            "title": "prompt-generator",
+            "reference": "https://github.com/alpertunga-bile/prompt-generator-comfyui",
+            "files": [
+                "https://github.com/alpertunga-bile/prompt-generator-comfyui/raw/master/prompt_generator.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:Prompt Generator. Custom prompt generator node for ComfyUI."
         },
         {
             "author": "theally",

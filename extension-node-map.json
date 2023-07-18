@@ -236,6 +236,8 @@
         "Image Overlay",
         "Join XY Inputs of Same Type",
         "KSampler (Efficient)",
+        "LoRA Stacker",
+        "LoRA Stacker Adv.",
         "Manual XY Entry Info",
         "Simple Eval Examples",
         "XY Input: CFG Scale",
@@ -243,7 +245,8 @@
         "XY Input: Clip Skip",
         "XY Input: Denoise",
         "XY Input: LoRA",
-        "XY Input: LoRA (Advanced)",
+        "XY Input: LoRA Adv.",
+        "XY Input: LoRA Stacks",
         "XY Input: Manual XY Entry",
         "XY Input: Negative Prompt S/R",
         "XY Input: Positive Prompt S/R",
@@ -377,6 +380,21 @@
         "LatentDuplicator",
         "LatentSelector"
     ],
+    "https://github.com/SeargeDP/SeargeSDXL": [
+        "SeargeFloatConstant",
+        "SeargeFloatMath",
+        "SeargeFloatPair",
+        "SeargeIntegerConstant",
+        "SeargeIntegerMath",
+        "SeargeIntegerPair",
+        "SeargePromptCombiner",
+        "SeargePromptText",
+        "SeargeSDXLPromptEncoder",
+        "SeargeSDXLSampler"
+    ],
+    "https://github.com/Ser-Hilary/SDXL_sizing/raw/main/conditioning_sizing_for_SDXL.py": [
+        "sizing_node"
+    ],
     "https://github.com/TinyTerra/ComfyUI_tinyterraNodes.git": [
         "ttN busIN",
         "ttN busOUT",
@@ -392,6 +410,7 @@
         "ttN pipeEDIT",
         "ttN pipeIN",
         "ttN pipeKSampler",
+        "ttN pipeKSamplerAdvanced",
         "ttN pipeLoader",
         "ttN pipeOUT",
         "ttN seed",
@@ -599,6 +618,9 @@
         "ImageRewardLoader",
         "ImageRewardScore"
     ],
+    "https://github.com/alpertunga-bile/prompt-generator-comfyui/raw/master/prompt_generator.py": [
+        "Prompt Generator"
+    ],
     "https://github.com/biegert/ComfyUI-CLIPSeg/raw/main/custom_nodes/clipseg.py": [
         "CLIPSeg",
         "CombineSegMasks"
@@ -649,6 +671,9 @@
     "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/sampler_tonemap.py": [
         "ModelSamplerTonemapNoiseTest"
     ],
+    "https://github.com/cubiq/ComfyUI_SimpleMath": [
+        "SimpleMath"
+    ],
     "https://github.com/dawangraoming/ComfyUI_ksampler_gpu/raw/main/ksampler_gpu.py": [
         "KSamplerAdvancedGPU",
         "KSamplerGPU"
@@ -669,6 +694,11 @@
     ],
     "https://github.com/filipemeneses/comfy_pixelization": [
         "Pixelization"
+    ],
+    "https://github.com/fitCorder/fcSuite/raw/main/fcSuite.py": [
+        "fcFloat",
+        "fcFloatMatic",
+        "fcInteger"
     ],
     "https://github.com/flyingshutter/As_ComfyUI_CustomNodes": [
         "BatchIndex_AS",
@@ -706,6 +736,9 @@
         "LoraLoaderTextRandom",
         "Random_Sampler",
         "VAELoaderDecode"
+    ],
+    "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/SDXLMixSampler.py": [
+        "SDXLMixSampler"
     ],
     "https://github.com/ltdrdata/ComfyUI-Impact-Pack": [
         "BasicPipeToDetailerPipe",
@@ -749,6 +782,7 @@
         "MMDetLoader",
         "MaskPainter",
         "MaskToSEGS",
+        "MasksToMaskList",
         "ONNXDetectorProvider",
         "ONNXDetectorSEGS",
         "PixelKSampleHookCombine",
@@ -760,6 +794,7 @@
         "RegionalPrompt",
         "RegionalSampler",
         "SAMDetectorCombined",
+        "SAMDetectorSegmented",
         "SAMLoader",
         "SEGEdit",
         "SEGPick",
@@ -774,6 +809,7 @@
         "SegmDetectorForEach",
         "SegmDetectorSEGS",
         "Segs & Mask",
+        "Segs & Mask ForEach",
         "SegsMaskCombine",
         "SegsToCombinedMask",
         "SubtractMask",
@@ -796,6 +832,51 @@
         "RawTextCombine",
         "RawTextEncode",
         "RawTextReplace"
+    ],
+    "https://github.com/melMass/comfy_mtb": [
+        "B Box From Mask (mtb)",
+        "Blur (mtb)",
+        "Bounding Box (mtb)",
+        "Color Correct (mtb)",
+        "Colored Image (mtb)",
+        "Concat Images (mtb)",
+        "Crop (mtb)",
+        "Deep Bump (mtb)",
+        "Deglaze Image (mtb)",
+        "Denoise (mtb)",
+        "Export To Prores (mtb)",
+        "Face Swap (mtb)",
+        "Film Interpolation (mtb)",
+        "Float To Number (mtb)",
+        "Get Batch From History (mtb)",
+        "Hsv To Rgb (mtb)",
+        "Image Compare (mtb)",
+        "Image Premultiply (mtb)",
+        "Image Remove Background Rembg (mtb)",
+        "Image Resize Factor (mtb)",
+        "Int To Bool (mtb)",
+        "Int To Number (mtb)",
+        "Latent Lerp (mtb)",
+        "Latent Noise (mtb)",
+        "Latent Transform (mtb)",
+        "Load Face Enhance Model (mtb)",
+        "Load Face Swap Model (mtb)",
+        "Load Film Model (mtb)",
+        "Load Image From Url (mtb)",
+        "Load Image Sequence (mtb)",
+        "Mask To Image (mtb)",
+        "Mtb Examples (mtb)",
+        "Qr Code (mtb)",
+        "Restore Face (mtb)",
+        "Rgb To Hsv (mtb)",
+        "Save Image Grid (mtb)",
+        "Save Image Sequence (mtb)",
+        "Save Tensors (mtb)",
+        "Smart Step (mtb)",
+        "String Replace (mtb)",
+        "Styles Loader (mtb)",
+        "Text To Image (mtb)",
+        "Uncrop (mtb)"
     ],
     "https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92": [
         "CLIPStringEncode _O",
@@ -858,6 +939,7 @@
     ],
     "https://github.com/pythongosssss/ComfyUI-Custom-Scripts": [
         "ConstrainImage|pysssss",
+        "MathExpression|pysssss",
         "ShowText|pysssss",
         "StringFunction|pysssss"
     ],
@@ -866,6 +948,9 @@
     ],
     "https://github.com/shiimizu/ComfyUI_smZNodes": [
         "smZ CLIPTextEncode"
+    ],
+    "https://github.com/shockz0rz/ComfyUI_InterpolateEverything": [
+        "OpenposePreprocessorInterpolate"
     ],
     "https://github.com/space-nuko/ComfyUI-Disco-Diffusion": [
         "DiscoDiffusion_DiscoDiffusion",
@@ -888,6 +973,9 @@
     "https://github.com/ssitu/ComfyUI_restart_sampling": [
         "KRestartSampler",
         "KRestartSamplerSimple"
+    ],
+    "https://github.com/ssitu/ComfyUI_roop": [
+        "roop"
     ],
     "https://github.com/strimmlarn/ComfyUI_Strimmlarns_aesthetic_score": [
         "AesthetlcScoreSorter",
@@ -912,6 +1000,7 @@
     "https://github.com/taabata/Comfy_Syrian_Falcon_Nodes/raw/main/SyrianFalconNodes.py": [
         "CompositeImage",
         "KSamplerAdvancedCustom",
+        "LoopBack",
         "QRGenerate",
         "WordAsImage"
     ],
@@ -934,5 +1023,9 @@
         "TextGenerator",
         "TextInput",
         "TextOutput"
+    ],
+    "https://github.com/yolanother/DTAIComfyPromptAgent": [
+        "DTPromptAgent",
+        "DTPromptAgentString"
     ]
 }
