@@ -380,6 +380,10 @@
         "LatentDuplicator",
         "LatentSelector"
     ],
+    "https://github.com/SOELexicon/ComfyUI-LexMSDBNodes": [
+        "MSSqlSelectNode",
+        "MSSqlTableNode"
+    ],
     "https://github.com/SeargeDP/SeargeSDXL": [
         "SeargeFloatConstant",
         "SeargeFloatMath",
@@ -453,6 +457,7 @@
         "Diffusers Model Loader",
         "Export API",
         "Image Analyze",
+        "Image Aspect Ratio",
         "Image Batch",
         "Image Blank",
         "Image Blend",
@@ -557,6 +562,7 @@
         "MiDaS Mask Image",
         "MiDaS Model Loader",
         "Model Input Switch",
+        "Number Counter",
         "Number Input Condition",
         "Number Input Switch",
         "Number Multiple Of",
@@ -692,6 +698,53 @@
         "Prettify Prompt Using distilgpt2",
         "Swap Color Mode"
     ],
+    "https://github.com/evanspearman/ComfyMath": [
+        "BreakoutVec2",
+        "BreakoutVec3",
+        "BreakoutVec4",
+        "ComposeVec2",
+        "ComposeVec3",
+        "ComposeVec4",
+        "FloatToInt",
+        "FloatToNumber",
+        "IntToFloat",
+        "IntToNumber",
+        "NumberToFloat",
+        "NumberToInt",
+        "Vec2Add",
+        "Vec2Cross",
+        "Vec2Distance",
+        "Vec2Dot",
+        "Vec2Eq",
+        "Vec2Ne",
+        "Vec2Neg",
+        "Vec2Norm",
+        "Vec2Normalize",
+        "Vec2ScalarMul",
+        "Vec2Sub",
+        "Vec3Add",
+        "Vec3Cross",
+        "Vec3Distance",
+        "Vec3Dot",
+        "Vec3Eq",
+        "Vec3Ne",
+        "Vec3Neg",
+        "Vec3Norm",
+        "Vec3Normalize",
+        "Vec3ScalarMul",
+        "Vec3Sub",
+        "Vec4Add",
+        "Vec4Cross",
+        "Vec4Distance",
+        "Vec4Dot",
+        "Vec4Eq",
+        "Vec4Ne",
+        "Vec4Neg",
+        "Vec4Norm",
+        "Vec4Normalize",
+        "Vec4ScalarMul",
+        "Vec4Sub"
+    ],
     "https://github.com/filipemeneses/comfy_pixelization": [
         "Pixelization"
     ],
@@ -736,6 +789,9 @@
         "LoraLoaderTextRandom",
         "Random_Sampler",
         "VAELoaderDecode"
+    ],
+    "https://github.com/lordgasmic/ComfyUI-Wildcards/raw/master/wildcards.py": [
+        "CLIPTextEncodeWithWildcards"
     ],
     "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/SDXLMixSampler.py": [
         "SDXLMixSampler"
@@ -932,6 +988,11 @@
         "trim String _O",
         "variation_image _O"
     ],
+    "https://github.com/pants007/comfy-pants": [
+        "CLIPInterrogator",
+        "CLIPTextEncodeAIO",
+        "Image Make Square"
+    ],
     "https://github.com/paulo-coronado/comfy_clip_blip_node": [
         "CLIPTextEncodeBLIP",
         "CLIPTextEncodeBLIP-2",
@@ -951,6 +1012,11 @@
     ],
     "https://github.com/shockz0rz/ComfyUI_InterpolateEverything": [
         "OpenposePreprocessorInterpolate"
+    ],
+    "https://github.com/sipherxyz/comfyui-art-venture": [
+        "AV_UploadImage",
+        "ImagesConcat",
+        "LoadImageFromUrl"
     ],
     "https://github.com/space-nuko/ComfyUI-Disco-Diffusion": [
         "DiscoDiffusion_DiscoDiffusion",
