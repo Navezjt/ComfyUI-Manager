@@ -71,6 +71,56 @@
       "url": "https://huggingface.co/datasets/Kizi-Art/Upscale/resolve/fa98e357882a23b8e7928957a39462fbfaee1af5/4x-UltraSharp.pth"
     },
     {
+      "name": "Inswapper (face swap)",
+      "type": "insightface",
+      "base" : "inswapper",
+      "save_path": "insightface",
+      "description": "Checkpoint of the insightface swapper model (used by Comfy-Roop and comfy_mtb)",
+      "reference": "https://huggingface.co/deepinsight/inswapper/",
+      "filename": "inswapper_128.onnx",
+      "url": "https://huggingface.co/deepinsight/inswapper/resolve/main/inswapper_128.onnx"
+    },
+    {
+      "name": "Deepbump",
+      "type": "deepbump",
+      "base": "deepbump",
+      "save_path": "deepbump",
+      "description": "Checkpoint of the deepbump model to generate height and normal maps textures from an image (requires comfy_mtb)",
+      "reference": "https://github.com/HugoTini/DeepBump",
+      "filename": "deepbump256.onnx",
+      "url": "https://github.com/HugoTini/DeepBump/raw/master/deepbump256.onnx"
+    },  
+    {
+      "name": "GFPGAN 1.3",
+      "type": "face_restore",
+      "base": "face_restore",
+      "save_path": "face_restore",
+      "description": "Face restoration",
+      "reference": "https://github.com/TencentARC/GFPGAN",
+      "filename": "GFPGANv1.3.pth",
+      "url": "https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.3.pth"
+    },
+    {
+      "name": "GFPGAN 1.4",
+      "type": "face_restore",
+      "base": "face_restore",
+      "save_path": "face_restore",
+      "description": "Face restoration",
+      "reference": "https://github.com/TencentARC/GFPGAN",
+      "filename": "GFPGANv1.4.pth",
+      "url": "https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.4.pth"
+    },      
+    {
+      "name": "RestoreFormer",
+      "type": "face_restore",
+      "base": "face_restore",
+      "save_path": "face_restore",
+      "description": "Face restoration",
+      "reference": "https://github.com/TencentARC/GFPGAN",
+      "filename": "RestoreFormer.pth",
+      "url": "https://github.com/TencentARC/GFPGAN/releases/download/v1.3.4/RestoreFormer.pth"
+    },
+    {
       "name": "negative_hand Negative Embedding",
       "type": "embeddings",
       "base": "SD1.5",
@@ -109,6 +159,26 @@
       "reference": "https://civitai.com/models/7808/easynegative",
       "filename": "easynegative.safetensors",
       "url": "https://civitai.com/api/download/models/9208"
+    },
+    {
+      "name": "sd_xl_base_1.0.safetensors",
+      "type": "checkpoints",
+      "base": "SDXL",
+      "save_path": "default",
+      "description": "Stable Diffusion XL base model",
+      "reference": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0",
+      "filename": "sd_xl_base_1.0.safetensors",
+      "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0/resolve/main/sd_xl_base_1.0.safetensors"
+    },
+    {
+      "name": "stable-diffusion-xl-refiner-1.0",
+      "type": "checkpoints",
+      "base": "SDXL",
+      "save_path": "default",
+      "description": "Stable Diffusion XL refiner model",
+      "reference": "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0",
+      "filename": "sd_xl_refiner_1.0.safetensors",
+      "url": "https://huggingface.co/stabilityai/stable-diffusion-xl-refiner-1.0/resolve/main/sd_xl_refiner_1.0.safetensors"
     },
     {
       "name": "v1-5-pruned-emaonly.ckpt",
@@ -181,14 +251,14 @@
       "url": "https://huggingface.co/Linaqruf/anything-v3.0/resolve/main/anything-v3-fp16-pruned.safetensors"
     },
     {
-      "name": "Waifu Diffusion 1.5 (fp16)",
+      "name": "Waifu Diffusion 1.5 Beta3 (fp16)",
       "type": "checkpoints",
       "base": "SD2.1",
       "save_path": "default",
-      "description": "Waifu Diffusion 1.5",
-      "reference": "ttps://huggingface.co/waifu-diffusion/wd-1-5-beta2",
-      "filename": "wd-1-5-beta2-fp16.safetensors",
-      "url": "https://huggingface.co/waifu-diffusion/wd-1-5-beta2/resolve/main/checkpoints/wd-1-5-beta2-fp16.safetensors"
+      "description": "Waifu Diffusion 1.5 Beta3",
+      "reference": "https://huggingface.co/waifu-diffusion/wd-1-5-beta3",
+      "filename": "wd-illusion-fp16.safetensors",
+      "url": "https://huggingface.co/waifu-diffusion/wd-1-5-beta3/resolve/main/wd-illusion-fp16.safetensors"
     },
     {
       "name": "illuminatiDiffusionV1_v11 unCLIP model",
@@ -211,9 +281,19 @@
       "url": "https://huggingface.co/comfyanonymous/wd-1.5-beta2_unCLIP/resolve/main/wd-1-5-beta2-aesthetic-unclip-h-fp16.safetensors"
     },
     {
+      "name": "sdxl_vae.safetensors",
+      "type": "VAE",
+      "base": "SDXL VAE",
+      "save_path": "default",
+      "description": "SDXL-VAE",
+      "reference": "https://huggingface.co/stabilityai/sdxl-vae",
+      "filename": "sdxl_vae.safetensors",
+      "url": "https://huggingface.co/stabilityai/sdxl-vae/resolve/main/sdxl_vae.safetensors"
+    },
+    {
       "name": "vae-ft-mse-840000-ema-pruned",
       "type": "VAE",
-      "base": "VAE",
+      "base": "SD1.5 VAE",
       "save_path": "default",
       "description": "vae-ft-mse-840000-ema-pruned",
       "reference": "https://huggingface.co/stabilityai/sd-vae-ft-mse-original",
@@ -223,7 +303,7 @@
     {
       "name": "orangemix.vae",
       "type": "VAE",
-      "base": "VAE",
+      "base": "SD1.5 VAE",
       "save_path": "default",
       "description": "orangemix vae model",
       "reference": "https://huggingface.co/WarriorMama777/OrangeMixs",
@@ -233,7 +313,7 @@
     {
       "name": "kl-f8-anime2",
       "type": "VAE",
-      "base": "VAE",
+      "base": "SD2.1 VAE",
       "save_path": "default",
       "description": "kl-f8-anime2 vae model",
       "reference": "https://huggingface.co/hakurei/waifu-diffusion-v1-4",
@@ -569,6 +649,106 @@
       "reference": "https://huggingface.co/shi-labs/prompt-free-diffusion/tree/main/pretrained/pfd/seecoder",
       "filename": "seecoder-anime-v1-0.safetensors",
       "url": "https://huggingface.co/shi-labs/prompt-free-diffusion/resolve/main/pretrained/pfd/seecoder/seecoder-anime-v1-0.safetensors"
+    },
+    {
+      "name": "face_yolov8m (bbox)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/bbox",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "face_yolov8m.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8m.pt"
+    },
+    {
+      "name": "face_yolov8n (bbox)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/bbox",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "face_yolov8n.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8n.pt"
+    },
+    {
+      "name": "face_yolov8n_v2 (bbox)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/bbox",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "face_yolov8n_v2.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8n_v2.pt"
+    },
+    {
+      "name": "face_yolov8s (bbox)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/bbox",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "face_yolov8s.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/face_yolov8s.pt"
+    },
+    {
+      "name": "hand_yolov8n (bbox)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/bbox",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "hand_yolov8n.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/hand_yolov8n.pt"
+    },
+    {
+      "name": "hand_yolov8s (bbox)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/bbox",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "hand_yolov8s.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/hand_yolov8s.pt"
+    },
+    {
+      "name": "person_yolov8m (segm)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/segm",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "person_yolov8m-seg.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/person_yolov8m-seg.pt"
+    },
+    {
+      "name": "person_yolov8n (segm)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/segm",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "person_yolov8n-seg.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/person_yolov8n-seg.pt"
+    },
+    {
+      "name": "person_yolov8s (segm)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/segm",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "person_yolov8s-seg.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/person_yolov8s-seg.pt"
+    },
+    {
+      "name": "deepfashion2_yolov8s (segm)",
+      "type": "Ultralytics",
+      "base": "Ultralytics",
+      "save_path": "ultralytics/segm",
+      "description": "These are the available models in the UltralyticsDetectorProvider of Impact Pack.",
+      "reference": "https://huggingface.co/Bingsu/adetailer/tree/main",
+      "filename": "deepfashion2_yolov8s-seg.pt",
+      "url": "https://huggingface.co/Bingsu/adetailer/resolve/main/deepfashion2_yolov8s-seg.pt"
     }
   ]  
 }

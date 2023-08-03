@@ -1,3 +1,4 @@
+import configparser
 import shutil
 import folder_paths
 import os, sys
@@ -32,7 +33,7 @@ sys.path.append('../..')
 from torchvision.datasets.utils import download_url
 
 # ensure .js
-print("### Loading: ComfyUI-Manager (V0.12.2)")
+print("### Loading: ComfyUI-Manager (V0.17.2)")
 
 comfy_ui_revision = "Unknown"
 
@@ -48,6 +49,71 @@ local_db_extension_node_mappings = os.path.join(comfyui_manager_path, "extension
 git_script_path = os.path.join(os.path.dirname(__file__), "git_helper.py")
 
 startup_script_path = os.path.join(comfyui_manager_path, "startup-scripts")
+config_path = os.path.join(os.path.dirname(__file__), "config.ini")
+cached_config = None
+
+
+from comfy.cli_args import args
+import latent_preview
+
+
+def write_config():
+    config = configparser.ConfigParser()
+    config['default'] = {
+        'preview_method': get_current_preview_method(),
+    }
+    with open(config_path, 'w') as configfile:
+        config.write(configfile)
+
+
+def read_config():
+    try:
+        config = configparser.ConfigParser()
+        config.read(config_path)
+        default_conf = config['default']
+
+        return {
+                    'preview_method': default_conf['preview_method']
+               }
+
+    except Exception:
+        return {'preview_method': get_current_preview_method()}
+
+
+def get_config():
+    global cached_config
+
+    if cached_config is None:
+        cached_config = read_config()
+
+    return cached_config
+
+
+def get_current_preview_method():
+    if args.preview_method == latent_preview.LatentPreviewMethod.Auto:
+        return "auto"
+    elif args.preview_method == latent_preview.LatentPreviewMethod.Latent2RGB:
+        return "latent2rgb"
+    elif args.preview_method == latent_preview.LatentPreviewMethod.TAESD:
+        return "taesd"
+    else:
+        return "none"
+
+
+def set_preview_method(method):
+    if method == 'auto':
+        args.preview_method = latent_preview.LatentPreviewMethod.Auto
+    elif method == 'latent2rgb':
+        args.preview_method = latent_preview.LatentPreviewMethod.Latent2RGB
+    elif method == 'taesd':
+        args.preview_method = latent_preview.LatentPreviewMethod.TAESD
+    else:
+        args.preview_method = latent_preview.LatentPreviewMethod.NoPreviews
+
+    get_config()['preview_method'] = args.preview_method
+
+
+set_preview_method(get_config()['preview_method'])
 
 
 def try_install_script(url, repo_path, install_cmd):
@@ -183,8 +249,11 @@ def git_pull(path):
         return __win_check_git_pull(path)
     else:
         repo = git.Repo(path)
+        if repo.is_dirty():
+            repo.git.stash()
+
         origin = repo.remote(name='origin')
-        origin.pull()
+        origin.pull(rebase=True)
         repo.git.submodule('update', '--init', '--recursive')
         
         repo.close()
@@ -288,7 +357,14 @@ def check_a_custom_node_installed(item, do_fetch=False):
 
     elif item['install_type'] == 'copy' and len(item['files']) == 1:
         dir_name = os.path.basename(item['files'][0])
-        base_path = custom_nodes_path if item['files'][0].endswith('.py') else js_path
+
+        if item['files'][0].endswith('.py'):
+            base_path = custom_nodes_path
+        elif 'js_path' in item:
+            base_path = os.path.join(js_path, item['js_path'])
+        else:
+            base_path = js_path
+
         file_path = os.path.join(base_path, dir_name)
         if os.path.exists(file_path):
             item['installed'] = 'True'
@@ -603,19 +679,25 @@ def gitclone_uninstall(files):
             dir_name = os.path.splitext(os.path.basename(url))[0].replace(".git", "")
             dir_path = os.path.join(custom_nodes_path, dir_name)
 
-            # safey check
+            # safety check
             if dir_path == '/' or dir_path[1:] == ":/" or dir_path == '':
                 print(f"Uninstall(git-clone) error: invalid path '{dir_path}' for '{url}'")
                 return False
 
             install_script_path = os.path.join(dir_path, "uninstall.py")
+            disable_script_path = os.path.join(dir_path, "disable.py")
             if os.path.exists(install_script_path):
                 uninstall_cmd = [sys.executable, "uninstall.py"]
                 code = subprocess.run(uninstall_cmd, cwd=dir_path)
 
                 if code.returncode != 0:
                     print(f"An error occurred during the execution of the uninstall.py script. Only the '{dir_path}' will be deleted.")
-                
+            elif os.path.exists(disable_script_path):
+                disable_script = [sys.executable, "disable.py"]
+                code = subprocess.run(disable_script, cwd=dir_path)
+                if code.returncode != 0:
+                    print(f"An error occurred during the execution of the disable.py script. Only the '{dir_path}' will be deleted.")
+
             if os.path.exists(dir_path):
                 rmtree(dir_path)
             elif os.path.exists(dir_path + ".disabled"):
@@ -656,6 +738,15 @@ def gitclone_set_active(files, is_disable):
 
             os.rename(current_path, new_path)
 
+            if is_disable:
+                if os.path.exists(os.path.join(new_path, "disable.py")):
+                    disable_script = [sys.executable, "disable.py"]
+                    try_install_script(url, new_path, disable_script)
+            else:
+                if os.path.exists(os.path.join(new_path, "enable.py")):
+                    enable_script = [sys.executable, "enable.py"]
+                    try_install_script(url, new_path, enable_script)
+
         except Exception as e:
             print(f"{action_name}(git-clone) error: {url} / {e}")
             return False
@@ -695,6 +786,9 @@ async def install_custom_node(request):
 
     res = False
 
+    if len(json_data['files']) == 0:
+        return web.Response(status=400)
+
     if install_type == "unzip":
         res = unzip_install(json_data['files'])
 
@@ -704,6 +798,11 @@ async def install_custom_node(request):
 
     elif install_type == "git-clone":
         res = gitclone_install(json_data['files'])
+
+    if 'pip' in json_data:
+        for pname in json_data['pip']:
+            install_cmd = [sys.executable, "-m", "pip", "install", pname]
+            try_install_script(json_data['files'][0], ".", install_cmd)
 
     if res:
         print(f"After restarting ComfyUI, please refresh the browser.")
@@ -807,7 +906,7 @@ async def install_custom_node(request):
     if install_type == "git-clone":
         res = gitclone_set_active(json_data['files'], not is_disabled)
     elif install_type == "copy":
-        res = copy_set_active(json_data['files'], not is_disabled)
+        res = copy_set_active(json_data['files'], not is_disabled, json_data.get('js_path', None))
 
     if res:
         return web.json_response({}, content_type='application/json')
@@ -833,6 +932,17 @@ async def install_model(request):
         return web.json_response({}, content_type='application/json')
 
     return web.Response(status=400)
+
+
+@server.PromptServer.instance.routes.get("/manager/preview_method")
+async def preview_method(request):
+    if "value" in request.rel_url.query:
+        set_preview_method(request.rel_url.query['value'])
+        write_config()
+    else:
+        return web.Response(text=get_current_preview_method(), status=200)
+
+    return web.Response(status=200)
 
 
 NODE_CLASS_MAPPINGS = {}

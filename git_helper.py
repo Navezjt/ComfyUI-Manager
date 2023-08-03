@@ -47,8 +47,11 @@ def gitpull(path):
 
     # Pull the latest changes from the remote repository
     repo = git.Repo(path)
+    if repo.is_dirty():
+        repo.git.stash()
+
     origin = repo.remote(name='origin')
-    origin.pull()
+    origin.pull(rebase=True)
     repo.git.submodule('update', '--init', '--recursive')
 
     repo.close()
@@ -62,8 +65,8 @@ try:
         gitcheck(sys.argv[2], True)
     elif sys.argv[1] == "--pull":
         gitpull(sys.argv[2])
-    exit(0)
+    sys.exit(0)
 except:
-    exit(-1)
+    sys.exit(-1)
     
     

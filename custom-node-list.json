@@ -18,7 +18,7 @@
                 "https://github.com/ltdrdata/ComfyUI-Impact-Pack"
             ],
             "install_type": "git-clone",
-            "description": "This extension offers various detector nodes and detailer nodes that allow you to configure a workflow that automatically enhances facial details. And provide iterative upscaler."
+            "description": "This extension offers various detector nodes and detailer nodes that allow you to configure a workflow that automatically enhances facial details. And provide iterative upscaler.<BR><p style='background-color: black; color: red;'>NOTE:MMDetDetectorProvider and other legacy nodes are disabled by default. If you want to activate these nodes and use them, please edit the impact-pack.ini file in the ComfyUI-Impact-Pack directory and change 'mmdet_skip = True' to 'mmdet_skip = False.' </p>"
         },
         {
             "author": "comfyanonymous",
@@ -51,6 +51,16 @@
             "description": "This provides a detailed model merge feature based on block weight. ModelMergeBlock, in vanilla ComfyUI, allows for adjusting the ratios of input/middle/output layers, but this node provides ratio adjustments for all blocks within each layer."
         },
         {
+            "author": "comfyanonymous",
+            "title": "ComfyUI_experiments/reference_only",
+            "reference": "https://github.com/comfyanonymous/ComfyUI_experiments",
+            "files": [
+                "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/reference_only.py"
+            ],
+            "install_type": "copy",
+            "description": "This node provides functionality corresponding to Reference only in Controlnet."
+        },
+        {
             "author": "Fannovel16",
             "title": "ControlNet Preprocessors",
             "reference": "https://github.com/Fannovel16/comfy_controlnet_preprocessors",
@@ -58,17 +68,17 @@
                 "https://github.com/Fannovel16/comfy_controlnet_preprocessors"
             ],
             "install_type": "git-clone",
-            "description": "ControlNet Preprocessors. (To use this extension, you need to download the required model file from <B>Install Models</B>)<BR> <p style='background-color: black; color: red;'>NOTE: To use nodes belonging to <B>controlnet v1</b> such as <B>Canny_Edge_Preprocessor, MIDAS_Depth_Map_Preprocessor, Uniformer_SemSegPreprocessor, etc.</B>, you need to copy the <B>config.yaml.example</B> file to <B>config.yaml</B> and change <B>skip_v1: True</B> to <B>skip_v1: False</B>.</p>"
+            "description": "ControlNet Preprocessors. (To use this extension, you need to download the required model file from <B>Install Models</B>)<BR> <p style='background-color: black; color: red;'>NOTE: To use nodes belonging to <B>controlnet v1</b> such as <B>Canny_Edge_Preprocessor, MIDAS_Depth_Map_Preprocessor, Uniformer_SemSegPreprocessor, etc.</B>, you need to copy the <font color='white'>config.yaml.example</font> file to <font color='white'>config.yaml</font> and change <font color='white'>skip_v1: True</font> to <font color='white'>skip_v1: False</font>.</p>"
         },
         {
             "author": "Fannovel16",
-            "title": "comfy_video",
-            "reference": "https://github.com/Fannovel16/comfy_video",
+            "title": "ComfyUI-Frame-Interpolation",
+            "reference": "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation",
             "files": [
-                "https://github.com/Fannovel16/comfy_video"
+                "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation"
             ],
             "install_type": "git-clone",
-            "description": "Video_Frame_Extractor, Save_Frame_To_Folder, Simple_Frame_Folder_To_Video."
+            "description": "Nodes: KSampler Gradually Adding More Denoise (efficient)"
         },
         {
             "author": "biegert",
@@ -534,7 +544,7 @@
                 "https://github.com/Nourepide/ComfyUI-Allor"
             ],
             "install_type": "git-clone",
-            "description": "Allor is a plugin for ComfyUI with an emphasis on transparency and performance."
+            "description": "Allor is a plugin for ComfyUI with an emphasis on transparency and performance.<BR><p style='background-color: black; color: red;'>NOTE: If you do not disable the default node override feature in the settings, the built-in nodes, namely ImageScale and ImageScaleBy nodes, will be disabled. (ref: <a href='https://github.com/Nourepide/ComfyUI-Allor#configuration'>Configutation</a>)</p>"
         },
         {
             "author": "pythongosssss",
@@ -606,6 +616,16 @@
             ],
             "install_type": "git-clone",
             "description": "Custom animation and utility nodes for Comfyui."
+        },
+        {
+            "author": "FizzleDorf",
+            "title": "AIT",
+            "reference": "https://github.com/FizzleDorf/AIT",
+            "files": [
+                "https://github.com/FizzleDorf/AIT"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Load AITemplate, Load AITemplate (ControlNet), VAE Decode (AITemplate), VAE Encode (AITemplate), VAE Encode (AITemplate, Inpaint). Experimental usage of AITemplate"
         },
         {
             "author": "filipemeneses",
@@ -718,6 +738,177 @@
             "description": "Provides Math Nodes for ComfyUI. Boolean Logic, Integer Arithmetic, Floating Point Arithmetic and Functions, Vec2, Vec3, and Vec4 Arithmetic and Functions"
         },
         {
+            "author": "civitai",
+            "title": "comfy-nodes",
+            "reference": "https://github.com/civitai/comfy-nodes",
+            "files": [
+                "https://github.com/civitai/comfy-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: CivitAI_Loaders. Load Checkpoints, and LORA models directly from CivitAI API."
+        },
+        {
+            "author": "andersxa",
+            "title": "CLIP Directional Prompt Attention",
+            "reference": "https://github.com/andersxa/comfyui-PromptAttention",
+            "files": [
+                "https://github.com/andersxa/comfyui-PromptAttention"
+            ],
+            "pip": ["scikit-learn", "matplotlib"],
+            "install_type": "git-clone",
+            "description": "Nodes: CLIP Directional Prompt Attention Encode. Direction prompt attention tries to solve the problem of contextual words (or parts of the prompt) having an effect on much later or irrelevant parts of the prompt."
+        },
+        {
+            "author": "ArtVentureX",
+            "title": "AnimateDiff",
+            "reference": "https://github.com/ArtVentureX/comfyui-animatediff",
+            "files": [
+                "https://github.com/ArtVentureX/comfyui-animatediff"
+            ],
+            "install_type": "git-clone",
+            "description": "AnimateDiff integration for ComfyUI, adapts from sd-webui-animatediff.<br><p style='background-color: black; color: red;'>You only need to download one of <a href='https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v14.ckpt'>mm_sd_v14.ckpt</a> | <a href='https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15.ckpt'>mm_sd_v15.ckpt</a>. Put the model weights under <font color='white'>ComfyUI/custom_nodes/comfyui-animatediff/models</font>. DO NOT change model filename.</p>"
+        },
+        {
+            "author": "twri",
+            "title": "SDXL Prompt Styler",
+            "reference": "https://github.com/twri/sdxl_prompt_styler",
+            "files": [
+                "https://github.com/twri/sdxl_prompt_styler"
+            ],
+            "install_type": "git-clone",
+            "description": "SDXL Prompt Styler is a node that enables you to style prompts based on predefined templates stored in a JSON file."
+        },
+        {
+            "author": "daxthin",
+            "title": "facedetailer",
+            "reference": "https://github.com/daxthin/facedetailer",
+            "files": [
+                "https://github.com/daxthin/facedetailer"
+            ],
+            "install_type": "git-clone",
+            "description": "Face Detailer is a custom node for the 'ComfyUI' framework inspired by !After Detailer extension from auto1111, it allows you to detect faces using Mediapipe and YOLOv8n to create masks for the detected faces."
+        },
+        {
+            "author": "asagi4",
+            "title": "ComfyUI prompt control",
+            "reference": "https://github.com/asagi4/comfyui-prompt-control",
+            "files": [
+                "https://github.com/asagi4/comfyui-prompt-control"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes for convenient prompt editing. The aim is to make basic generations in ComfyUI completely prompt-controllable."
+        },
+        {
+            "author": "jamesWalker55",
+            "title": "ComfyUI - P2LDGAN Node",
+            "reference": "https://github.com/jamesWalker55/comfyui-p2ldgan",
+            "files": [
+                "https://github.com/jamesWalker55/comfyui-p2ldgan"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: P2LDGAN. This integrates P2LDGAN into ComfyUI. P2LDGAN extracts lineart from input images.<BR><p style='background-color: black; color: red;'>To use this extension, you need to download the <a href='https://drive.google.com/file/d/1To4V_Btc3QhCLBWZ0PdSNgC1cbm3isHP'>p2ldgan model</a> and save it in the <font color='white'>ComfyUI/custom_nodes/comfyui-p2ldgan/checkpoints</font> directory.</p>"
+        },
+        {
+            "author": "adieyal",
+            "title": "DynamicPrompts Custom Nodes",
+            "reference": "https://github.com/adieyal/comfyui-dynamicprompts",
+            "files": [
+                "https://github.com/adieyal/comfyui-dynamicprompts"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Random Prompts, Combinatorial Prompts, I'm Feeling Lucky, Magic Prompt, Jinja2 Templates. ComfyUI-DynamicPrompts is a custom nodes library that integrates into your existing ComfyUI Library. It provides nodes that enable the use of Dynamic Prompts in your ComfyUI."
+        },
+        {
+            "author": "mihaiiancu",
+            "title": "mihaiiancu/Inpaint",
+            "reference": "https://github.com/mihaiiancu/ComfyUI_Inpaint",
+            "files": [
+                "https://github.com/mihaiiancu/ComfyUI_Inpaint"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: InpaintMediapipe. This node provides a simple interface to inpaint."
+        },
+        {
+            "author": "kwaroran",
+            "title": "abg-comfyui",
+            "reference": "https://github.com/kwaroran/abg-comfyui",
+            "files": [
+                "https://github.com/kwaroran/abg-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Remove Image Background (abg). A Anime Background Remover node for comfyui, based on this hf space, works same as AGB extention in automatic1111."
+        },
+        {
+            "author": "twri",
+            "title": "SDXL Prompt Styler",
+            "reference": "https://github.com/twri/sdxl_prompt_styler",
+            "files": [
+                "https://github.com/twri/sdxl_prompt_styler"
+            ],
+            "install_type": "git-clone",
+            "description": "SDXL Prompt Styler is a node that enables you to style prompts based on predefined templates stored in a JSON file. The node specifically replaces a {prompt} placeholder in the 'prompt' field of each template with provided positive text."
+        },
+        {
+            "author": "bash-j",
+            "title": "Mikey Nodes",
+            "reference": "https://github.com/bash-j/mikey_nodes",
+            "files": [
+                "https://github.com/bash-j/mikey_nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Prompt With Style, Prompt With SDXL, Resize Image for SDXL, Save Image With Prompt Data, HaldCLUT, Empty Latent Ratio Select/Custom SDXL"
+        },
+        {
+            "author": "failfa.st",
+            "title": "failfast-comfyui-extensions",
+            "reference": "https://github.com/failfa-st/failfast-comfyui-extensions",
+            "files": [
+                "https://github.com/failfa-st/failfast-comfyui-extensions"
+            ],
+            "install_type": "git-clone",
+            "description": "node color customization, custom colors, dot reroutes, link rendering options, straight lines, group freezing, node pinning, automated arrangement of nodes, copy image"
+        },
+        {
+            "author": "Pfaeff",
+            "title": "pfaeff-comfyui",
+            "reference": "https://github.com/Pfaeff/pfaeff-comfyui",
+            "files": [
+                "https://github.com/Pfaeff/pfaeff-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: AstropulsePixelDetector, BackgroundRemover, ImagePadForBetterOutpaint, InpaintingPipelineLoader, Inpainting, ..."
+        },
+        {
+            "author": "wallish77",
+            "title": "wlsh_nodes",
+            "reference": "https://github.com/wallish77/wlsh_nodes",
+            "files": [
+                "https://github.com/wallish77/wlsh_nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Checkpoint Loader with Name, Save Prompt Info, Outpaint to Image, CLIP Positive-Negative, SDXL Quick Empty Latent, Empty Latent by Ratio, Time String, SDXL Steps, SDXL Resolutions ..."
+        },
+        {
+            "author": "Kosinkadink",
+            "title": "ComfyUI-Advanced-ControlNet",
+            "reference": "https://github.com/Kosinkadink/ComfyUI-Advanced-ControlNet",
+            "files": [
+                "https://github.com/Kosinkadink/ComfyUI-Advanced-ControlNet"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: ControlNetLoaderAdvanced, DiffControlNetLoaderAdvanced, ScaledSoftControlNetWeights, SoftControlNetWeights, CustomControlNetWeights, SoftT2IAdapterWeights, CustomT2IAdapterWeights"
+        },
+        {
+            "author": "Gourieff",
+            "title": "ReActor Node 0.1.0 for ComfyUI",
+            "reference": "https://github.com/Gourieff/comfyui-reactor-node",
+            "files": [
+                "https://github.com/Gourieff/comfyui-reactor-node"
+            ],
+            "install_type": "git-clone",
+            "description": "The Fast and Simple 'roop-like' Face Swap Extension Node for ComfyUI, based on ReActor (ex Roop-GE) SD-WebUI Face Swap Extension"
+        },
+        {
             "author": "taabata",
             "title": "Syrian Falcon Nodes",
             "reference": "https://github.com/taabata/Comfy_Syrian_Falcon_Nodes",
@@ -819,10 +1010,11 @@
             "title": "ComfyUIJasonNode",
             "reference": "https://github.com/lrzjason/ComfyUIJasonNode",
             "files": [
-                "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/SDXLMixSampler.py"
+                "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/SDXLMixSampler.py",
+                "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/LatentByRatio.py"
             ],
             "install_type": "copy",
-            "description": "Nodes:SDXLMixSampler"
+            "description": "Nodes:SDXLMixSampler, LatentByRatio"
         },
         {
             "author": "alpertunga-bile",
@@ -843,6 +1035,56 @@
             ],
             "install_type": "copy",
             "description": "Nodes:CLIPTextEncodeWithWildcards. This wildcard node is a wildcard node that operates based on the seed."
+        },
+        {
+            "author": "Beinsezii",
+            "title": "bsz-cui-extras",
+            "reference": "https://github.com/Beinsezii/bsz-cui-extras",
+            "files": [
+                "https://github.com/Beinsezii/bsz-cui-extras/raw/master/custom_nodes/bsz-auto-hires.py"
+            ],
+            "install_type": "copy",
+            "description": "Contains 3 nodes each with a different means to the same end result. These nodes are designed to automatically calculate the appropriate latent sizes when performing a 'Hi Res Fix' style workflow."
+        },
+        {
+            "author": "throttlekitty",
+            "title": "SDXLCustomAspectRatio",
+            "reference": "https://github.com/throttlekitty/SDXLCustomAspectRatio",
+            "files": [
+                "https://raw.githubusercontent.com/throttlekitty/SDXLCustomAspectRatio/main/SDXLAspectRatio.py"
+            ],
+            "install_type": "copy",
+            "description": "A quick and easy ComfyUI custom node for setting SDXL-friendly aspect ratios."
+        },
+        {
+            "author": "s1dlx",
+            "title": "comfy_meh",
+            "reference": "https://github.com/s1dlx/comfy_meh",
+            "files": [
+                "https://github.com/s1dlx/comfy_meh/raw/main/meh.py"
+            ],
+            "install_type": "copy",
+            "description": "Advanced merging methods."
+        },
+        {
+            "author": "tudal",
+            "title": "Hakkun-ComfyUI-nodes",
+            "reference": "https://github.com/tudal/Hakkun-ComfyUI-nodes",
+            "files": [
+                "https://github.com/tudal/Hakkun-ComfyUI-nodes/raw/main/hakkun_nodes.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes: Prompt parser. ComfyUI extra nodes. Mostly prompt parsing."
+        },
+        {
+            "author": "SadaleNet",
+            "title": "ComfyUI A1111-like Prompt Custom Node Solution",
+            "reference": "https://github.com/SadaleNet/CLIPTextEncodeA1111-ComfyUI",
+            "files": [
+                "https://github.com/SadaleNet/CLIPTextEncodeA1111-ComfyUI/raw/master/custom_nodes/clip_text_encoder_a1111.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes: CLIPTextEncodeA1111, RerouteTextForCLIPTextEncodeA1111."
         },
         {
             "author": "theally",
