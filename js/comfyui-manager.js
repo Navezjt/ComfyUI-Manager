@@ -38,7 +38,11 @@ async function getCustomNodes() {
 	if(ManagerMenuDialog.instance.local_mode_checkbox.checked)
 		mode = "local";
 
-	const response = await api.fetchApi(`/customnode/getlist?mode=${mode}`);
+	var skip_update = "";
+	if(ManagerMenuDialog.instance.update_check_checkbox.checked)
+		skip_update = "&skip_update=true";
+
+	const response = await api.fetchApi(`/customnode/getlist?mode=${mode}${skip_update}`);
 
 	const data = await response.json();
 	return data;
@@ -49,7 +53,11 @@ async function getAlterList() {
 	if(ManagerMenuDialog.instance.local_mode_checkbox.checked)
 		mode = "local";
 
-	const response = await api.fetchApi(`/alternatives/getlist?mode=${mode}`);
+	var skip_update = "";
+	if(ManagerMenuDialog.instance.update_check_checkbox.checked)
+		skip_update = "&skip_update=true";
+
+	const response = await api.fetchApi(`/alternatives/getlist?mode=${mode}${skip_update}`);
 
 	const data = await response.json();
 	return data;
@@ -103,6 +111,7 @@ async function install_custom_node(target, caller, mode) {
 async function updateComfyUI() {
 	update_comfyui_button.innerText = "Updating ComfyUI...";
 	update_comfyui_button.disabled = true;
+	update_comfyui_button.style.backgroundColor = "gray";
 
 	try {
 		const response = await api.fetchApi('/comfyui_manager/update_comfyui');
@@ -132,12 +141,14 @@ async function updateComfyUI() {
 	finally {
 		update_comfyui_button.disabled = false;
 		update_comfyui_button.innerText = "Update ComfyUI";
+	    update_comfyui_button.style.backgroundColor = "";
 	}
 }
 
-async function fetchUpdates() {
+async function fetchUpdates(update_check_checkbox) {
 	fetch_updates_button.innerText = "Fetching updates...";
 	fetch_updates_button.disabled = true;
+	fetch_updates_button.style.backgroundColor = "gray";
 
 	try {
 		var mode = "url";
@@ -155,6 +166,7 @@ async function fetchUpdates() {
 		if(response.status == 201) {
 			app.ui.dialog.show('There is an updated extension available.');
 			app.ui.dialog.element.style.zIndex = 9999;
+			update_check_checkbox.checked = false;
 		}
 		else {
 			app.ui.dialog.show('All extensions are already up-to-date with the latest versions.');
@@ -164,13 +176,14 @@ async function fetchUpdates() {
 		return true;
 	}
 	catch(exception) {
-		app.ui.dialog.show(`Failed to update ComfyUI / ${exception}`);
+		app.ui.dialog.show(`Failed to update custom nodes / ${exception}`);
 		app.ui.dialog.element.style.zIndex = 9999;
 		return false;
 	}
 	finally {
 		fetch_updates_button.disabled = false;
 		fetch_updates_button.innerText = "Fetch Updates";
+		fetch_updates_button.style.backgroundColor = "";
 	}
 }
 
@@ -290,7 +303,7 @@ class CustomNodesInstaller extends ComfyDialog {
 		for (let i in nodes) {
 			const node_type = nodes[i].type;
 			if (!registered_nodes.has(node_type)) {
-				const url = name_to_url[node_type];
+				const url = name_to_url[node_type.trim()];
 				if(url)
 					missing_nodes.add(url);
 				else {
@@ -330,6 +343,8 @@ class CustomNodesInstaller extends ComfyDialog {
 			$el('br')]);
 		msg.style.height = '100px';
 		msg.style.verticalAlign = 'middle';
+		msg.style.color = "var(--fg-color)";
+
 		this.element.appendChild(msg);
 
 		// invalidate
@@ -557,6 +572,10 @@ class CustomNodesInstaller extends ComfyDialog {
 			self.filter = event.target.value;
 			self.apply_searchbox();
 		});
+
+        if(self.filter) {
+		    combo.value = self.filter;
+		}
 
 		return combo;
 	}
@@ -936,6 +955,10 @@ class AlternativesInstaller extends ComfyDialog {
 			self.filter = event.target.value;
 			self.apply_searchbox();
 		});
+
+        if(self.filter) {
+		    combo.value = self.filter;
+		}
 
 		return combo;
 	}
@@ -1321,7 +1344,13 @@ class ManagerMenuDialog extends ComfyDialog {
 	createButtons() {
 		this.local_mode_checkbox = $el("input",{type:'checkbox', id:"use_local_db"},[])
 		const checkbox_text = $el("label",{},[" Use local DB"])
-		checkbox_text.style.color = "var(--fg-color)"
+		checkbox_text.style.color = "var(--fg-color)";
+		checkbox_text.style.marginRight = "10px";
+
+		this.update_check_checkbox = $el("input",{type:'checkbox', id:"skip_update_check"},[])
+		const uc_checkbox_text = $el("label",{},[" Skip update check"])
+		uc_checkbox_text.style.color = "var(--fg-color)";
+		this.update_check_checkbox.checked = true;
 
 		update_comfyui_button =
 				$el("button", {
@@ -1336,7 +1365,7 @@ class ManagerMenuDialog extends ComfyDialog {
 					type: "button",
 					textContent: "Fetch Updates",
 					onclick:
-						() => fetchUpdates()
+						() => fetchUpdates(this.update_check_checkbox)
 				});
 
 		let preview_combo = document.createElement("select");
@@ -1357,7 +1386,7 @@ class ManagerMenuDialog extends ComfyDialog {
 			[
 				$el("tr.td", {width:"100%"}, [$el("font", {size:6, color:"white"}, [`ComfyUI Manager Menu`])]),
 				$el("br", {}, []),
-				$el("div", {}, [this.local_mode_checkbox, checkbox_text]),
+				$el("div", {}, [this.local_mode_checkbox, checkbox_text, this.update_check_checkbox, uc_checkbox_text]),
 				$el("br", {}, []),
 				$el("button", {
 					type: "button",
