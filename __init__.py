@@ -33,8 +33,9 @@ sys.path.append('../..')
 from torchvision.datasets.utils import download_url
 
 # ensure .js
-print("### Loading: ComfyUI-Manager (V0.17.2)")
+print("### Loading: ComfyUI-Manager (V0.21)")
 
+comfy_ui_required_revision = 1240
 comfy_ui_revision = "Unknown"
 
 comfy_path = os.path.dirname(folder_paths.__file__)
@@ -124,7 +125,7 @@ def try_install_script(url, repo_path, install_cmd):
     elif comfy_ui_revision.isdigit():
         int_comfyui_revision = int(comfy_ui_revision)
 
-    if platform.system() == "Windows" and int_comfyui_revision >= 1152:
+    if platform.system() == "Windows" and int_comfyui_revision >= comfy_ui_required_revision:
         if not os.path.exists(startup_script_path):
             os.makedirs(startup_script_path)
 
@@ -139,7 +140,7 @@ def try_install_script(url, repo_path, install_cmd):
 
         if platform.system() == "Windows":
             try:
-                if int(comfy_ui_revision) < 1152:
+                if int(comfy_ui_revision) < comfy_ui_required_revision:
                     print("\n\n###################################################################")
                     print(f"[WARN] ComfyUI-Manager: Your ComfyUI version ({comfy_ui_revision}) is too old. Please update to the latest version.")
                     print(f"[WARN] The extension installation feature may not work properly in the current installed ComfyUI version on Windows environment.")
@@ -161,7 +162,7 @@ def print_comfyui_version():
         git_hash = repo.head.commit.hexsha
 
         try:
-            if int(comfy_ui_revision) < 1148:
+            if int(comfy_ui_revision) < comfy_ui_required_revision:
                 print(f"\n\n## [WARN] ComfyUI-Manager: Your ComfyUI version ({comfy_ui_revision}) is too old. Please update to the latest version. ##\n\n")
         except:
             pass
@@ -262,7 +263,7 @@ def git_pull(path):
 
 
 async def get_data(uri):
-    print(f"FECTH DATA from: {uri}")
+    print(f"FETCH DATA from: {uri}")
     if uri.startswith("http"):
         async with aiohttp.ClientSession() as session:
             async with session.get(uri) as resp:
@@ -301,7 +302,7 @@ import zipfile
 import urllib.request
 
 
-def get_model_path(data):
+def get_model_dir(data):
     if data['save_path'] != 'default':
         base_model = os.path.join(folder_paths.models_dir, data['save_path'])
     else:
@@ -329,12 +330,17 @@ def get_model_path(data):
         elif model_type == "embeddings":
             base_model = folder_paths.folder_names_and_paths["embeddings"][0][0]
         else:
-            base_model = None
+            base_model = "etc"
 
+    return base_model
+
+
+def get_model_path(data):
+    base_model = get_model_dir(data)
     return os.path.join(base_model, data['filename'])
 
 
-def check_a_custom_node_installed(item, do_fetch=False):
+def check_a_custom_node_installed(item, do_fetch=False, do_update_check=True):
     item['installed'] = 'None'
 
     if item['install_type'] == 'git-clone' and len(item['files']) == 1:
@@ -342,7 +348,7 @@ def check_a_custom_node_installed(item, do_fetch=False):
         dir_path = os.path.join(custom_nodes_path, dir_name)
         if os.path.exists(dir_path):
             try:
-                if git_repo_has_updates(dir_path, do_fetch):
+                if do_update_check and git_repo_has_updates(dir_path, do_fetch):
                     item['installed'] = 'Update'
                 else:
                     item['installed'] = 'True'
@@ -374,9 +380,9 @@ def check_a_custom_node_installed(item, do_fetch=False):
             item['installed'] = 'False'
 
 
-def check_custom_nodes_installed(json_obj, do_fetch=False):
+def check_custom_nodes_installed(json_obj, do_fetch=False, do_update_check=True):
     for item in json_obj['custom_nodes']:
-        check_a_custom_node_installed(item, do_fetch)
+        check_a_custom_node_installed(item, do_fetch, do_update_check)
 
 
 @server.PromptServer.instance.routes.get("/customnode/getmappings")
@@ -415,19 +421,29 @@ async def fetch_updates(request):
 
 @server.PromptServer.instance.routes.get("/customnode/getlist")
 async def fetch_customnode_list(request):
+    if "skip_update" in request.rel_url.query and request.rel_url.query["skip_update"] == "true":
+        skip_update = True
+    else:
+        skip_update = False
+
     if request.rel_url.query["mode"] == "local":
         uri = local_db_custom_node_list
     else:
         uri = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/custom-node-list.json'
 
     json_obj = await get_data(uri)
-    check_custom_nodes_installed(json_obj, False)
+    check_custom_nodes_installed(json_obj, False, not skip_update)
 
     return web.json_response(json_obj, content_type='application/json')
 
 
 @server.PromptServer.instance.routes.get("/alternatives/getlist")
 async def fetch_alternatives_list(request):
+    if "skip_update" in request.rel_url.query and request.rel_url.query["skip_update"] == "true":
+        skip_update = True
+    else:
+        skip_update = False
+
     if request.rel_url.query["mode"] == "local":
         uri1 = local_db_alter
         uri2 = local_db_custom_node_list
@@ -447,7 +463,7 @@ async def fetch_alternatives_list(request):
         fileurl = item['id']
         if fileurl in fileurl_to_custom_node:
             custom_node = fileurl_to_custom_node[fileurl]
-            check_a_custom_node_installed(custom_node)
+            check_a_custom_node_installed(custom_node, not skip_update)
             item['custom_node'] = custom_node
 
     return web.json_response(alter_json, content_type='application/json')
@@ -601,9 +617,14 @@ def execute_install_script(url, repo_path):
     requirements_path = os.path.join(repo_path, "requirements.txt")
 
     if os.path.exists(requirements_path):
-        print(f"Install: pip packages")
-        install_cmd = [sys.executable, "-m", "pip", "install", "-r", "requirements.txt"]
-        try_install_script(url, repo_path, install_cmd)
+        print("Install: pip packages")
+        with open(requirements_path, "r") as requirements_file:
+            for line in requirements_file:
+                package_name = line.strip()
+                if package_name:
+                    install_cmd = [sys.executable, "-m", "pip", "install", package_name]
+                    if package_name.strip() != "":
+                        try_install_script(url, repo_path, install_cmd)
 
     if os.path.exists(install_script_path):
         print(f"Install: install script")
@@ -922,14 +943,24 @@ async def install_model(request):
 
     res = False
 
-    if model_path is not None:
-        print(f"Install model '{json_data['name']}' into '{model_path}'")
-        res = download_url_with_agent(json_data['url'], model_path)
-    else:
-        print(f"Model installation error: invalid model type - {json_data['type']}")
+    try:
+        if model_path is not None:
+            print(f"Install model '{json_data['name']}' into '{model_path}'")
 
-    if res:
-        return web.json_response({}, content_type='application/json')
+            if json_data['url'].startswith('https://github.com') or json_data['url'].startswith('https://huggingface.co'):
+                model_dir = get_model_dir(json_data)
+                download_url(json_data['url'], model_dir)
+                return web.json_response({}, content_type='application/json')
+            else:
+                res = download_url_with_agent(json_data['url'], model_path)
+        else:
+            print(f"Model installation error: invalid model type - {json_data['type']}")
+
+        if res:
+            return web.json_response({}, content_type='application/json')
+    except Exception as e:
+        print(f"[ERROR] {e}")
+        pass
 
     return web.Response(status=400)
 

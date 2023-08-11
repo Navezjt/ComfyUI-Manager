@@ -1,4 +1,9 @@
 {
+    "https://github.com/AIrjen/OneButtonPrompt": [
+        "CreatePromptVariant",
+        "OneButtonPrompt",
+        "SavePromptToFile"
+    ],
     "https://github.com/ArtVentureX/comfyui-animatediff": [
         "AnimateDiffCombine",
         "AnimateDiffLoader",
@@ -70,6 +75,9 @@
     "https://github.com/BlenderNeko/ComfyUI_TiledKSampler": [
         "BNK_TiledKSampler",
         "BNK_TiledKSamplerAdvanced"
+    ],
+    "https://github.com/Chaoses-Ib/ComfyUI_Ib_CustomNodes": [
+        "LoadImageFromPath"
     ],
     "https://github.com/Davemane42/ComfyUI_Dave_CustomNode": [
         "ABGRemover",
@@ -178,7 +186,15 @@
         "Vignette"
     ],
     "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation": [
-        "KSampler Gradually Adding More Denoise (efficient)"
+        "AMT VFI",
+        "ESAI VFI",
+        "GMFSS Fortuna VFI",
+        "IFRNet VFI",
+        "IFUnet VFI",
+        "KSampler Gradually Adding More Denoise (efficient)",
+        "M2M VFI",
+        "RIFE VFI",
+        "Sepconv VFI"
     ],
     "https://github.com/Fannovel16/comfy_controlnet_preprocessors": [
         "AnimeLineArtPreprocessor",
@@ -279,6 +295,7 @@
         "LatentCombine"
     ],
     "https://github.com/LucianoCirino/efficiency-nodes-comfyui": [
+        "Control Net Stacker",
         "Efficient Loader",
         "Evaluate Floats",
         "Evaluate Integers",
@@ -291,10 +308,13 @@
         "LoRA Stacker Adv.",
         "Manual XY Entry Info",
         "Simple Eval Examples",
+        "XY Input: Add/Return Noise",
         "XY Input: CFG Scale",
         "XY Input: Checkpoint",
         "XY Input: Clip Skip",
+        "XY Input: Control Net Strengths",
         "XY Input: Denoise",
+        "XY Input: End at Step",
         "XY Input: LoRA",
         "XY Input: LoRA Adv.",
         "XY Input: LoRA Stacks",
@@ -304,9 +324,17 @@
         "XY Input: Sampler",
         "XY Input: Scheduler",
         "XY Input: Seeds++ Batch",
+        "XY Input: Start at Step",
         "XY Input: Steps",
         "XY Input: VAE",
         "XY Plot"
+    ],
+    "https://github.com/M1kep/ComfyLiterals": [
+        "Checkpoint",
+        "Float",
+        "Int",
+        "Operation",
+        "String"
     ],
     "https://github.com/Nourepide/ComfyUI-Allor": [
         "AlphaChanelAdd",
@@ -420,6 +448,7 @@
         "CR Color Tint",
         "CR Conditioning Input Switch",
         "CR ControlNet Input Switch",
+        "CR Hires Fix Process Switch",
         "CR Image Input Switch",
         "CR Image Input Switch (4 way)",
         "CR Image Output",
@@ -427,6 +456,7 @@
         "CR Image Pipe In",
         "CR Image Pipe Out",
         "CR Image Size",
+        "CR Img2Img Process Switch",
         "CR Integer Multiple",
         "CR Latent Input Switch",
         "CR Load LoRA",
@@ -435,10 +465,12 @@
         "CR Module Output",
         "CR Module Pipe Loader",
         "CR Pipe Switch",
+        "CR Process Switch",
         "CR SDXL Base Prompt Encoder",
         "CR SDXL Prompt Mixer",
         "CR SDXL Style Text",
-        "CR Seed to Int"
+        "CR Seed to Int",
+        "CR Switch"
     ],
     "https://github.com/SLAPaper/ComfyUI-Image-Selector": [
         "ImageDuplicator",
@@ -455,7 +487,10 @@
         "RerouteTextForCLIPTextEncodeA1111"
     ],
     "https://github.com/SeargeDP/SeargeSDXL": [
+        "SeargeCheckpointLoader",
+        "SeargeConditioningMuxer2",
         "SeargeConditioningMuxer5",
+        "SeargeEnablerInputs",
         "SeargeFloatConstant",
         "SeargeFloatMath",
         "SeargeFloatPair",
@@ -473,6 +508,7 @@
         "SeargeIntegerPair",
         "SeargeIntegerScaler",
         "SeargeLatentMuxer3",
+        "SeargeLoraLoader",
         "SeargeOutput1",
         "SeargeOutput2",
         "SeargeOutput3",
@@ -485,9 +521,18 @@
         "SeargePromptText",
         "SeargeSDXLBasePromptEncoder",
         "SeargeSDXLImage2ImageSampler",
+        "SeargeSDXLImage2ImageSampler2",
+        "SeargeSDXLImage2ImageSamplerV3",
         "SeargeSDXLPromptEncoder",
         "SeargeSDXLRefinerPromptEncoder",
-        "SeargeSDXLSampler"
+        "SeargeSDXLSampler",
+        "SeargeSDXLSampler2",
+        "SeargeSDXLSamplerV3",
+        "SeargeSamplerInputs",
+        "SeargeSaveFolderInputs",
+        "SeargeStylePreprocessor",
+        "SeargeUpscaleModelLoader",
+        "SeargeVAELoader"
     ],
     "https://github.com/Ser-Hilary/SDXL_sizing/raw/main/conditioning_sizing_for_SDXL.py": [
         "get_aspect_from_image",
@@ -513,6 +558,7 @@
         "ttN pipeKSampler",
         "ttN pipeKSamplerAdvanced",
         "ttN pipeLoader",
+        "ttN pipeLoaderSDXL",
         "ttN pipeOUT",
         "ttN seed",
         "ttN seedDebug",
@@ -735,30 +781,37 @@
         "CLIPAttentionMaskEncode"
     ],
     "https://github.com/asagi4/comfyui-prompt-control": [
+        "CondLinearInterpolate",
         "ConditioningCutoff",
         "EditableCLIPEncode",
         "FilterSchedule",
         "JinjaRender",
         "LoRAScheduler",
+        "PromptControlSimple",
         "PromptToSchedule",
         "ScheduleToCond",
         "ScheduleToModel",
+        "SimpleWildcard",
         "StringConcat"
     ],
     "https://github.com/bash-j/mikey_nodes": [
+        "AddMetaData",
         "Batch Resize Image for SDXL",
         "Empty Latent Ratio Custom SDXL",
         "Empty Latent Ratio Select SDXL",
         "HaldCLUT",
+        "Mikey Sampler",
         "Prompt With SDXL",
         "Prompt With Style",
         "Prompt With Style V2",
         "Prompt With Style V3",
         "Resize Image for SDXL",
         "Save Image With Prompt Data",
+        "SaveMetaData",
         "Style Conditioner",
         "Upscale Tile Calculator",
-        "VAE Decode 6GB SDXL (deprecated)"
+        "VAE Decode 6GB SDXL (deprecated)",
+        "Wildcard Processor"
     ],
     "https://github.com/biegert/ComfyUI-CLIPSeg/raw/main/custom_nodes/clipseg.py": [
         "CLIPSeg",
@@ -801,6 +854,9 @@
         "FetchRemote",
         "QueueRemote"
     ],
+    "https://github.com/city96/SD-Latent-Interposer": [
+        "LatentInterposer"
+    ],
     "https://github.com/civitai/comfy-nodes": [
         "CivitAI_Checkpoint_Loader",
         "CivitAI_Lora_Loader"
@@ -817,6 +873,14 @@
     "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/sampler_tonemap.py": [
         "ModelSamplerTonemapNoiseTest"
     ],
+    "https://github.com/coreyryanhanson/comfy-qr": [
+        "comfy-qr-by-image-size",
+        "comfy-qr-by-module-size"
+    ],
+    "https://github.com/coreyryanhanson/comfy-qr-validation-nodes": [
+        "comfy-qr-read",
+        "comfy-qr-validate"
+    ],
     "https://github.com/cubiq/ComfyUI_SimpleMath": [
         "SimpleMath"
     ],
@@ -826,6 +890,10 @@
     ],
     "https://github.com/daxthin/facedetailer": [
         "DZ_Face_Detailer"
+    ],
+    "https://github.com/dimtoneff/ComfyUI-PixelArt-Detector": [
+        "PixelArtDetectorSave",
+        "PixelArtDetectorToImage"
     ],
     "https://github.com/diontimmer/ComfyUI-Vextra-Nodes": [
         "Add Text To Image",
@@ -952,6 +1020,12 @@
         "VAEEncodeBatched",
         "VAEIter"
     ],
+    "https://github.com/hylarucoder/ComfyUI-Eagle-PNGInfo": [
+        "EagleImageNode"
+    ],
+    "https://github.com/imb101/ComfyUI-FaceSwap": [
+        "FaceSwapNode"
+    ],
     "https://github.com/kwaroran/abg-comfyui": [
         "Remove Image Background (abg)"
     ],
@@ -969,6 +1043,7 @@
         "SDXLMixSampler"
     ],
     "https://github.com/ltdrdata/ComfyUI-Impact-Pack": [
+        "AddMask",
         "BasicPipeToDetailerPipe",
         "BboxDetectorCombined",
         "BboxDetectorCombined_v2",
@@ -997,11 +1072,25 @@
         "ImageMaskSwitch",
         "ImageReceiver",
         "ImageSender",
+        "ImpactCompare",
+        "ImpactConditionalBranch",
+        "ImpactConditionalStopIteration",
+        "ImpactFloat",
+        "ImpactImageBatchToImageList",
+        "ImpactImageInfo",
+        "ImpactInt",
         "ImpactKSamplerAdvancedBasicPipe",
         "ImpactKSamplerBasicPipe",
         "ImpactLogger",
+        "ImpactMinMax",
+        "ImpactNeg",
         "ImpactSEGSConcat",
         "ImpactSEGSLabelFilter",
+        "ImpactSEGSOrderedFilter",
+        "ImpactSEGSRangeFilter",
+        "ImpactSEGSToMaskList",
+        "ImpactValueReceiver",
+        "ImpactValueSender",
         "ImpactWildcardProcessor",
         "IterativeImageUpscale",
         "IterativeLatentUpscale",
@@ -1094,8 +1183,7 @@
         "Int To Bool (mtb)",
         "Int To Number (mtb)",
         "Latent Lerp (mtb)",
-        "Latent Noise (mtb)",
-        "Latent Transform (mtb)",
+        "Load Face Analysis Model (mtb)",
         "Load Face Enhance Model (mtb)",
         "Load Face Swap Model (mtb)",
         "Load Film Model (mtb)",
@@ -1107,11 +1195,14 @@
         "Save Gif (mtb)",
         "Save Image Grid (mtb)",
         "Save Image Sequence (mtb)",
+        "Save Tensors (mtb)",
         "Smart Step (mtb)",
         "String Replace (mtb)",
         "Styles Loader (mtb)",
         "Text To Image (mtb)",
-        "Uncrop (mtb)"
+        "Transform Image (mtb)",
+        "Uncrop (mtb)",
+        "Unsplash Image (mtb)"
     ],
     "https://github.com/mihaiiancu/ComfyUI_Inpaint": [
         "InpaintMediapipe"
@@ -1181,10 +1272,12 @@
         "Example"
     ],
     "https://github.com/pythongosssss/ComfyUI-Custom-Scripts": [
+        "CheckpointLoader|pysssss",
         "ConstrainImage|pysssss",
         "LoraLoader|pysssss",
         "MathExpression|pysssss",
         "MultiPrimitive|pysssss",
+        "PlaySound|pysssss",
         "ReroutePrimitive|pysssss",
         "ShowText|pysssss",
         "StringFunction|pysssss"
@@ -1203,7 +1296,6 @@
     ],
     "https://github.com/sipherxyz/comfyui-art-venture": [
         "AV_UploadImage",
-        "ImagesConcat",
         "LoadImageFromUrl"
     ],
     "https://github.com/space-nuko/ComfyUI-Disco-Diffusion": [
@@ -1253,10 +1345,15 @@
     ],
     "https://github.com/taabata/Comfy_Syrian_Falcon_Nodes/raw/main/SyrianFalconNodes.py": [
         "CompositeImage",
-        "KSamplerAdvancedCustom",
+        "KSamplerAlternate",
+        "KSamplerPromptEdit",
+        "KSamplerPromptEditAndAlternate",
         "LoopBack",
         "QRGenerate",
         "WordAsImage"
+    ],
+    "https://github.com/theUpsider/ComfyUI-Styles_CSV_Loader": [
+        "Load Styles CSV"
     ],
     "https://github.com/trojblue/trNodes": [
         "JpgConvertNode",
@@ -1277,6 +1374,10 @@
     "https://github.com/twri/sdxl_prompt_styler": [
         "SDXLPromptStyler"
     ],
+    "https://github.com/uarefans/ComfyUI-Fans": [
+        "Fans Styler",
+        "Fans Text Concatenate"
+    ],
     "https://github.com/wallish77/wlsh_nodes": [
         "Alternating KSampler (WLSH)",
         "CLIP Positive-Negative (WLSH)",
@@ -1291,6 +1392,7 @@
         "KSamplerAdvanced (WLSH)",
         "Multiply Integer (WLSH)",
         "Outpaint to Image (WLSH)",
+        "Resolutions by Ratio (WLSH)",
         "SDXL Quick Empty Latent (WLSH)",
         "SDXL Quick Image Scale (WLSH)",
         "SDXL Resolutions (WLSH)",

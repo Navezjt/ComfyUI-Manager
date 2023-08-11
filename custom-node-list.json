@@ -188,6 +188,7 @@
             "author": "WASasquatch",
             "title": "WAS Node Suite",
             "reference": "https://github.com/WASasquatch/was-node-suite-comfyui",
+            "pip": ["numba"],
             "files": [
                 "https://github.com/WASasquatch/was-node-suite-comfyui"
             ],
@@ -344,6 +345,16 @@
             "install_type": "git-clone",
             "description": "Run ComfyUI workflows on multiple local GPUs/networked machines. Nodes: Remote images, Local Remote control"
         },
+        {
+            "author": "city96",
+            "title": "Latent-Interposer",
+            "reference": "https://github.com/city96/SD-Latent-Interposer",
+            "files": [
+                "https://github.com/city96/SD-Latent-Interposer"
+            ],
+            "install_type": "git-clone",
+            "description": "Custom node to convert the lantents between SDXL and SD v1.5 directly without the VAE decoding/encoding step."
+	    },
         {
             "author": "Kaharos94",
             "title": "ComfyUI-Saveaswebp",
@@ -839,16 +850,6 @@
             "description": "Nodes: Remove Image Background (abg). A Anime Background Remover node for comfyui, based on this hf space, works same as AGB extention in automatic1111."
         },
         {
-            "author": "twri",
-            "title": "SDXL Prompt Styler",
-            "reference": "https://github.com/twri/sdxl_prompt_styler",
-            "files": [
-                "https://github.com/twri/sdxl_prompt_styler"
-            ],
-            "install_type": "git-clone",
-            "description": "SDXL Prompt Styler is a node that enables you to style prompts based on predefined templates stored in a JSON file. The node specifically replaces a {prompt} placeholder in the 'prompt' field of each template with provided positive text."
-        },
-        {
             "author": "bash-j",
             "title": "Mikey Nodes",
             "reference": "https://github.com/bash-j/mikey_nodes",
@@ -907,6 +908,116 @@
             ],
             "install_type": "git-clone",
             "description": "The Fast and Simple 'roop-like' Face Swap Extension Node for ComfyUI, based on ReActor (ex Roop-GE) SD-WebUI Face Swap Extension"
+        },
+        {
+            "author": "imb101",
+            "title": "FaceSwap",
+            "reference": "https://github.com/imb101/ComfyUI-FaceSwap",
+            "files": [
+                "https://github.com/imb101/ComfyUI-FaceSwap"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:FaceSwapNode. Very basic custom node to enable face swapping in ComfyUI. (roop)"
+        },
+        {
+            "author": "Chaoses-Ib",
+            "title": "ComfyUI_Ib_CustomNodes",
+            "reference": "https://github.com/Chaoses-Ib/ComfyUI_Ib_CustomNodes",
+            "files": [
+                "https://github.com/Chaoses-Ib/ComfyUI_Ib_CustomNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: LoadImageFromPath. Load Image From Path loads the image from the source path and does not have such problems."
+        },
+        {
+            "author": "AIrjen",
+            "title": "One Button Prompt",
+            "reference": "https://github.com/AIrjen/OneButtonPrompt",
+            "files": [
+                "https://github.com/AIrjen/OneButtonPrompt"
+            ],
+            "install_type": "git-clone",
+            "description": "One Button Prompt has a prompt generation node for beginners who have problems writing a good prompt, or advanced users who want to get inspired. It generates an entire prompt from scratch. It is random, but controlled. You simply load up the script and press generate, and let it surprise you."
+        },
+        {
+            "author": "coreyryanhanson",
+            "title": "Comfy-QR",
+            "reference": "https://github.com/coreyryanhanson/comfy-qr",
+            "files": [
+                "https://github.com/coreyryanhanson/comfy-qr"
+            ],
+            "install_type": "git-clone",
+            "description": "A set of ComfyUI nodes to dynamically create QR image layers for generative QR art without the hassle of leaving the webui."
+        },
+        {
+            "author": "coreyryanhanson",
+            "title": "comfy-qr-validation-nodes",
+            "reference": "https://github.com/coreyryanhanson/comfy-qr-validation-nodes",
+            "files": [
+                "https://github.com/coreyryanhanson/comfy-qr-validation-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "A set of ComfyUI nodes to quickly test generated QR codes for scannability. A companion project to Comfy-QR."
+        },
+        {
+            "author": "jamesWalker55",
+            "title": "Various ComfyUI Nodes by Type",
+            "reference": "https://github.com/jamesWalker55/comfyui-various",
+            "files": [
+                "https://github.com/jamesWalker55/comfyui-various"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: JWInteger, JWFloat, JWString, JWImageLoadRGB, JWImageResize, ..."
+        },
+        {
+            "author": "dimtoneff",
+            "title": "ComfyUI PixelArt Detector",
+            "reference": "https://github.com/dimtoneff/ComfyUI-PixelArt-Detector",
+            "files": [
+                "https://github.com/dimtoneff/ComfyUI-PixelArt-Detector"
+            ],
+            "install_type": "git-clone",
+            "description": "This node manipulates the pixel art image in ways that it should look pixel perfect (downscales, changes palette, upscales etc.)."
+        },
+        {
+            "author": "dimtoneff",
+            "title": "Eagle PNGInfo",
+            "reference": "https://github.com/hylarucoder/ComfyUI-Eagle-PNGInfo",
+            "files": [
+                "https://github.com/hylarucoder/ComfyUI-Eagle-PNGInfo"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: EagleImageNode"
+        },
+        {
+            "author": "theUpsider",
+            "title": "Styles CSV Loader Extension for ComfyUI",
+            "reference": "https://github.com/theUpsider/ComfyUI-Styles_CSV_Loader",
+            "files": [
+                "https://github.com/theUpsider/ComfyUI-Styles_CSV_Loader"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension allows users to load styles from a CSV file, primarily for migration purposes from the automatic1111 Stable Diffusion web UI."
+        },
+        {
+            "author": "M1kep",
+            "title": "ComfyLiterals",
+            "reference": "https://github.com/M1kep/ComfyLiterals",
+            "files": [
+                "https://github.com/M1kep/ComfyLiterals"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Int, Float, String, Operation, Checkpoint"
+        },
+        {
+            "author": "uarefans",
+            "title": "ComfyUI-Fans",
+            "reference": "https://github.com/uarefans/ComfyUI-Fans",
+            "files": [
+                "https://github.com/uarefans/ComfyUI-Fans"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Fans Styler (Max 10 Style), Fans Text Concat (Until 10 text)."
         },
         {
             "author": "taabata",
