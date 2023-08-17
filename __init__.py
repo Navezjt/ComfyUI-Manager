@@ -3,6 +3,28 @@ import shutil
 import folder_paths
 import os, sys
 import subprocess
+import threading
+
+
+def handle_stream(stream, prefix):
+    for line in stream:
+        print(prefix, line, end="")
+
+
+def run_script(cmd, cwd='.'):
+    process = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
+
+    stdout_thread = threading.Thread(target=handle_stream, args=(process.stdout, ""))
+    stderr_thread = threading.Thread(target=handle_stream, args=(process.stderr, "[!]"))
+
+    stdout_thread.start()
+    stderr_thread.start()
+
+    stdout_thread.join()
+    stderr_thread.join()
+
+    return process.wait()
+
 
 try:
     import git
@@ -12,13 +34,13 @@ except:
 
     print(f"## ComfyUI-Manager: installing dependencies")
 
-    subprocess.check_call([sys.executable, '-s', '-m', 'pip', 'install', '-r', requirements_path])
+    run_script([sys.executable, '-s', '-m', 'pip', 'install', '-r', requirements_path])
 
     try:
         import git
     except:
         print(f"## [ERROR] ComfyUI-Manager: Attempting to reinstall dependencies using an alternative method.")
-        subprocess.check_call([sys.executable, '-s', '-m', 'pip', 'install', '--user', '-r', requirements_path])
+        run_script([sys.executable, '-s', '-m', 'pip', 'install', '--user', '-r', requirements_path])
 
         try:
             import git
@@ -33,7 +55,7 @@ sys.path.append('../..')
 from torchvision.datasets.utils import download_url
 
 # ensure .js
-print("### Loading: ComfyUI-Manager (V0.21)")
+print("### Loading: ComfyUI-Manager (V0.22.5)")
 
 comfy_ui_required_revision = 1240
 comfy_ui_revision = "Unknown"
@@ -62,6 +84,7 @@ def write_config():
     config = configparser.ConfigParser()
     config['default'] = {
         'preview_method': get_current_preview_method(),
+        'badge_mode': get_config()['badge_mode']
     }
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -74,11 +97,12 @@ def read_config():
         default_conf = config['default']
 
         return {
-                    'preview_method': default_conf['preview_method']
+                    'preview_method': default_conf['preview_method'] if 'preview_method' in default_conf else get_current_preview_method(),
+                    'badge_mode': default_conf['badge_mode'] if 'badge_mode' in default_conf else 'none'
                }
 
     except Exception:
-        return {'preview_method': get_current_preview_method()}
+        return {'preview_method': get_current_preview_method(), 'badge_mode': 'none'}
 
 
 def get_config():
@@ -114,6 +138,10 @@ def set_preview_method(method):
     get_config()['preview_method'] = args.preview_method
 
 
+def set_badge_mode(mode):
+    get_config()['badge_mode'] = mode
+
+
 set_preview_method(get_config()['preview_method'])
 
 
@@ -136,7 +164,8 @@ def try_install_script(url, repo_path, install_cmd):
 
         return True
     else:
-        code = subprocess.run(install_cmd, cwd=repo_path)
+        print(f"\n## ComfyUI-Manager: EXECUTE => {install_cmd}")
+        code = run_script(install_cmd, cwd=repo_path)
 
         if platform.system() == "Windows":
             try:
@@ -148,7 +177,7 @@ def try_install_script(url, repo_path, install_cmd):
             except:
                 pass
 
-        if code.returncode != 0:
+        if code != 0:
             print(f"install script failed: {url}")
             return False
 
@@ -287,6 +316,8 @@ def setup_js():
     if not os.path.exists(js_dest_path):
         os.makedirs(js_dest_path)
     js_src_path = os.path.join(comfyui_manager_path, "js", "comfyui-manager.js")
+
+    print(f"### ComfyUI-Manager: Copy .js from '{js_src_path}' to '{js_dest_path}'")
     shutil.copy(js_src_path, js_dest_path)
 
 setup_js()
@@ -563,7 +594,7 @@ def copy_install(files, js_path_name=None):
     return True
 
 
-def copy_uninstall(files, js_path_name=None):
+def copy_uninstall(files, js_path_name='.'):
     for url in files:
         dir_name = os.path.basename(url)
         base_path = custom_nodes_path if url.endswith('.py') else os.path.join(js_path, js_path_name)
@@ -582,7 +613,7 @@ def copy_uninstall(files, js_path_name=None):
     return True
 
 
-def copy_set_active(files, is_disable, js_path_name=None):
+def copy_set_active(files, is_disable, js_path_name='.'):
     if is_disable:
         action_name = "Disable"
     else:
@@ -644,8 +675,7 @@ def gitclone_install(files):
 
             # Clone the repository from the remote URL
             if platform.system() == 'Windows':
-                process = subprocess.Popen([sys.executable, git_script_path, "--clone", custom_nodes_path, url])
-                process.wait()
+                run_script([sys.executable, git_script_path, "--clone", custom_nodes_path, url])
             else:
                 repo = git.Repo.clone_from(url, repo_path, recursive=True)
                 repo.git.clear_cache()
@@ -675,7 +705,7 @@ def rmtree(path):
             retry_count -= 1
 
             if platform.system() == "Windows":
-                subprocess.check_call(['attrib', '-R', path + '\\*', '/S'])
+                run_script(['attrib', '-R', path + '\\*', '/S'])
             shutil.rmtree(path)
 
             return True
@@ -709,14 +739,14 @@ def gitclone_uninstall(files):
             disable_script_path = os.path.join(dir_path, "disable.py")
             if os.path.exists(install_script_path):
                 uninstall_cmd = [sys.executable, "uninstall.py"]
-                code = subprocess.run(uninstall_cmd, cwd=dir_path)
+                code = run_script(uninstall_cmd, cwd=dir_path)
 
-                if code.returncode != 0:
+                if code != 0:
                     print(f"An error occurred during the execution of the uninstall.py script. Only the '{dir_path}' will be deleted.")
             elif os.path.exists(disable_script_path):
                 disable_script = [sys.executable, "disable.py"]
-                code = subprocess.run(disable_script, cwd=dir_path)
-                if code.returncode != 0:
+                code = run_script(disable_script, cwd=dir_path)
+                if code != 0:
                     print(f"An error occurred during the execution of the disable.py script. Only the '{dir_path}' will be deleted.")
 
             if os.path.exists(dir_path):
@@ -814,7 +844,7 @@ async def install_custom_node(request):
         res = unzip_install(json_data['files'])
 
     if install_type == "copy":
-        js_path_name = json_data['js_path'] if 'js_path' in json_data else None
+        js_path_name = json_data['js_path'] if 'js_path' in json_data else '.'
         res = copy_install(json_data['files'], js_path_name)
 
     elif install_type == "git-clone":
@@ -843,7 +873,7 @@ async def install_custom_node(request):
     res = False
 
     if install_type == "copy":
-        js_path_name = json_data['js_path'] if 'js_path' in json_data else None
+        js_path_name = json_data['js_path'] if 'js_path' in json_data else '.'
         res = copy_uninstall(json_data['files'], js_path_name)
 
     elif install_type == "git-clone":
@@ -972,6 +1002,17 @@ async def preview_method(request):
         write_config()
     else:
         return web.Response(text=get_current_preview_method(), status=200)
+
+    return web.Response(status=200)
+
+
+@server.PromptServer.instance.routes.get("/manager/badge_mode")
+async def badge_mode(request):
+    if "value" in request.rel_url.query:
+        set_badge_mode(request.rel_url.query['value'])
+        write_config()
+    else:
+        return web.Response(text=get_config()['badge_mode'], status=200)
 
     return web.Response(status=200)
 

@@ -2,8 +2,8 @@
   "models": [
     {
       "name": "TAESDXL Decoder",
-      "type": "VAE",
-      "base": "TAESD",
+      "type": "TAESD",
+      "base": "SDXL",
       "save_path": "vae_approx",
       "description": "(SDXL Verison) To view the preview in high quality while running samples in ComfyUI, you will need this model.",
       "reference": "https://github.com/madebyollin/taesd",
@@ -12,8 +12,8 @@
     },
     {
       "name": "TAESDXL Encoder",
-      "type": "VAE",
-      "base": "TAESD",
+      "type": "TAESD",
+      "base": "SDXL",
       "save_path": "vae_approx",
       "description": "(SDXL Verison) To view the preview in high quality while running samples in ComfyUI, you will need this model.",
       "reference": "https://github.com/madebyollin/taesd",
@@ -22,8 +22,8 @@
     },
     {
       "name": "TAESD Decoder",
-      "type": "VAE",
-      "base": "TAESD",
+      "type": "TAESD",
+      "base": "SD1.x",
       "save_path": "vae_approx",
       "description": "To view the preview in high quality while running samples in ComfyUI, you will need this model.",
       "reference": "https://github.com/madebyollin/taesd",
@@ -32,8 +32,8 @@
     },
     {
       "name": "TAESD Encoder",
-      "type": "VAE",
-      "base": "TAESD",
+      "type": "TAESD",
+      "base": "SD1.x",
       "save_path": "vae_approx",
       "description": "To view the preview in high quality while running samples in ComfyUI, you will need this model.",
       "reference": "https://github.com/madebyollin/taesd",
@@ -451,14 +451,54 @@
       "url": "https://huggingface.co/TencentARC/T2I-Adapter/resolve/main/models/t2iadapter_style_sd14v1.pth"
     },
     {
-      "name": "CLIPVision model",
+      "name": "CLIPVision model (openai/clip-vit-large)",
       "type": "clip_vision",
       "base": "SD1.5",
       "save_path": "default",
-      "description": "CLIPVision model (needed for styles model)",
+      "description": "[1.7GB] CLIPVision model (needed for styles model)",
       "reference": "https://huggingface.co/openai/clip-vit-large-patch14",
       "filename": "pytorch_model.bin",
       "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/pytorch_model.bin"
+    },
+    {
+      "name": "CLIPVision model (IP-Adapter)",
+      "type": "clip_vision",
+      "base": "SD1.5",
+      "save_path": "default",
+      "description": "[2.5GB] CLIPVision model (needed for IP-Adapter)",
+      "reference": "https://huggingface.co/h94/IP-Adapter",
+      "filename": "pytorch_model.bin",
+      "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/pytorch_model.bin"
+    },
+    {
+      "name": "SDXL-controlnet: OpenPose (v2)",
+      "type": "controlnet",
+      "base": "SDXL",
+      "save_path": "default",
+      "description": "ControlNet openpose model for SDXL",
+      "reference": "https://huggingface.co/thibaud/controlnet-openpose-sdxl-1.0",
+      "filename": "OpenPoseXL2.safetensors",
+      "url": "https://huggingface.co/thibaud/controlnet-openpose-sdxl-1.0/resolve/main/OpenPoseXL2.safetensors"
+    },
+    {
+      "name": "controlnet-SargeZT/controlnet-sd-xl-1.0-softedge-dexined",
+      "type": "controlnet",
+      "base": "SDXL",
+      "save_path": "default",
+      "description": "ControlNet softedge model for SDXL",
+      "reference": "https://huggingface.co/SargeZT/controlnet-sd-xl-1.0-softedge-dexined",
+      "filename": "controlnet-sd-xl-1.0-softedge-dexined.safetensors",
+      "url": "https://huggingface.co/SargeZT/controlnet-sd-xl-1.0-softedge-dexined/resolve/main/controlnet-sd-xl-1.0-softedge-dexined.safetensors"
+    },
+    {
+      "name": "controlnet-SargeZT/controlnet-sd-xl-1.0-depth-16bit-zoe",
+      "type": "controlnet",
+      "base": "SDXL",
+      "save_path": "default",
+      "description": "ControlNet depth-zoe model for SDXL",
+      "reference": "https://huggingface.co/SargeZT/controlnet-sd-xl-1.0-depth-16bit-zoe",
+      "filename": "depth-zoe-xl-v1.0-controlnet.safetensors",
+      "url": "https://huggingface.co/SargeZT/controlnet-sd-xl-1.0-depth-16bit-zoe/resolve/main/depth-zoe-xl-v1.0-controlnet.safetensors"
     },
     {
       "name": "ControlNet-v1-1 (ip2p; fp16)",

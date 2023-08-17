@@ -1,5 +1,9 @@
 # ComfyUI Manager
 
+
+## NOTICE
+* Versions prior to V0.22.2 will no longer detect missing nodes unless using a local database. Please update ComfyUI-Manager to the latest version.
+
 ## Installation
 
 ### Installation[method1] (General installation method: ComfyUI-Manager only)
@@ -65,6 +69,7 @@ This repository provides Colab notebooks that allow you to install and use Comfy
 
 
 2. If you click on 'Install Custom Nodes' or 'Install Models', an installer dialog will open.
+
 ![menu](misc/menu.jpg)
 
 * When the 'Use local DB' feature is enabled, the application will utilize the data stored locally on your device, rather than retrieving node/model information over the internet
@@ -80,6 +85,11 @@ This repository provides Colab notebooks that allow you to install and use Comfy
 * Installed: This item is already installed.
 * Install: Clicking this button will install the item.
 * Try Install: This is a custom node of which installation information cannot be confirmed. Click the button to try installing it.
+
+4. If you set the `Badge:` item in the menu as `Badge: Nickname` or `Badge: #ID Nickname`, the information badge will be displayed on the node.
+* `Badge: Nickname` displays the nickname of custom nodes, while `Badge: ID Nickname` also includes the internal ID of the node.
+
+![model-install-dialog](misc/nickname.jpg)
 
 
 ## Custom node support guide
@@ -102,6 +112,19 @@ NODE_CLASS_MAPPINGS.update({
     "UniFormer-SemSegPreprocessor": Uniformer_SemSegPreprocessor,
     "SemSegPreprocessor": Uniformer_SemSegPreprocessor,
 })
+```
+
+* When you write a docstring in the header of the .py file for the Node as follows, it will be used for managing the database in the Manager.
+  * Currently, only the `nickname` is being used, but other parts will also be utilized in the future.
+  * The `nickname` will be the name displayed on the badge of the node.
+  * If there is no `nickname`, it will be truncated to 20 characters from the arbitrarily written title and used.
+```
+"""
+@author: Dr.Lt.Data
+@title: Impact Pack
+@nickname: Impact Pack
+@description: This extension offers various detector nodes and detailer nodes that allow you to configure a workflow that automatically enhances facial details. And provide iterative upscaler.
+"""
 ```
 
 * **Special purpose files** (optional)
@@ -142,7 +165,6 @@ NODE_CLASS_MAPPINGS.update({
 * https://github.com/diontimmer/Sample-Diffusion-ComfyUI-Extension
 * https://github.com/laksjdjf/pfg-ComfyUI
 * https://github.com/senshilabs/NINJA-plugin
-* https://github.com/failfa-st/comfyui-extensions
 
 
 ## Roadmap
