@@ -71,6 +71,16 @@
             "description": "This node provides functionality corresponding to Reference only in Controlnet."
         },
         {
+            "author": "Stability-AI",
+            "title": "stability-ComfyUI-nodes",
+            "reference": "https://github.com/Stability-AI/stability-ComfyUI-nodes",
+            "files": [
+                "https://github.com/Stability-AI/stability-ComfyUI-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: ColorBlend, ControlLoraSave, GetImageSize. NOTE: Control-LoRA recolor example uses these nodes."
+        },
+        {
             "author": "Fannovel16",
             "title": "ControlNet Preprocessors",
             "reference": "https://github.com/Fannovel16/comfy_controlnet_preprocessors",
@@ -82,13 +92,13 @@
         },
         {
             "author": "Fannovel16",
-            "title": "ComfyUI's ControlNet Preprocessors auxiliary models",
+            "title": "(WIP) ComfyUI's ControlNet Preprocessors auxiliary models",
             "reference": "https://github.com/Fannovel16/comfyui_controlnet_aux",
             "files": [
                 "https://github.com/Fannovel16/comfyui_controlnet_aux"
             ],
             "install_type": "git-clone",
-            "description": "(WIP) This is a WIP rework of comfyui_controlnet_preprocessors based on ControlNet auxiliary models by 🤗. I think the old repo isn't good enough to maintain. All old workflow will still be work with this repo but the version option won't do anything. Almost all v1 preprocessors are replaced by v1.1 except those doesn't apppear in v1.1."
+            "description": "This is a WIP rework of comfyui_controlnet_preprocessors based on ControlNet auxiliary models by 🤗. I think the old repo isn't good enough to maintain. All old workflow will still be work with this repo but the version option won't do anything. Almost all v1 preprocessors are replaced by v1.1 except those doesn't apppear in v1.1. <p style='background-color: black; color: red;'>NOTE: Please refrain from using the controlnet preprocessor alongside this installation, as it may lead to conflicts and prevent proper recognition.</p>"
         },
         {
             "author": "Fannovel16",
@@ -334,7 +344,7 @@
                 "https://github.com/gamert/ComfyUI_tagger"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: CLIPTextEncodeTaggerDD, ImageTaggerDD"
+            "description": "Nodes: CLIPTextEncodeTaggerDD, ImageTaggerDD. <p style='background-color: black; color: red;'>WARNING: Installing the current version is causing an issue where ComfyUI fails to start.</p>"
         },
         {
             "author": "YinBailiang",
@@ -658,7 +668,7 @@
                 "https://github.com/RockOfFire/ComfyUI_Comfyroll_CustomNodes"
             ],
             "install_type": "git-clone",
-            "description": "These nodes were made for use in the Comfyroll Template Workflows."
+            "description": "Custom nodes for SDXL and SD1.5 including Multi-ControlNet, LoRA, Aspect Ratio, Process Switches, and many more nodes."
         },
         {
             "author": "bmad4ever",
@@ -825,6 +835,7 @@
             "author": "ArtVentureX",
             "title": "AnimateDiff",
             "reference": "https://github.com/ArtVentureX/comfyui-animatediff",
+            "pip": ["flash_attn"],
             "files": [
                 "https://github.com/ArtVentureX/comfyui-animatediff"
             ],
@@ -1003,23 +1014,23 @@
         },
         {
             "author": "coreyryanhanson",
-            "title": "Comfy-QR",
-            "reference": "https://github.com/coreyryanhanson/comfy-qr",
+            "title": "ComfyQR",
+            "reference": "https://github.com/coreyryanhanson/ComfyQR",
             "files": [
-                "https://github.com/coreyryanhanson/comfy-qr"
+                "https://github.com/coreyryanhanson/ComfyQR"
             ],
             "install_type": "git-clone",
-            "description": "A set of ComfyUI nodes to dynamically create QR image layers for generative QR art without the hassle of leaving the webui."
+            "description": "QR generation within ComfyUI. Contains nodes suitable for workflows from generating basic QR images to techniques with advanced QR masking."
         },
         {
             "author": "coreyryanhanson",
-            "title": "comfy-qr-validation-nodes",
-            "reference": "https://github.com/coreyryanhanson/comfy-qr-validation-nodes",
+            "title": "ComfyQR-scanning-nodes",
+            "reference": "https://github.com/coreyryanhanson/ComfyQR-scanning-nodes",
             "files": [
-                "https://github.com/coreyryanhanson/comfy-qr-validation-nodes"
+                "https://github.com/coreyryanhanson/ComfyQR-scanning-nodes"
             ],
             "install_type": "git-clone",
-            "description": "A set of ComfyUI nodes to quickly test generated QR codes for scannability. A companion project to Comfy-QR."
+            "description": "A set of ComfyUI nodes to quickly test generated QR codes for scannability. A companion project to ComfyQR."
         },
         {
             "author": "dimtoneff",
@@ -1169,7 +1180,7 @@
                 "https://github.com/hustille/ComfyUI_Fooocus_KSampler"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: KSamplerWithRefiner. The KSampler from Fooocus as a ComfyUI node <p style='background-color: black; color: red;'>NOTE: This patches basic ComfyUI behaviour - don't use together with other samplers. Or perhaps do? Other samplers might profit from those changes ... ymmv.</p>"
+            "description": "Nodes: KSampler With Refiner (Fooocus). The KSampler from <a href='https://github.com/lllyasviel/Fooocus'>Fooocus</a> as a ComfyUI node <p style='background-color: black; color: red;'>NOTE: This patches basic ComfyUI behaviour - don't use together with other samplers. Or perhaps do? Other samplers might profit from those changes ... ymmv.</p>"
         },
         {
             "author": "badjeff",
@@ -1250,6 +1261,116 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes:Load IPAdapter. This custom nodes provides loader of the IP-Adapter model.<p style='background-color: black; color: red;'>NOTE: To use this extension node, you need to download the <a href='https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter_sd15.bin'>ip-adapter_sd15.bin</a> file and place it in the <font color='white'><B>custom_nodes/IPAdapter-ComfyUI/models</B></font> directory. Additionally, you need to download the 'Clip vision model' from the 'Install models' menu as well.</P>"
+        },
+        {
+            "author": "laksjdjf",
+            "title": "pfg-ComfyUI",
+            "reference": "https://github.com/laksjdjf/pfg-ComfyUI",
+            "files": [
+                "https://github.com/laksjdjf/pfg-ComfyUI"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI version of https://github.com/laksjdjf/pfg-webui. (To use this extension, you need to download the required model file from <B>Install Models</B>)"
+        },
+        {
+            "author": "alsritter",
+            "title": "asymmetric-tiling-comfyui",
+            "reference": "https://github.com/alsritter/asymmetric-tiling-comfyui",
+            "files": [
+                "https://github.com/alsritter/asymmetric-tiling-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Asymmetric_Tiling_KSampler. "
+        },
+        {
+            "author": "meap158",
+            "title": "GPU temperature protection",
+            "reference": "https://github.com/meap158/ComfyUI-GPU-temperature-protection",
+            "files": [
+                "https://github.com/meap158/ComfyUI-GPU-temperature-protection"
+            ],
+            "install_type": "git-clone",
+            "description": "Pause image generation when GPU temperature exceeds threshold."
+        },
+        {
+            "author": "TeaCrab",
+            "title": "ComfyUI-TeaNodes",
+            "reference": "https://github.com/TeaCrab/ComfyUI-TeaNodes",
+            "files": [
+                "https://github.com/TeaCrab/ComfyUI-TeaNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:TC_EqualizeCLAHE, TC_SizeApproximation, TC_ImageResize, TC_ImageScale, TC_ColorFill."
+        },
+        {
+            "author": "TeaCrab",
+            "title": "ComfyUI-TeaNodes",
+            "reference": "https://github.com/nagolinc/ComfyUI_FastVAEDecorder_SDXL",
+            "files": [
+                "https://github.com/nagolinc/ComfyUI_FastVAEDecorder_SDXL"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:FastLatentToImage"
+        },
+        {
+            "author": "bradsec",
+            "title": "ResolutionSelector for ComfyUI",
+            "reference": "https://github.com/bradsec/ComfyUI_ResolutionSelector",
+            "files": [
+                "https://github.com/bradsec/ComfyUI_ResolutionSelector"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:ResolutionSelector"
+        },
+        {
+            "author": "kohya-ss",
+            "title": "ControlNet-LLLite-ComfyUI",
+            "reference": "https://github.com/kohya-ss/ControlNet-LLLite-ComfyUI",
+            "files": [
+                "https://github.com/kohya-ss/ControlNet-LLLite-ComfyUI"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: LLLiteLoader"
+        },
+        {
+            "author": "jjkramhoeft",
+            "title": "ComfyUI-Jjk-Nodes",
+            "reference": "https://github.com/jjkramhoeft/ComfyUI-Jjk-Nodes",
+            "files": [
+                "https://github.com/jjkramhoeft/ComfyUI-Jjk-Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: SDXLRecommendedImageSize, JjkText, JjkShowText, JjkConcat. A set of custom nodes for ComfyUI - focused on text and parameter utility"
+        },
+        {
+            "author": "dagthomas",
+            "title": "SDXL Auto Prompter",
+            "reference": "https://github.com/dagthomas/comfyui_dagthomas",
+            "files": [
+                "https://github.com/dagthomas/comfyui_dagthomas"
+            ],
+            "install_type": "git-clone",
+            "description": "Easy prompting for generation of endless random art pieces and photographs!"
+        },
+        {
+            "author": "marhensa",
+            "title": "Recommended Resolution Calculator",
+            "reference": "https://github.com/marhensa/sdxl-recommended-res-calc",
+            "files": [
+                "https://github.com/marhensa/sdxl-recommended-res-calc"
+            ],
+            "install_type": "git-clone",
+            "description": "Input your desired output final resolution, it will automaticaly set the initial recommended SDXL ratio/size and its Upscale Factor to reach that output final resolution, also there's an option for 2x/4x reverse Upscale Factor. These all to avoid using bad/arbitary initial ratio/resolution."
+        },
+        {
+            "author": "Nuked88",
+            "title": "ComfyUI-N-Nodes",
+            "reference": "https://github.com/Nuked88/ComfyUI-N-Nodes",
+            "files": [
+                "https://github.com/Nuked88/ComfyUI-N-Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "A suite of custom nodes for ComfyUI, for now i just put Integer, string and float variable nodes."
         },
         {
             "author": "taabata",
@@ -1380,16 +1501,6 @@
             "description": "Nodes:CLIPTextEncodeWithWildcards. This wildcard node is a wildcard node that operates based on the seed."
         },
         {
-            "author": "Beinsezii",
-            "title": "bsz-cui-extras",
-            "reference": "https://github.com/Beinsezii/bsz-cui-extras",
-            "files": [
-                "https://github.com/Beinsezii/bsz-cui-extras/raw/master/custom_nodes/bsz-auto-hires.py"
-            ],
-            "install_type": "copy",
-            "description": "Contains 3 nodes each with a different means to the same end result. These nodes are designed to automatically calculate the appropriate latent sizes when performing a 'Hi Res Fix' style workflow."
-        },
-        {
             "author": "throttlekitty",
             "title": "SDXLCustomAspectRatio",
             "reference": "https://github.com/throttlekitty/SDXLCustomAspectRatio",
@@ -1438,6 +1549,16 @@
             ],
             "install_type": "copy",
             "description": "Nodes: SDXLResolutionPresets. Easy access to the officially supported resolutions, in both horizontal and vertical formats: 1024x1024, 1152x896, 1216x832, 1344x768, 1536x640"
+        },
+        {
+            "author": "nicolai256",
+            "title": "comfyUI_Nodes_nicolai256",
+            "reference": "https://github.com/nicolai256/comfyUI_Nodes_nicolai256",
+            "files": [
+                "https://github.com/nicolai256/comfyUI_Nodes_nicolai256/raw/main/yugioh-presets.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes: yugioh_Presets. by Nicolai256 inspired by throttlekitty SDXLAspectRatio"
         },
         {
             "author": "theally",

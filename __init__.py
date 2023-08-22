@@ -55,7 +55,7 @@ sys.path.append('../..')
 from torchvision.datasets.utils import download_url
 
 # ensure .js
-print("### Loading: ComfyUI-Manager (V0.22.5)")
+print("### Loading: ComfyUI-Manager (V0.26.2)")
 
 comfy_ui_required_revision = 1240
 comfy_ui_revision = "Unknown"
@@ -76,6 +76,12 @@ config_path = os.path.join(os.path.dirname(__file__), "config.ini")
 cached_config = None
 
 
+default_channels = 'default::https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main,recent::https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/node_db/new,'
+with open(os.path.join(comfyui_manager_path, 'channels.list'), 'r') as file:
+    channels = file.read()
+    default_channels = channels.replace('\n', ',')
+
+
 from comfy.cli_args import args
 import latent_preview
 
@@ -84,7 +90,9 @@ def write_config():
     config = configparser.ConfigParser()
     config['default'] = {
         'preview_method': get_current_preview_method(),
-        'badge_mode': get_config()['badge_mode']
+        'badge_mode': get_config()['badge_mode'],
+        'channel_url': get_config()['channel_url'],
+        'channel_url_list': get_config()['channel_url_list']
     }
     with open(config_path, 'w') as configfile:
         config.write(configfile)
@@ -96,13 +104,33 @@ def read_config():
         config.read(config_path)
         default_conf = config['default']
 
+        channel_url_list_is_valid = True
+        if 'channel_url_list' in default_conf and default_conf['channel_url_list'] != '':
+            for item in default_conf['channel_url_list'].split(","):
+                if len(item.split("::")) != 2:
+                    channel_url_list_is_valid = False
+                    break
+
+        if channel_url_list_is_valid:
+            ch_url_list = default_conf['channel_url_list']
+        else:
+            print(f"[WARN] ComfyUI-Manager: channel_url_list is invalid format")
+            ch_url_list = ''
+
         return {
                     'preview_method': default_conf['preview_method'] if 'preview_method' in default_conf else get_current_preview_method(),
-                    'badge_mode': default_conf['badge_mode'] if 'badge_mode' in default_conf else 'none'
+                    'badge_mode': default_conf['badge_mode'] if 'badge_mode' in default_conf else 'none',
+                    'channel_url': default_conf['channel_url'] if 'channel_url' in default_conf else 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main',
+                    'channel_url_list': ch_url_list
                }
 
     except Exception:
-        return {'preview_method': get_current_preview_method(), 'badge_mode': 'none'}
+        return {
+            'preview_method': get_current_preview_method(),
+            'badge_mode': 'none',
+            'channel_url': 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main',
+            'channel_url_list': ''
+        }
 
 
 def get_config():
@@ -294,11 +322,11 @@ def git_pull(path):
 async def get_data(uri):
     print(f"FETCH DATA from: {uri}")
     if uri.startswith("http"):
-        async with aiohttp.ClientSession() as session:
+        async with aiohttp.ClientSession(trust_env=True) as session:
             async with session.get(uri) as resp:
                 json_text = await resp.text()
     else:
-        with open(uri, "r") as f:
+        with open(uri, "r", encoding="utf-8") as f:
             json_text = f.read()
 
     json_obj = json.loads(json_text)
@@ -306,19 +334,21 @@ async def get_data(uri):
 
 
 def setup_js():
-    # remove garbage
-    old_js_path = os.path.join(comfy_path, "web", "extensions", "core", "comfyui-manager.js")
-    if os.path.exists(old_js_path):
-        os.remove(old_js_path)
-
-    # setup js
+    import nodes
     js_dest_path = os.path.join(js_path, "comfyui-manager")
-    if not os.path.exists(js_dest_path):
-        os.makedirs(js_dest_path)
-    js_src_path = os.path.join(comfyui_manager_path, "js", "comfyui-manager.js")
 
-    print(f"### ComfyUI-Manager: Copy .js from '{js_src_path}' to '{js_dest_path}'")
-    shutil.copy(js_src_path, js_dest_path)
+    if hasattr(nodes, "EXTENSION_WEB_DIRS"):
+        if os.path.exists(js_dest_path):
+            shutil.rmtree(js_dest_path)
+    else:
+        print(f"[WARN] ComfyUI-Manager: Your ComfyUI version is outdated. Please update to the latest version.")
+        # setup js
+        if not os.path.exists(js_dest_path):
+            os.makedirs(js_dest_path)
+        js_src_path = os.path.join(comfyui_manager_path, "js", "comfyui-manager.js")
+
+        print(f"### ComfyUI-Manager: Copy .js from '{js_src_path}' to '{js_dest_path}'")
+        shutil.copy(js_src_path, js_dest_path)
 
 setup_js()
 
@@ -335,7 +365,14 @@ import urllib.request
 
 def get_model_dir(data):
     if data['save_path'] != 'default':
-        base_model = os.path.join(folder_paths.models_dir, data['save_path'])
+        if '..' in data['save_path'] or data['save_path'].startswith('/'):
+            print(f"[WARN] '{data['save_path']}' is not allowed path. So it will be saved into 'models/etc'.")
+            base_model = "etc"
+        else:
+            if data['save_path'].startswith("custom_nodes"):
+                base_model = os.path.join(comfy_path, data['save_path'])
+            else:
+                base_model = os.path.join(folder_paths.models_dir, data['save_path'])
     else:
         model_type = data['type']
         if model_type == "checkpoints":
@@ -421,7 +458,7 @@ async def fetch_customnode_mappings(request):
     if request.rel_url.query["mode"] == "local":
         uri = local_db_extension_node_mappings
     else:
-        uri = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/extension-node-map.json'
+        uri = get_config()['channel_url'] + '/extension-node-map.json'
 
     json_obj = await get_data(uri)
 
@@ -434,7 +471,7 @@ async def fetch_updates(request):
         if request.rel_url.query["mode"] == "local":
             uri = local_db_custom_node_list
         else:
-            uri = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/custom-node-list.json'
+            uri = get_config()['channel_url'] + '/custom-node-list.json'
 
         json_obj = await get_data(uri)
         check_custom_nodes_installed(json_obj, True)
@@ -460,7 +497,7 @@ async def fetch_customnode_list(request):
     if request.rel_url.query["mode"] == "local":
         uri = local_db_custom_node_list
     else:
-        uri = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/custom-node-list.json'
+        uri = get_config()['channel_url'] + '/custom-node-list.json'
 
     json_obj = await get_data(uri)
     check_custom_nodes_installed(json_obj, False, not skip_update)
@@ -479,8 +516,8 @@ async def fetch_alternatives_list(request):
         uri1 = local_db_alter
         uri2 = local_db_custom_node_list
     else:
-        uri1 = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/alter-list.json'
-        uri2 = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/custom-node-list.json'
+        uri1 = get_config()['channel_url'] + '/alter-list.json'
+        uri2 = get_config()['channel_url'] + '/custom-node-list.json'
 
     alter_json = await get_data(uri1)
     custom_node_json = await get_data(uri2)
@@ -518,7 +555,7 @@ async def fetch_externalmodel_list(request):
     if request.rel_url.query["mode"] == "local":
         uri = local_db_model
     else:
-        uri = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/model-list.json'
+        uri = get_config()['channel_url'] + '/model-list.json'
 
     json_obj = await get_data(uri)
     check_model_installed(json_obj)
@@ -1017,5 +1054,32 @@ async def badge_mode(request):
     return web.Response(status=200)
 
 
+@server.PromptServer.instance.routes.get("/manager/channel_url_list")
+async def channel_url_list(request):
+    channels = default_channels+","+get_config()['channel_url_list']
+    channels = channels.split(',')
+
+    if "value" in request.rel_url.query:
+        for item in channels:
+            name_url = item.split("::")
+            if len(name_url) == 2 and name_url[0] == request.rel_url.query['value']:
+                get_config()['channel_url'] = name_url[1]
+                write_config()
+                break
+    else:
+        selected = 'custom'
+        selected_url = get_config()['channel_url']
+        for item in channels:
+            item_info = item.split('::')
+            if len(item_info) == 2 and item_info[1] == selected_url:
+                selected = item_info[0]
+
+        res = {'selected': selected,
+               'list': channels}
+        return web.json_response(res, status=200)
+
+    return web.Response(status=200)
+
+WEB_DIRECTORY = "js"
 NODE_CLASS_MAPPINGS = {}
 __all__ = ['NODE_CLASS_MAPPINGS']

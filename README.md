@@ -45,6 +45,10 @@ This repository provides Colab notebooks that allow you to install and use Comfy
 * Support for automatically installing dependencies of custom nodes upon restarting Colab notebooks.
 
 ## Changes
+* **0.25** support db channel
+  * You can directly modify the db channel settings in the `config.ini` file.
+  * If you want to maintain a new DB channel, please modify the `channels.list` and submit a PR.
+* **0.23** support multiple selection
 * **0.18.1** `skip update check` feature added.
   * A feature that allows quickly opening windows in environments where update checks take a long time.
 * **0.17.1** Bug fix for the issue where enable/disable of the web extension was not working. Compatibility patch for StableSwarmUI.
@@ -163,8 +167,8 @@ NODE_CLASS_MAPPINGS.update({
 
 * https://github.com/bmad4ever/ComfyUI-Bmad-Custom-Nodes
 * https://github.com/diontimmer/Sample-Diffusion-ComfyUI-Extension
-* https://github.com/laksjdjf/pfg-ComfyUI
 * https://github.com/senshilabs/NINJA-plugin
+* https://github.com/Beinsezii/bsz-cui-extras
 
 
 ## Roadmap
