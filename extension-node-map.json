@@ -49,6 +49,19 @@
             "title_aux": "Masquerade Nodes"
         }
     ],
+    "https://github.com/Beinsezii/bsz-cui-extras": [
+        [
+            "BSZAbsoluteHires",
+            "BSZAspectHires",
+            "BSZCombinedHires",
+            "BSZPixelbuster",
+            "BSZPixelbusterHelp",
+            "BSZPrincipledSDXL"
+        ],
+        {
+            "title_aux": "bsz-cui-extras"
+        }
+    ],
     "https://github.com/Bikecicle/ComfyUI-Waveform-Extensions/raw/main/EXT_AudioManipulation.py": [
         [
             "BatchJoinAudio",
@@ -245,6 +258,14 @@
             "title_aux": "ComfyUI-post-processing-nodes"
         }
     ],
+    "https://github.com/Extraltodeus/LoadLoraWithTags": [
+        [
+            "LoraLoaderTagsQuery"
+        ],
+        {
+            "title_aux": "LoadLoraWithTags"
+        }
+    ],
     "https://github.com/Extraltodeus/noise_latent_perlinpinpin": [
         [
             "NoisyLatentPerlin"
@@ -267,6 +288,21 @@
         ],
         {
             "title_aux": "ComfyUI-Frame-Interpolation"
+        }
+    ],
+    "https://github.com/Fannovel16/ComfyUI-Loopchain": [
+        [
+            "EmptyLatentImageLoop",
+            "FolderToImageStorage",
+            "ImageStorageExportLoop",
+            "ImageStorageImport",
+            "ImageStorageReset",
+            "LatentStorageExportLoop",
+            "LatentStorageImport",
+            "LatentStorageReset"
+        ],
+        {
+            "title_aux": "ComfyUI-Loopchain"
         }
     ],
     "https://github.com/Fannovel16/comfy_controlnet_preprocessors": [
@@ -373,6 +409,14 @@
             "title_aux": "FizzNodes"
         }
     ],
+    "https://github.com/GeLi1989/GK-beifen-ComfyUI_roop": [
+        [
+            "roop"
+        ],
+        {
+            "title_aux": "roop nodes for ComfyUI"
+        }
+    ],
     "https://github.com/Gourieff/comfyui-reactor-node": [
         [
             "ReActorFaceSwap"
@@ -390,6 +434,7 @@
             "SDXL Resolutions (JPS)",
             "Switch Generation Mode (JPS)",
             "Switch Generation Mode 4in1 (JPS)",
+            "Switch IP Adapter Mode (JPS)",
             "Switch Revision Mode (JPS)"
         ],
         {
@@ -459,6 +504,14 @@
         ],
         {
             "title_aux": "ImagesGrid"
+        }
+    ],
+    "https://github.com/Lerc/canvas_tab": [
+        [
+            "Canvas_Tab"
+        ],
+        {
+            "title_aux": "canvas_tab"
         }
     ],
     "https://github.com/LucianoCirino/efficiency-nodes-comfyui": [
@@ -644,6 +697,14 @@
             "title_aux": "ComfyUI-N-Nodes"
         }
     ],
+    "https://github.com/Onierous/QRNG_Node_ComfyUI/raw/main/qrng_node.py": [
+        [
+            "QRNG_Node_CSV"
+        ],
+        {
+            "title_aux": "QRNG_Node_ComfyUI"
+        }
+    ],
     "https://github.com/Pfaeff/pfaeff-comfyui": [
         [
             "AstropulsePixelDetector",
@@ -658,8 +719,13 @@
     ],
     "https://github.com/RockOfFire/ComfyUI_Comfyroll_CustomNodes": [
         [
+            "CR Advanced Prompt Scheduler",
+            "CR Animation List",
+            "CR Animation Stack",
+            "CR Animation Stack Scheduler",
             "CR Apply ControlNet",
             "CR Apply LoRA Stack",
+            "CR Apply Model Merge",
             "CR Apply Multi-ControlNet",
             "CR Aspect Ratio",
             "CR Aspect Ratio SDXL",
@@ -685,16 +751,22 @@
             "CR Latent Batch Size",
             "CR Latent Input Switch",
             "CR Latent Upscale (Iterative)",
+            "CR LoRA Scheduler",
             "CR LoRA Stack",
+            "CR Load Animation Frames",
             "CR Load Image Sequence",
             "CR Load LoRA",
             "CR Model Input Switch",
+            "CR Model Stack",
+            "CR ModelMergeSimple",
             "CR Module Input",
             "CR Module Output",
             "CR Module Pipe Loader",
             "CR Multi-ControlNet Stack",
             "CR Pipe Switch",
             "CR Process Switch",
+            "CR Prompt List",
+            "CR Prompt List Scheduler",
             "CR SD1.5 Aspect Ratio",
             "CR SDXL Aspect Ratio",
             "CR SDXL Base Prompt Encoder",
@@ -813,6 +885,15 @@
             "title_aux": "stability-ComfyUI-nodes"
         }
     ],
+    "https://github.com/Sxela/ComfyWarp": [
+        [
+            "LoadFrame",
+            "LoadFrameSequence"
+        ],
+        {
+            "title_aux": "ComfyWarp"
+        }
+    ],
     "https://github.com/TeaCrab/ComfyUI-TeaNodes": [
         [
             "TC_ColorFill",
@@ -830,6 +911,7 @@
         [
             "ttN busIN",
             "ttN busOUT",
+            "ttN compareInput",
             "ttN concat",
             "ttN debugInput",
             "ttN float",
@@ -843,6 +925,7 @@
             "ttN pipeIN",
             "ttN pipeKSampler",
             "ttN pipeKSamplerAdvanced",
+            "ttN pipeKSamplerSDXL",
             "ttN pipeLoader",
             "ttN pipeLoaderSDXL",
             "ttN pipeOUT",
@@ -856,6 +939,14 @@
         ],
         {
             "title_aux": "tinyterraNodes"
+        }
+    ],
+    "https://github.com/Ttl/ComfyUi_NNLatentUpscale": [
+        [
+            "NNLatentUpscale"
+        ],
+        {
+            "title_aux": "ComfyUI Neural network latent upscale custom node"
         }
     ],
     "https://github.com/WASasquatch/ComfyUI_Preset_Merger": [
@@ -963,6 +1054,7 @@
             "Image to Latent Mask",
             "Image to Noise",
             "Image to Seed",
+            "Images to Linear",
             "Images to RGB",
             "Inset Image Bounds",
             "Integer place counter",
@@ -1067,6 +1159,18 @@
             "title_aux": "WAS Node Suite"
         }
     ],
+    "https://github.com/YOUR-WORST-TACO/ComfyUI-TacoNodes": [
+        [
+            "Example",
+            "TacoAnimatedLoader",
+            "TacoGifMaker",
+            "TacoImg2ImgAnimatedLoader",
+            "TacoLatent"
+        ],
+        {
+            "title_aux": "ComfyUI-TacoNodes"
+        }
+    ],
     "https://github.com/YinBailiang/MergeBlockWeighted_fo_ComfyUI": [
         [
             "MergeBlockWeighted"
@@ -1150,9 +1254,12 @@
             "Empty Latent Ratio Select SDXL",
             "Float to String",
             "HaldCLUT",
+            "Image Caption",
             "Int to String",
             "Mikey Sampler",
+            "Mikey Sampler Base Only",
             "Mikey Sampler Tiled",
+            "Mikey Sampler Tiled Base Only",
             "PresetRatioSelector",
             "Prompt With SDXL",
             "Prompt With Style",
@@ -1345,7 +1452,8 @@
     ],
     "https://github.com/cubiq/ComfyUI_SimpleMath": [
         [
-            "SimpleMath"
+            "SimpleMath",
+            "SimpleMathDebug"
         ],
         {
             "title_aux": "Simple Math"
@@ -1733,6 +1841,7 @@
             "ImpactSimpleDetectorSEGS",
             "ImpactSimpleDetectorSEGSPipe",
             "ImpactStringSelector",
+            "ImpactSwitch",
             "ImpactValueReceiver",
             "ImpactValueSender",
             "ImpactWildcardEncode",
@@ -1768,8 +1877,6 @@
             "SAMDetectorCombined",
             "SAMDetectorSegmented",
             "SAMLoader",
-            "SEGEdit",
-            "SEGPick",
             "SEGSDetailer",
             "SEGSPaste",
             "SEGSPreview",
@@ -2035,6 +2142,18 @@
             "title_aux": "ComfyUI WD 1.4 Tagger"
         }
     ],
+    "https://github.com/richinsley/Comfy-LFO": [
+        [
+            "LFO_Pulse",
+            "LFO_Sawtooth",
+            "LFO_Sine",
+            "LFO_Square",
+            "LFO_Triangle"
+        ],
+        {
+            "title_aux": "Comfy-LFO"
+        }
+    ],
     "https://github.com/s1dlx/comfy_meh/raw/main/meh.py": [
         [
             "MergingExecutionHelper"
@@ -2084,12 +2203,27 @@
             "AV_ParametersPipeToPrompts",
             "AV_PromptsToParametersPipe",
             "AV_UploadImage",
+            "BLIPCaption",
+            "DependenciesEdit",
             "ImageMuxer",
+            "ImageScaleDown",
+            "ImageScaleDownBy",
             "LoadImageFromUrl",
+            "SDXLAspectRatioSelector",
+            "SDXLPromptStyler",
             "StringToInt"
         ],
         {
             "title_aux": "comfyui-art-venture"
+        }
+    ],
+    "https://github.com/skfoo/ComfyUI-Coziness": [
+        [
+            "LoraTextExtractor-b1f83aa2",
+            "MultiLoraLoader-70bf3d77"
+        ],
+        {
+            "title_aux": "ComfyUI-Coziness"
         }
     ],
     "https://github.com/space-nuko/ComfyUI-Disco-Diffusion": [
@@ -2282,6 +2416,8 @@
             "Alternating KSampler (WLSH)",
             "Build Filename String (WLSH)",
             "CLIP Positive-Negative (WLSH)",
+            "CLIP Positive-Negative XL (WLSH)",
+            "CLIP Positive-Negative XL w/Text (WLSH)",
             "CLIP Positive-Negative w/Text (WLSH)",
             "Checkpoint Loader w/Name (WLSH)",
             "Empty Latent by Ratio (WLSH)",
@@ -2344,6 +2480,19 @@
         ],
         {
             "title_aux": "DTAIComfyPromptAgent"
+        }
+    ],
+    "https://github.com/youyegit/tdxh_node_comfyui": [
+        [
+            "TdxhFloatInput",
+            "TdxhImageToSize",
+            "TdxhImageToSizeAdvanced",
+            "TdxhIntInput",
+            "TdxhLoraLoader",
+            "TdxhStringInput"
+        ],
+        {
+            "title_aux": "tdxh_node_comfyui"
         }
     ],
     "https://raw.githubusercontent.com/throttlekitty/SDXLCustomAspectRatio/main/SDXLAspectRatio.py": [
