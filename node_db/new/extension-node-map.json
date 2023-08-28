@@ -9,6 +9,18 @@
             "title_aux": "One Button Prompt"
         }
     ],
+    "https://github.com/Acly/comfyui-tooling-nodes": [
+        [
+            "ETN_ApplyMaskToImage",
+            "ETN_CropImage",
+            "ETN_LoadImageBase64",
+            "ETN_LoadMaskBase64",
+            "ETN_SendImageWebSocket"
+        ],
+        {
+            "title_aux": "ComfyUI Nodes for External Tooling"
+        }
+    ],
     "https://github.com/ArtVentureX/comfyui-animatediff": [
         [
             "AnimateDiffCombine",
@@ -482,13 +494,17 @@
     ],
     "https://github.com/Kosinkadink/ComfyUI-Advanced-ControlNet": [
         [
+            "ControlNetApplyPartialBatch",
             "ControlNetLoaderAdvanced",
             "CustomControlNetWeights",
             "CustomT2IAdapterWeights",
             "DiffControlNetLoaderAdvanced",
+            "LatentKeyframe",
+            "LoadImagesFromDirectory",
             "ScaledSoftControlNetWeights",
             "SoftControlNetWeights",
-            "SoftT2IAdapterWeights"
+            "SoftT2IAdapterWeights",
+            "TimestepKeyframe"
         ],
         {
             "title_aux": "ComfyUI-Advanced-ControlNet"
@@ -508,7 +524,8 @@
     ],
     "https://github.com/Lerc/canvas_tab": [
         [
-            "Canvas_Tab"
+            "Canvas_Tab",
+            "Send_To_Editor"
         ],
         {
             "title_aux": "canvas_tab"
@@ -720,8 +737,10 @@
     "https://github.com/RockOfFire/ComfyUI_Comfyroll_CustomNodes": [
         [
             "CR Advanced Prompt Scheduler",
-            "CR Animation List",
+            "CR Animate Transition",
+            "CR Animation PopImage",
             "CR Animation Stack",
+            "CR Animation Stack Keyframes",
             "CR Animation Stack Scheduler",
             "CR Apply ControlNet",
             "CR Apply LoRA Stack",
@@ -730,12 +749,14 @@
             "CR Aspect Ratio",
             "CR Aspect Ratio SDXL",
             "CR Batch Process Switch",
+            "CR Camera Rotation",
+            "CR Camera Zoom",
             "CR Clip Input Switch",
             "CR Color Tint",
             "CR Conditioning Input Switch",
             "CR ControlNet Input Switch",
+            "CR Debatch Frames",
             "CR Halftone Grid",
-            "CR Halftone Image",
             "CR Halftones",
             "CR Hires Fix Process Switch",
             "CR Image Input Switch",
@@ -745,37 +766,45 @@
             "CR Image Pipe In",
             "CR Image Pipe Out",
             "CR Image Size",
+            "CR Image Stack",
             "CR Img2Img Process Switch",
+            "CR Index Increment",
+            "CR Index Multiply",
+            "CR Index Reset",
             "CR Integer Multiple",
-            "CR KSampler (Iterative)",
+            "CR Keyframe List",
             "CR Latent Batch Size",
             "CR Latent Input Switch",
-            "CR Latent Upscale (Iterative)",
-            "CR LoRA Scheduler",
             "CR LoRA Stack",
             "CR Load Animation Frames",
-            "CR Load Image Sequence",
             "CR Load LoRA",
             "CR Model Input Switch",
             "CR Model Stack",
-            "CR ModelMergeSimple",
             "CR Module Input",
             "CR Module Output",
             "CR Module Pipe Loader",
+            "CR Morph Layers",
             "CR Multi-ControlNet Stack",
             "CR Pipe Switch",
             "CR Process Switch",
             "CR Prompt List",
+            "CR Prompt List Keyframes",
             "CR Prompt List Scheduler",
+            "CR Prompt Text",
             "CR SD1.5 Aspect Ratio",
             "CR SDXL Aspect Ratio",
             "CR SDXL Base Prompt Encoder",
             "CR SDXL Prompt Mix Presets",
             "CR SDXL Prompt Mixer",
             "CR SDXL Style Text",
+            "CR Schedule ControlNets",
+            "CR Schedule LoRAs",
+            "CR Schedule Models",
             "CR Seed",
             "CR Seed to Int",
-            "CR Switch"
+            "CR Text Input Switch",
+            "CR Text Input Switch (4 way)",
+            "CR Text List To String"
         ],
         {
             "title_aux": "ComfyUI_Comfyroll_CustomNodes"
@@ -941,6 +970,14 @@
             "title_aux": "tinyterraNodes"
         }
     ],
+    "https://github.com/Tropfchen/ComfyUI-Embedding_Picker": [
+        [
+            "EmbeddingPicker"
+        ],
+        {
+            "title_aux": "Embedding Picker"
+        }
+    ],
     "https://github.com/Ttl/ComfyUi_NNLatentUpscale": [
         [
             "NNLatentUpscale"
@@ -949,12 +986,28 @@
             "title_aux": "ComfyUI Neural network latent upscale custom node"
         }
     ],
+    "https://github.com/Vrahn/ComfyUI-MasaCtrl-Node": [
+        [
+            "MasaCtrl"
+        ],
+        {
+            "title_aux": "ComfyUI-MasaCtrl-Node"
+        }
+    ],
     "https://github.com/WASasquatch/ComfyUI_Preset_Merger": [
         [
             "Preset_Model_Merge"
         ],
         {
             "title_aux": "ComfyUI Preset Merger"
+        }
+    ],
+    "https://github.com/WASasquatch/PPF_Noise_ComfyUI": [
+        [
+            "WAS_PFN_Latent"
+        ],
+        {
+            "title_aux": "PPF_Noise_ComfyUI"
         }
     ],
     "https://github.com/WASasquatch/was-node-suite-comfyui": [
@@ -1109,6 +1162,7 @@
             "Number to Seed",
             "Number to String",
             "Number to Text",
+            "Perlin Power Fractal Latent",
             "Prompt Multiple Styles Selector",
             "Prompt Styles Selector",
             "Random Number",
@@ -1256,10 +1310,12 @@
             "HaldCLUT",
             "Image Caption",
             "Int to String",
+            "LoraSyntaxProcessor",
             "Mikey Sampler",
             "Mikey Sampler Base Only",
             "Mikey Sampler Tiled",
             "Mikey Sampler Tiled Base Only",
+            "MikeySamplerTiledAdvanced",
             "PresetRatioSelector",
             "Prompt With SDXL",
             "Prompt With Style",
@@ -1274,7 +1330,8 @@
             "Seed String",
             "Style Conditioner",
             "Upscale Tile Calculator",
-            "Wildcard Processor"
+            "Wildcard Processor",
+            "WildcardAndLoraSyntaxProcessor"
         ],
         {
             "title_aux": "Mikey Nodes"
@@ -1752,6 +1809,14 @@
             "title_aux": "IPAdapter-ComfyUI"
         }
     ],
+    "https://github.com/laksjdjf/attention-couple-ComfyUI": [
+        [
+            "Attention couple"
+        ],
+        {
+            "title_aux": "attention-couple-ComfyUI"
+        }
+    ],
     "https://github.com/laksjdjf/pfg-ComfyUI": [
         [
             "PFG"
@@ -1874,6 +1939,7 @@
             "ReencodeLatentPipe",
             "RegionalPrompt",
             "RegionalSampler",
+            "RemoveNoiseMask",
             "SAMDetectorCombined",
             "SAMDetectorSegmented",
             "SAMLoader",
@@ -2039,6 +2105,14 @@
             "title_aux": "comfyUI_Nodes_nicolai256"
         }
     ],
+    "https://github.com/ntdviet/comfyui-ext/raw/main/custom_nodes/gcLatentTunnel/gcLatentTunnel.py": [
+        [
+            "gcLatentTunnel"
+        ],
+        {
+            "title_aux": "ntdviet/comfyui-ext"
+        }
+    ],
     "https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92": [
         [
             "CLIPStringEncode _O",
@@ -2196,6 +2270,7 @@
     ],
     "https://github.com/sipherxyz/comfyui-art-venture": [
         [
+            "AV_CheckpointLoader",
             "AV_CheckpointModelsToParametersPipe",
             "AV_ControlNetLoader",
             "AV_ControlNetSelector",
@@ -2253,6 +2328,14 @@
         ],
         {
             "title_aux": "nui suite"
+        }
+    ],
+    "https://github.com/spro/comfyui-mirror": [
+        [
+            "LatentMirror"
+        ],
+        {
+            "title_aux": "Latent Mirror node for ComfyUI"
         }
     ],
     "https://github.com/ssitu/ComfyUI_UltimateSDUpscale": [
@@ -2394,7 +2477,8 @@
     ],
     "https://github.com/twri/sdxl_prompt_styler": [
         [
-            "SDXLPromptStyler"
+            "SDXLPromptStyler",
+            "SDXLPromptStylerAdvanced"
         ],
         {
             "title_aux": "SDXL Prompt Styler"

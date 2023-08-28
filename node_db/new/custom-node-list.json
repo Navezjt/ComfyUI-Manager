@@ -1,6 +1,76 @@
 {
     "custom_nodes": [
         {
+            "author": "Acly",
+            "title": "ComfyUI Nodes for External Tooling",
+            "reference": "https://github.com/Acly/comfyui-tooling-nodes",
+            "files": [
+                "https://github.com/Acly/comfyui-tooling-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Load Image (Base64), Load Mask (Base64), Send Image (WebSocket), Crop Image, Apply Mask to Image. Provides nodes geared towards using ComfyUI as a backend for external tools."
+        },
+        {
+            "author": "ntdviet",
+            "title": "ntdviet/comfyui-ext",
+            "reference": "https://github.com/ntdviet/comfyui-ext",
+            "files": [
+                "https://github.com/ntdviet/comfyui-ext/raw/main/custom_nodes/gcLatentTunnel/gcLatentTunnel.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:LatentGarbageCollector. This ComfyUI custom node flushes the GPU cache and empty cuda interprocess memory. It's helpfull for low memory environment such as the free Google Colab, especially when the workflow VAE decode latents of the size above 1500x1500."
+        },
+        {
+            "author": "laksjdjf",
+            "title": "attention-couple-ComfyUI",
+            "reference": "https://github.com/laksjdjf/attention-couple-ComfyUI",
+            "files": [
+                "https://github.com/laksjdjf/attention-couple-ComfyUI"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Attention couple. This is a custom node that manipulates region-specific prompts. While vanilla ComfyUI employs an area specification method based on latent couples, this node divides regions using attention layers within UNet."
+        },
+        {
+            "author": "Tropfchen",
+            "title": "Embedding Picker",
+            "reference": "https://github.com/Tropfchen/ComfyUI-Embedding_Picker",
+            "files": [
+                "https://github.com/Tropfchen/ComfyUI-Embedding_Picker"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Embedding Picker. Tired of forgetting and misspelling often weird names of embeddings you use? Or perhaps you use only one, cause you forgot you have tens of them installed? Try this."
+        },
+        {
+            "author": "Vrahn",
+            "title": "ComfyUI-MasaCtrl-Node",
+            "reference": "https://github.com/Vrahn/ComfyUI-MasaCtrl-Node",
+            "files": [
+                "https://github.com/Vrahn/ComfyUI-MasaCtrl-Node"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: MasaCtrl."
+        },
+        {
+            "author": "spro",
+            "title": "Latent Mirror node for ComfyUI",
+            "reference": "https://github.com/spro/comfyui-mirror",
+            "files": [
+                "https://github.com/spro/comfyui-mirror"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Latent Mirror. Node to mirror a latent along the Y (vertical / left to right) or X (horizontal / top to bottom) axis."
+        },
+        {
+            "author": "WASasquatch",
+            "title": "PPF_Noise_ComfyUI",
+            "reference": "https://github.com/WASasquatch/PPF_Noise_ComfyUI",
+            "files": [
+                "https://github.com/WASasquatch/PPF_Noise_ComfyUI"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: WAS_PFN_Latent. Perlin Power Fractal Noisey Latents"
+        },
+        {
             "author": "Ttl",
             "title": "ComfyUI Neural network latent upscale custom node",
             "reference": "https://github.com/Ttl/ComfyUi_NNLatentUpscale",
