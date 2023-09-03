@@ -4,6 +4,7 @@ import json
 from git import Repo
 from torchvision.datasets.utils import download_url
 
+builtin_nodes = ["KSampler"]
 
 def scan_in_file(filename):
     try:
@@ -13,18 +14,18 @@ def scan_in_file(filename):
         with open(filename, encoding='cp949') as file:
             code = file.read()
 
-    pattern = r"NODE_CLASS_MAPPINGS\s*=\s*{([^}]*)}"
+    pattern = r"_CLASS_MAPPINGS\s*=\s*{([^}]*)}"
     regex = re.compile(pattern, re.MULTILINE | re.DOTALL)
 
     nodes = set()
     class_dict = {}
 
-    pattern2 = r'NODE_CLASS_MAPPINGS\["(.*?)"\]'
+    pattern2 = r'_CLASS_MAPPINGS\["(.*?)"\]'
     keys = re.findall(pattern2, code)
     for key in keys:
         nodes.add(key.strip())
 
-    pattern3 = r'NODE_CLASS_MAPPINGS\[\'(.*?)\'\]'
+    pattern3 = r'_CLASS_MAPPINGS\[\'(.*?)\'\]'
     keys = re.findall(pattern3, code)
     for key in keys:
         nodes.add(key.strip())
@@ -44,7 +45,7 @@ def scan_in_file(filename):
         for key, value in class_dict.items():
             nodes.add(key.strip())
 
-        update_pattern = r"NODE_CLASS_MAPPINGS.update\s*\({([^}]*)}\)"
+        update_pattern = r"_CLASS_MAPPINGS.update\s*\({([^}]*)}\)"
         update_match = re.search(update_pattern, code)
         if update_match:
             update_dict_text = update_match.group(1)
@@ -61,7 +62,12 @@ def scan_in_file(filename):
                 key, value = line[1:].strip().split(':')
                 metadata[key.strip()] = value.strip()
 
+    for x in builtin_nodes:
+        if x in nodes:
+            nodes.remove(x)
+
     return nodes, metadata
+
 
 def get_py_file_paths(dirname):
     file_paths = []

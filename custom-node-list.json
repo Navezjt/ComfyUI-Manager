@@ -21,54 +21,24 @@
             "description": "This extension offers various detector nodes and detailer nodes that allow you to configure a workflow that automatically enhances facial details. And provide iterative upscaler.<BR><p style='background-color: black; color: red;'>NOTE:MMDetDetectorProvider and other legacy nodes are disabled by default. If you want to activate these nodes and use them, please edit the impact-pack.ini file in the ComfyUI-Impact-Pack directory and change 'mmdet_skip = True' to 'mmdet_skip = False.' </p>"
         },
         {
-            "author": "comfyanonymous",
-            "title": "ComfyUI_experiments/sampler_tonemap",
-            "reference": "https://github.com/comfyanonymous/ComfyUI_experiments",
+            "author": "Dr.Lt.Data",
+            "title": "ComfyUI Inspire Pack",
+            "reference": "https://github.com/ltdrdata/ComfyUI-Inspire-Pack",
             "files": [
-                "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/sampler_tonemap.py"
+                "https://github.com/ltdrdata/ComfyUI-Inspire-Pack"
             ],
-            "install_type": "copy",
-            "description": "ModelSamplerTonemapNoiseTest a node that makes the sampler use a simple tonemapping algorithm to tonemap the noise. It will let you use higher CFG without breaking the image. To using higher CFG lower the multiplier value. Similar to Dynamic Thresholding extension of A1111."
+            "install_type": "git-clone",
+            "description": "This extension provides various nodes to support Lora Block Weight and the Impact Pack."
         },
         {
             "author": "comfyanonymous",
-            "title": "ComfyUI_experiments/sampler_rescalecfg",
+            "title": "ComfyUI_experiments",
             "reference": "https://github.com/comfyanonymous/ComfyUI_experiments",
             "files": [
-                "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/sampler_rescalecfg.py"
+                "https://github.com/comfyanonymous/ComfyUI_experiments"
             ],
-            "install_type": "copy",
-            "description": "RescaleClassifierFreeGuidance improves the problem of images being degraded by high CFG.To using higher CFG lower the multiplier value. Similar to Dynamic Thresholding extension of A1111. (<a href='https://arxiv.org/abs/2305.08891' target='blank'/>reference paper</a>)"
-        },
-        {
-            "author": "comfyanonymous",
-            "title": "ComfyUI_experiments/advanced_model_merging",
-            "reference": "https://github.com/comfyanonymous/ComfyUI_experiments",
-            "files": [
-                "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/advanced_model_merging.py"
-            ],
-            "install_type": "copy",
-            "description": "This provides a detailed model merge feature based on block weight. ModelMergeBlock, in vanilla ComfyUI, allows for adjusting the ratios of input/middle/output layers, but this node provides ratio adjustments for all blocks within each layer."
-        },
-        {
-            "author": "comfyanonymous",
-            "title": "ComfyUI_experiments/sdxl_model_merging",
-            "reference": "https://github.com/comfyanonymous/ComfyUI_experiments",
-            "files": [
-                "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/sdxl_model_merging.py"
-            ],
-            "install_type": "copy",
-            "description": "These nodes provide the capability to merge SDXL base models."
-        },
-        {
-            "author": "comfyanonymous",
-            "title": "ComfyUI_experiments/reference_only",
-            "reference": "https://github.com/comfyanonymous/ComfyUI_experiments",
-            "files": [
-                "https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/reference_only.py"
-            ],
-            "install_type": "copy",
-            "description": "This node provides functionality corresponding to Reference only in Controlnet."
+            "install_type": "git-clone",
+            "description": "Nodes: ModelSamplerTonemapNoiseTest, ReferenceOnlySimple, RescaleClassifierFreeGuidanceTest, ModelMergeBlockNumber, ModelMergeSDXL, ModelMergeSDXLTransformers, ModelMergeSDXLDetailedTransformers.<p style='background-color: black; color: red;'>NOTE: This is a consolidation of the previously separate custom nodes. Please delete the sampler_tonemap.py, sampler_rescalecfg.py, advanced_model_merging.py, sdxl_model_merging.py, and reference_only.py files installed in custom_nodes before.</p>"
         },
         {
             "author": "Stability-AI",
@@ -82,27 +52,17 @@
         },
         {
             "author": "Fannovel16",
-            "title": "ControlNet Preprocessors",
-            "reference": "https://github.com/Fannovel16/comfy_controlnet_preprocessors",
-            "files": [
-                "https://github.com/Fannovel16/comfy_controlnet_preprocessors"
-            ],
-            "install_type": "git-clone",
-            "description": "ControlNet Preprocessors. (To use this extension, you need to download the required model file from <B>Install Models</B>)<BR> <p style='background-color: black; color: red;'>NOTE: To use nodes belonging to <B>controlnet v1</b> such as <B>Canny_Edge_Preprocessor, MIDAS_Depth_Map_Preprocessor, Uniformer_SemSegPreprocessor, etc.</B>, you need to copy the <font color='white'>config.yaml.example</font> file to <font color='white'>config.yaml</font> and change <font color='white'>skip_v1: True</font> to <font color='white'>skip_v1: False</font>.</p>"
-        },
-        {
-            "author": "Fannovel16",
-            "title": "(WIP) ComfyUI's ControlNet Preprocessors auxiliary models",
+            "title": "ComfyUI's ControlNet Auxiliary Preprocessors",
             "reference": "https://github.com/Fannovel16/comfyui_controlnet_aux",
             "files": [
                 "https://github.com/Fannovel16/comfyui_controlnet_aux"
             ],
             "install_type": "git-clone",
-            "description": "This is a WIP rework of comfyui_controlnet_preprocessors based on ControlNet auxiliary models by 🤗. I think the old repo isn't good enough to maintain. All old workflow will still be work with this repo but the version option won't do anything. Almost all v1 preprocessors are replaced by v1.1 except those doesn't apppear in v1.1. <p style='background-color: black; color: red;'>NOTE: Please refrain from using the controlnet preprocessor alongside this installation, as it may lead to conflicts and prevent proper recognition.</p>"
+            "description": "This is a rework of comfyui_controlnet_preprocessors based on ControlNet auxiliary models by 🤗. I think the old repo isn't good enough to maintain. All old workflow will still be work with this repo but the version option won't do anything. Almost all v1 preprocessors are replaced by v1.1 except those doesn't appear in v1.1. <p style='background-color: black; color: red;'>NOTE: Please refrain from using the controlnet preprocessor alongside this installation, as it may lead to conflicts and prevent proper recognition.</p>"
         },
         {
             "author": "Fannovel16",
-            "title": "ComfyUI-Frame-Interpolation",
+            "title": "ComfyUI Frame Interpolation",
             "reference": "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation",
             "files": [
                 "https://github.com/Fannovel16/ComfyUI-Frame-Interpolation"
@@ -112,13 +72,13 @@
         },
         {
             "author": "Fannovel16",
-            "title": "ComfyUI-Loopchain",
+            "title": "ComfyUI Loopchain",
             "reference": "https://github.com/Fannovel16/ComfyUI-Loopchain",
             "files": [
                 "https://github.com/Fannovel16/ComfyUI-Loopchain"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: EmptyLatentImageLoop"
+            "description": "A collection of nodes which can be useful for animation in ComfyUI. The main focus of this extension is implementing a mechanism called loopchain. A loopchain in this case is the chain of nodes only executed repeatly in the workflow. If a node chain contains a loop node from this extension, it will become a loop chain."
         },
         {
             "author": "biegert",
@@ -356,17 +316,6 @@
             "description": "Nodes: Image Remove Background (rembg)"
         },
         {
-            "author": "gamert",
-            "title": "ComfyUI_tagger",
-            "reference": "https://github.com/gamert/ComfyUI_tagger",
-            "pip": ["gradio"],
-            "files": [
-                "https://github.com/gamert/ComfyUI_tagger"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: CLIPTextEncodeTaggerDD, ImageTaggerDD. <p style='background-color: black; color: red;'>WARNING: Installing the current version is causing an issue where ComfyUI fails to start.</p>"
-        },
-        {
             "author": "YinBailiang",
             "title": "MergeBlockWeighted_fo_ComfyUI",
             "reference": "https://github.com/YinBailiang/MergeBlockWeighted_fo_ComfyUI",
@@ -600,6 +549,16 @@
             "description": "ComfyUI nodes for the roop A1111 webui script."
         },
         {
+            "author": "ssitu",
+            "title": "ComfyUI fabric",
+            "reference": "https://github.com/ssitu/ComfyUI_fabric",
+            "files": [
+                "https://github.com/ssitu/ComfyUI_fabric"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI nodes based on the paper '<a href='https://arxiv.org/abs/2307.10159'/>FABRIC: Personalizing Diffusion Models with Iterative Feedback</a>' (Feedback via Attention-Based Reference Image Conditioning)"
+        },
+        {
             "author": "space-nuko",
             "title": "Disco Diffusion",
             "reference": "https://github.com/space-nuko/ComfyUI-Disco-Diffusion",
@@ -671,16 +630,6 @@
             "description": "ComfyUI Extension Nodes for Automated Text Generation."
         },
         {
-            "author": "asd417",
-            "title": "CheckpointTomeLoader",
-            "reference": "https://github.com/asd417/tomeSD_for_Comfy",
-            "files": [
-                "https://github.com/ltdrdata/ComfyUI-tomeSD-installer"
-            ],
-            "install_type": "git-clone",
-            "description": "tomeSD(https://github.com/dbolya/tomesd) applied to ComfyUI stable diffusion UI using custom node. <B>Note:In vanilla ComfyUI, the TomePatchModel node is provided as a built-in feature.</B>"
-        },
-        {
             "author": "RockOfFire",
             "title": "ComfyUI_Comfyroll_CustomNodes",
             "reference": "https://github.com/RockOfFire/ComfyUI_Comfyroll_CustomNodes",
@@ -689,6 +638,16 @@
             ],
             "install_type": "git-clone",
             "description": "Custom nodes for SDXL and SD1.5 including Multi-ControlNet, LoRA, Aspect Ratio, Process Switches, and many more nodes."
+        },
+        {
+            "author": "RockOfFire",
+            "title": "CR Animation Nodes",
+            "reference": "https://github.com/RockOfFire/CR_Animation_Nodes",
+            "files": [
+                "https://github.com/RockOfFire/CR_Animation_Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "A comprehensive suite of nodes to enhance your animations. These nodes include some features similar to Deforum, and also some new ideas."
         },
         {
             "author": "bmad4ever",
@@ -701,6 +660,16 @@
             "description": "ComfyUI extension that adds undo (and redo) functionality."
         },
         {
+            "author": "bmad4ever",
+            "title": "ComfyUI-Bmad-Custom-Nodes",
+            "reference": "https://github.com/bmad4ever/ComfyUI-Bmad-Custom-Nodes",
+            "files": [
+                "https://github.com/bmad4ever/ComfyUI-Bmad-Custom-Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "This custom node offers the following functionalities: API support for setting up API requests, computer vision primarily for masking purposes using GrabCut or contours, and general utility to streamline workflow setup or implement essential missing features."
+        },
+        {
             "author": "FizzleDorf",
             "title": "FizzNodes",
             "reference": "https://github.com/FizzleDorf/ComfyUI_FizzNodes",
@@ -708,7 +677,7 @@
                 "https://github.com/FizzleDorf/ComfyUI_FizzNodes"
             ],
             "install_type": "git-clone",
-            "description": "Custom animation and utility nodes for Comfyui."
+            "description": "Scheduled prompts, scheduled float/int values and wave function nodes for animations and utility. compatable with <a href='https://www.framesync.xyz/'>framesync</a> and <a href='https://www.chigozie.co.uk/keyframe-string-generator/'>keyframe-string-generator</a> for audio synced animations in Comfyui."
         },
         {
             "author": "FizzleDorf",
@@ -769,6 +738,16 @@
             ],
             "install_type": "git-clone",
             "description": "custom node for ComfyUI to perform simple math operations"
+        },
+        {
+            "author": "cubiq",
+            "title": "ComfyUI_IPAdapter_plus",
+            "reference": "https://github.com/cubiq/ComfyUI_IPAdapter_plus",
+            "files": [
+                "https://github.com/cubiq/ComfyUI_IPAdapter_plus"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI reference implementation for IPAdapter models. The code is mostly taken from the original IPAdapter repository and laksjdjf's implementation, all credit goes to them. I just made the extension closer to ComfyUI philosophy."
         },
         {
             "author": "shockz0rz",
@@ -871,6 +850,16 @@
             ],
             "install_type": "git-clone",
             "description": "SDXL Prompt Styler is a node that enables you to style prompts based on predefined templates stored in a JSON file."
+        },
+        {
+            "author": "wolfden",
+            "title": "SDXL Prompt Styler (customized version by wolfden)",
+            "reference": "https://github.com/wolfden/ComfyUi_PromptStylers",
+            "files": [
+                "https://github.com/wolfden/ComfyUi_PromptStylers"
+            ],
+            "install_type": "git-clone",
+            "description": "These custom nodes provide a variety of customized prompt stylers based on <a href='https://github.com/twri/sdxl_prompt_styler'>twri/SDXL Prompt Styler</a>."
         },
         {
             "author": "daxthin",
@@ -1543,6 +1532,54 @@
             "description": "Nodes: Load Image (Base64), Load Mask (Base64), Send Image (WebSocket), Crop Image, Apply Mask to Image. Provides nodes geared towards using ComfyUI as a backend for external tools."
         },
         {
+            "author": "TRI3D-LC",
+            "title": "tri3d-comfyui-nodes",
+            "reference": "https://github.com/TRI3D-LC/tri3d-comfyui-nodes",
+            "files": [
+                "https://github.com/TRI3D-LC/tri3d-comfyui-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: tri3d-extract-hand."
+        },
+        {
+            "author": "picturesonpictures",
+            "title": "comfy_PoP",
+            "reference": "https://github.com/picturesonpictures/comfy_PoP",
+            "files": ["https://github.com/picturesonpictures/comfy_PoP"],
+            "install_type": "git-clone",
+            "description": "A collection of custom nodes for ComfyUI. Includes a quick canny edge detection node with unconventional settings, simple LoRA stack nodes for workflow efficiency, and a customizable aspect ratio node."
+        },
+        {
+            "author": "Dream Project",
+            "title": "Dream Project Animation Nodes",
+            "reference": "https://github.com/alt-key-project/comfyui-dream-project",
+            "files": [
+                "https://github.com/alt-key-project/comfyui-dream-project"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension offers various nodes that are useful for Deforum-like animations in ComfyUI."
+        },
+        {
+            "author": "seanlynch",
+            "title": "ComfyUI Optical Flow",
+            "reference": "https://github.com/seanlynch/comfyui-optical-flow",
+            "files": [
+                "https://github.com/seanlynch/comfyui-optical-flow"
+            ],
+            "install_type": "git-clone",
+            "description": "This package contains three nodes to help you compute optical flow between pairs of images, usually adjacent frames in a video, visualize the flow, and apply the flow to another image of the same dimensions. Most of the code is from Deforum, so this is released under the same license (MIT)."
+        },
+        {
+            "author": "ealkanat",
+            "title": "ComfyUI Easy Padding",
+            "reference": "https://github.com/ealkanat/comfyui_easy_padding",
+            "files": [
+                "https://github.com/ealkanat/comfyui_easy_padding"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI Easy Padding is a simple custom ComfyUI node that helps you to add padding to images on ComfyUI."
+        },
+        {
             "author": "taabata",
             "title": "Syrian Falcon Nodes",
             "reference": "https://github.com/taabata/Comfy_Syrian_Falcon_Nodes",
@@ -1783,6 +1820,6 @@
             ],
             "install_type": "unzip",
             "description": "Various image processing nodes."
-        }
+        } 
     ]
 }

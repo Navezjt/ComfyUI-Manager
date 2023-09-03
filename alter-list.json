@@ -6,19 +6,19 @@
        "description": "This extension provides preprocessor nodes for using controlnet."
      },
      {
-       "id":"https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/sampler_tonemap.py",
-       "tags":"Dynamic Thresholding, DT, CFG",
-       "description": "Increasing the CFG prevents the degradation of color accuracy."
-     },
-     {
-       "id":"https://github.com/comfyanonymous/ComfyUI_experiments/raw/master/reference_only.py",
-       "tags":"controlnet, reference only",
-       "description": "This node provides functionality corresponding to Reference only in Controlnet."
+       "id":"https://github.com/comfyanonymous/ComfyUI_experiments",
+       "tags":"Dynamic Thresholding, DT, CFG, controlnet, reference only",
+       "description": "This experimental nodes contains a 'Reference Only' node and a 'ModelSamplerTonemapNoiseTest' node corresponding to the 'Dynamic Threshold'."
      },
      {
        "id":"https://github.com/ltdrdata/ComfyUI-Impact-Pack",
        "tags":"ddetailer, adetailer, ddsd, DD, loopback scaler, prompt, wildcard, dynamic prompt",
        "description": "To implement the feature of automatically detecting faces and enhancing details, various detection nodes and detailers provided by the Impact Pack can be applied. Similarly to Loopback Scaler, it also provides various custom workflows that can apply Ksampler while gradually scaling up."
+     },
+     {
+       "id":"https://github.com/ltdrdata/ComfyUI-Inspire-Pack",
+       "tags":"lora block weight, effective block analyzer, lbw",
+       "description": "The Inspire Pack provides the functionality of Lora Block Weight."
      },
      {
        "id":"https://github.com/biegert/ComfyUI-CLIPSeg/raw/main/custom_nodes/clipseg.py",
@@ -134,6 +134,16 @@
        "id":"https://github.com/laksjdjf/attention-couple-ComfyUI",
        "tags":"regional prompt, latent couple, prompt",
        "description": "This custom node provides a functionality similar to regional prompts, offering couple features at the attention level."
+     },
+     {
+       "id":"https://github.com/FizzleDorf/ComfyUI_FizzNodes",
+       "tags":"deforum",
+       "description": "This custom node provides functionality that assists in animation creation, similar to deforum."
+     },
+     {
+       "id":"https://github.com/seanlynch/comfyui-optical-flow",
+       "tags":"deforum, vid2vid",
+       "description": "This custom node provides functionality that assists in animation creation, similar to deforum."
      }
    ]
 }
