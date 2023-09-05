@@ -556,7 +556,7 @@
                 "https://github.com/ssitu/ComfyUI_fabric"
             ],
             "install_type": "git-clone",
-            "description": "ComfyUI nodes based on the paper '<a href='https://arxiv.org/abs/2307.10159'/>FABRIC: Personalizing Diffusion Models with Iterative Feedback</a>' (Feedback via Attention-Based Reference Image Conditioning)"
+            "description": "ComfyUI nodes based on the paper '<a href='https://arxiv.org/abs/2307.10159' target='blank'/>FABRIC: Personalizing Diffusion Models with Iterative Feedback</a>' (Feedback via Attention-Based Reference Image Conditioning)"
         },
         {
             "author": "space-nuko",
@@ -677,7 +677,7 @@
                 "https://github.com/FizzleDorf/ComfyUI_FizzNodes"
             ],
             "install_type": "git-clone",
-            "description": "Scheduled prompts, scheduled float/int values and wave function nodes for animations and utility. compatable with <a href='https://www.framesync.xyz/'>framesync</a> and <a href='https://www.chigozie.co.uk/keyframe-string-generator/'>keyframe-string-generator</a> for audio synced animations in Comfyui."
+            "description": "Scheduled prompts, scheduled float/int values and wave function nodes for animations and utility. compatable with <a href='https://www.framesync.xyz/' target='blank'>framesync</a> and <a href='https://www.chigozie.co.uk/keyframe-string-generator/' target='blank'>keyframe-string-generator</a> for audio synced animations in Comfyui."
         },
         {
             "author": "FizzleDorf",
@@ -859,7 +859,7 @@
                 "https://github.com/wolfden/ComfyUi_PromptStylers"
             ],
             "install_type": "git-clone",
-            "description": "These custom nodes provide a variety of customized prompt stylers based on <a href='https://github.com/twri/sdxl_prompt_styler'>twri/SDXL Prompt Styler</a>."
+            "description": "These custom nodes provide a variety of customized prompt stylers based on <a href='https://github.com/twri/sdxl_prompt_styler' target='blank'>twri/SDXL Prompt Styler</a>."
         },
         {
             "author": "daxthin",
@@ -1489,7 +1489,7 @@
                 "https://github.com/GeLi1989/GK-beifen-ComfyUI_roop"
             ],
             "install_type": "git-clone",
-            "description": "ComfyUI nodes for the roop A1111 webui script. NOTE: Need to download <a href='https://github.com/SumDeusVitae/FaceSwap_v01/raw/main/inswapper_128.onnx'/>model</a> to use this node."
+            "description": "ComfyUI nodes for the roop A1111 webui script. NOTE: Need to download <a href='https://github.com/SumDeusVitae/FaceSwap_v01/raw/main/inswapper_128.onnx' target='blank'/>model</a> to use this node."
         },
         {
             "author": "spro",
@@ -1578,6 +1578,36 @@
             ],
             "install_type": "git-clone",
             "description": "ComfyUI Easy Padding is a simple custom ComfyUI node that helps you to add padding to images on ComfyUI."
+        },
+        {
+            "author": "ArtBot2023",
+            "title": "Character Face Swap",
+            "reference": "https://github.com/ArtBot2023/CharacterFaceSwap",
+            "files": [
+                "https://github.com/ArtBot2023/CharacterFaceSwap"
+            ],
+            "install_type": "git-clone",
+            "description": "Character face swap with LoRA and embeddings."
+        },
+        {
+            "author": "mav-rik",
+            "title": "Facerestore CF (Code Former)",
+            "reference": "https://github.com/mav-rik/facerestore_cf",
+            "files": [
+                "https://github.com/mav-rik/facerestore_cf"
+            ],
+            "install_type": "git-clone",
+            "description": "This is a copy of <a href='https://civitai.com/models/24690/comfyui-facerestore-node' target='blank'>facerestore custom node</a> with a bit of a change to support CodeFormer Fidelity parameter. These ComfyUI nodes can be used to restore faces in images similar to the face restore option in AUTOMATIC1111 webui."
+        },
+        {
+            "author": "braintacles",
+            "title": "braintacles-nodes",
+            "reference": "https://github.com/braintacles/braintacles-comfyui-nodes",
+            "files": [
+                "https://github.com/braintacles/braintacles-comfyui-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: CLIPTextEncodeSDXL-Multi-IO, CLIPTextEncodeSDXL-Pipe, Empty Latent Image from Aspect-Ratio, Random Find and Replace."
         },
         {
             "author": "taabata",
@@ -1820,6 +1850,6 @@
             ],
             "install_type": "unzip",
             "description": "Various image processing nodes."
-        } 
+        }
     ]
 }

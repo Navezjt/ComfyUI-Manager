@@ -21,6 +21,24 @@
             "title_aux": "ComfyUI Nodes for External Tooling"
         }
     ],
+    "https://github.com/ArtBot2023/CharacterFaceSwap": [
+        [
+            "Color Blend",
+            "Crop Face",
+            "Exclude Facial Feature",
+            "Generation Parameter Input",
+            "Generation Parameter Output",
+            "Image Full BBox",
+            "Load BiseNet",
+            "Load RetinaFace",
+            "Mask Contour",
+            "Segment Face",
+            "Uncrop Face"
+        ],
+        {
+            "title_aux": "Character Face Swap"
+        }
+    ],
     "https://github.com/ArtVentureX/comfyui-animatediff": [
         [
             "AnimateDiffCombine",
@@ -721,6 +739,8 @@
             "CR Current Frame",
             "CR Cycle LoRAs",
             "CR Cycle Models",
+            "CR Cycle Text",
+            "CR Cycle Text Simple",
             "CR Debatch Frames",
             "CR Gradient Float",
             "CR Gradient Integer",
@@ -731,10 +751,13 @@
             "CR Index Reset",
             "CR Keyframe List",
             "CR LoRA List",
+            "CR Load Animation Frames",
             "CR Model List",
             "CR Prompt List",
             "CR Prompt List Keyframes",
             "CR Prompt Text",
+            "CR Text List",
+            "CR Text List Simple",
             "CR Text List To String"
         ],
         {
@@ -1199,7 +1222,7 @@
             "SAM Parameters Combine",
             "Samples Passthrough (Stat System)",
             "Save Text File",
-            "Seed (Legacy)",
+            "Seed",
             "String to Text",
             "Tensor Batch to Image",
             "Text Add Token by Input",
@@ -1331,6 +1354,7 @@
             "FilterSchedule",
             "JinjaRender",
             "LoRAScheduler",
+            "PCSplitSampling",
             "PromptControlSimple",
             "PromptToSchedule",
             "ScheduleToCond",
@@ -1355,9 +1379,11 @@
             "AddMetaData",
             "Batch Crop Image",
             "Batch Crop Resize Inplace",
+            "Batch Load Images",
             "Batch Resize Image for SDXL",
             "Empty Latent Ratio Custom SDXL",
             "Empty Latent Ratio Select SDXL",
+            "FileNamePrefix",
             "Float to String",
             "HaldCLUT",
             "Image Caption",
@@ -1381,8 +1407,10 @@
             "Save Images Mikey",
             "Save Images No Display",
             "SaveMetaData",
+            "SearchAndReplace",
             "Seed String",
             "Style Conditioner",
+            "Style Conditioner Base Only",
             "Text2InputOr3rdOption",
             "TextCombinations",
             "TextCombinations3",
@@ -1461,6 +1489,21 @@
         ],
         {
             "title_aux": "ResolutionSelector for ComfyUI"
+        }
+    ],
+    "https://github.com/braintacles/braintacles-comfyui-nodes": [
+        [
+            "CLIPTextEncodeSDXL-Multi-IO",
+            "CLIPTextEncodeSDXL-Pipe",
+            "Empty Latent Image from Aspect-Ratio",
+            "Random Find and Replace",
+            "VAE Decode Pipe",
+            "VAE Decode Tiled Pipe",
+            "VAE Encode Pipe",
+            "VAE Encode Tiled Pipe"
+        ],
+        {
+            "title_aux": "braintacles-nodes"
         }
     ],
     "https://github.com/bvhari/ComfyUI_ImageProcessing": [
@@ -2075,6 +2118,7 @@
             "Canny",
             "Canny_Preprocessor_Provider_for_SEGS //Inspire",
             "KSampler //Inspire",
+            "LoraBlockInfo //Inspire",
             "LoraLoaderBlockWeight //Inspire",
             "OpenPose_Preprocessor_Provider_for_SEGS //Inspire",
             "OpenposePreprocessor",
@@ -2114,6 +2158,16 @@
         ],
         {
             "title_aux": "Recommended Resolution Calculator"
+        }
+    ],
+    "https://github.com/mav-rik/facerestore_cf": [
+        [
+            "CropFace",
+            "FaceRestoreCFWithModel",
+            "FaceRestoreModelLoader"
+        ],
+        {
+            "title_aux": "Facerestore CF (Code Former)"
         }
     ],
     "https://github.com/meap158/ComfyUI-GPU-temperature-protection": [
