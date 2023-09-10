@@ -167,6 +167,14 @@
             "title_aux": "ComfyUI_Ib_CustomNodes"
         }
     ],
+    "https://github.com/Clybius/ComfyUI-Latent-Modifiers/raw/main/sampler_mega_modifier.py": [
+        [
+            "Latent Diffusion Mega Modifier"
+        ],
+        {
+            "title_aux": "ComfyUI-Latent-Modifiers"
+        }
+    ],
     "https://github.com/Davemane42/ComfyUI_Dave_CustomNode": [
         [
             "ABGRemover",
@@ -337,6 +345,7 @@
     ],
     "https://github.com/Fannovel16/comfyui_controlnet_aux": [
         [
+            "AIO_Preprocessor",
             "AnimeLineArtPreprocessor",
             "BAE-NormalMapPreprocessor",
             "BinaryPreprocessor",
@@ -394,7 +403,6 @@
             "Lerp",
             "PromptSchedule",
             "PromptScheduleEncodeSDXL",
-            "PromptScheduleGLIGEN",
             "PromptScheduleNodeFlow",
             "PromptScheduleNodeFlowEnd",
             "SawtoothWave",
@@ -425,23 +433,26 @@
     ],
     "https://github.com/JPS-GER/ComfyUI_JPS-Nodes": [
         [
-            "Math Largest Int (JPS)",
-            "Math Multiply Float Float (JPS)",
-            "Math Multiply Int Float (JPS)",
-            "Math Multiply Int Int (JPS)",
-            "Math Resolution Multiply (JPS)",
-            "Math Substract Int Int (JPS)",
-            "Menu Disable Enable Switch (JPS)",
-            "Menu Enable Disable Switch (JPS)",
-            "Menu Sampler Scheduler (JPS)",
-            "SDXL Additional Settings (JPS)",
+            "Disable Enable Switch (JPS)",
+            "Enable Disable Switch (JPS)",
+            "Generation Mode (JPS)",
+            "Generation Mode TXT IMG (JPS)",
+            "Get Date Time String (JPS)",
+            "Get Image Size (JPS)",
+            "IP Adapter Mode (JPS)",
+            "Largest Int (JPS)",
+            "Lora Loader (JPS)",
+            "Multiply Float Float (JPS)",
+            "Multiply Int Float (JPS)",
+            "Multiply Int Int (JPS)",
+            "Resolution Multiply (JPS)",
+            "Revision Mode (JPS)",
             "SDXL Basic Settings (JPS)",
             "SDXL Recommended Resolution Calc (JPS)",
             "SDXL Resolutions (JPS)",
-            "Switch Generation Mode (JPS)",
-            "Switch Generation Mode 4in1 (JPS)",
-            "Switch IP Adapter Mode (JPS)",
-            "Switch Revision Mode (JPS)"
+            "Sampler Scheduler (JPS)",
+            "Substract Int Int (JPS)",
+            "Text Concatenate (JPS)"
         ],
         {
             "title_aux": "JPS Custom Nodes for ComfyUI"
@@ -502,6 +513,18 @@
         ],
         {
             "title_aux": "ComfyUI-Advanced-ControlNet"
+        }
+    ],
+    "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved": [
+        [
+            "ADE_AnimateDiffCombine",
+            "ADE_AnimateDiffLoaderLegacy",
+            "ADE_AnimateDiffUnload",
+            "AnimateDiffLoaderV1",
+            "CheckpointLoaderSimpleWithNoiseSelect"
+        ],
+        {
+            "title_aux": "AnimateDiff (Kosinkadink version)"
         }
     ],
     "https://github.com/LEv145/images-grid-comfy-plugin": [
@@ -734,31 +757,51 @@
     ],
     "https://github.com/RockOfFire/CR_Animation_Nodes": [
         [
-            "CR Animation Stack",
-            "CR Animation Stack Keyframes",
+            "CR Central Schedule",
             "CR Current Frame",
+            "CR Cycle Images",
+            "CR Cycle Images Simple",
             "CR Cycle LoRAs",
             "CR Cycle Models",
             "CR Cycle Text",
             "CR Cycle Text Simple",
             "CR Debatch Frames",
+            "CR Encode Scheduled Prompts SD1.5",
             "CR Gradient Float",
             "CR Gradient Integer",
+            "CR Image List",
+            "CR Image List Simple",
             "CR Increment Float",
             "CR Increment Integer",
             "CR Index Increment",
             "CR Index Multiply",
             "CR Index Reset",
+            "CR Input Text List",
+            "CR Interpolate Latents",
             "CR Keyframe List",
             "CR LoRA List",
             "CR Load Animation Frames",
+            "CR Load Scheduled LoRAs",
+            "CR Load Scheduled Models",
             "CR Model List",
+            "CR Output Schedule To File",
             "CR Prompt List",
             "CR Prompt List Keyframes",
             "CR Prompt Text",
+            "CR Schedule Input Switch",
+            "CR Schedule Prompts SD1.5",
+            "CR Schedule Prompts SDXL",
+            "CR Simple Prompt List",
+            "CR Simple Prompt List Keyframes",
+            "CR Simple Schedule",
+            "CR Simple Text Scheduler",
+            "CR Simple Value Scheduler",
+            "CR String To Combo",
             "CR Text List",
             "CR Text List Simple",
-            "CR Text List To String"
+            "CR Text List To String",
+            "CR Text Scheduler",
+            "CR Value Scheduler"
         ],
         {
             "title_aux": "CR Animation Nodes"
@@ -1055,6 +1098,8 @@
     "https://github.com/WASasquatch/PPF_Noise_ComfyUI": [
         [
             "Blend Latents (PPF Noise)",
+            "Cross-Hatch Power Fractal (PPF Noise)",
+            "Images as Latents (PPF Noise)",
             "Perlin Power Fractal Latent (PPF Noise)"
         ],
         {
@@ -1317,12 +1362,14 @@
     ],
     "https://github.com/alt-key-project/comfyui-dream-project": [
         [
+            "Analyze Palette [Dream]",
             "Beat Curve [Dream]",
             "CSV Curve [Dream]",
             "CSV Generator [Dream]",
             "Common Frame Dimensions [Dream]",
             "FFMPEG Video Encoder [Dream]",
             "File Count [Dream]",
+            "Float Input [Dream]",
             "Frame Counter (Directory) [Dream]",
             "Frame Counter (Simple) [Dream]",
             "Frame Counter Offset [Dream]",
@@ -1331,8 +1378,17 @@
             "Image Sequence Loader [Dream]",
             "Image Sequence Saver [Dream]",
             "Image Sequence Tweening [Dream]",
+            "Int Input [Dream]",
             "Linear Curve [Dream]",
-            "Sine Curve [Dream]"
+            "Noise from Area Palettes [Dream]",
+            "Noise from Palette [Dream]",
+            "Palette Color Align [Dream]",
+            "Palette Color Shift [Dream]",
+            "Sample Image Area as Palette [Dream]",
+            "Sample Image as Palette [Dream]",
+            "Sine Curve [Dream]",
+            "String Input [Dream]",
+            "Text Input [Dream]"
         ],
         {
             "title_aux": "Dream Project Animation Nodes"
@@ -1433,15 +1489,20 @@
     ],
     "https://github.com/bmad4ever/ComfyUI-Bmad-Custom-Nodes": [
         [
+            "AdaptiveThresholding",
             "Add String To Many",
             "AdjustRect",
             "AnyToAny",
             "BoundingRect (contours)",
+            "CLAHE",
+            "CLIPEncodeMultiple",
+            "CLIPEncodeMultipleAdvanced",
             "ChameleonMask",
             "CheckpointLoader (dirty)",
             "CheckpointLoaderSimple (dirty)",
             "Color Clip",
             "Color Clip ADE20k",
+            "CondList",
             "Conditioning (combine multiple)",
             "Conditioning (combine selective)",
             "Conditioning Grid (cond)",
@@ -1449,9 +1510,13 @@
             "Conditioning Grid (string) Advanced",
             "Contour To Mask",
             "Contours",
+            "ControlNetHadamard",
+            "ControlNetHadamard (manual)",
             "CreateRequestMetadata",
             "Draw Contour(s)",
+            "EqualizeHistogram",
             "Filter Contour",
+            "FlatLatentsIntoSingleGrid",
             "Framed Mask Grab Cut",
             "Framed Mask Grab Cut 2",
             "Get Contour from list",
@@ -1465,7 +1530,7 @@
             "MaskGrid N KSamplers Advanced",
             "Merge Latent Batch Gridwise",
             "MonoMerge",
-            "Otsu",
+            "OtsuThreshold",
             "Rect Grab Cut",
             "Repeat Into Grid (image)",
             "Repeat Into Grid (latent)",
@@ -1528,6 +1593,14 @@
             "title_aux": "LatentToRGB"
         }
     ],
+    "https://github.com/bvhari/ComfyUI_PerpNeg": [
+        [
+            "KSamplerAdvancedPerpNeg"
+        ],
+        {
+            "title_aux": "(WIP) ComfyUI_PerpNeg"
+        }
+    ],
     "https://github.com/chenbaiyujason/sc-node-comfyui": [
         [
             "8 Combine Text String",
@@ -1552,6 +1625,18 @@
         ],
         {
             "title_aux": "sc-node-comfyui"
+        }
+    ],
+    "https://github.com/city96/ComfyUI_DiT": [
+        [
+            "DiTCheckpointLoader",
+            "DiTCheckpointLoaderSimple",
+            "DiTLabelCombine",
+            "DiTLabelSelect",
+            "DiTSampler"
+        ],
+        {
+            "title_aux": "(WIP) ComfyUI_DiT"
         }
     ],
     "https://github.com/city96/ComfyUI_NetDist": [
@@ -1634,6 +1719,7 @@
     "https://github.com/cubiq/ComfyUI_IPAdapter_plus": [
         [
             "IPAdapterApply",
+            "IPAdapterCLIPVisionEncode",
             "IPAdapterModelLoader"
         ],
         {
@@ -1652,6 +1738,7 @@
     "https://github.com/dagthomas/comfyui_dagthomas": [
         [
             "CSL",
+            "CSVPromptGenerator",
             "PromptGenerator"
         ],
         {
@@ -2026,6 +2113,7 @@
             "ImpactImageBatchToImageList",
             "ImpactImageInfo",
             "ImpactInt",
+            "ImpactInversedSwitch",
             "ImpactKSamplerAdvancedBasicPipe",
             "ImpactKSamplerBasicPipe",
             "ImpactLogger",
@@ -2049,7 +2137,6 @@
             "IterativeLatentUpscale",
             "KSamplerAdvancedProvider",
             "KSamplerProvider",
-            "LatentCompositeMasked",
             "LatentPixelScale",
             "LatentReceiver",
             "LatentSender",
@@ -2060,6 +2147,7 @@
             "MaskPainter",
             "MaskToSEGS",
             "MasksToMaskList",
+            "MediaPipeFaceMeshToSEGS",
             "NoiseInjectionDetailerHookProvider",
             "NoiseInjectionHookProvider",
             "ONNXDetectorProvider",
@@ -2115,14 +2203,21 @@
     ],
     "https://github.com/ltdrdata/ComfyUI-Inspire-Pack": [
         [
-            "Canny",
             "Canny_Preprocessor_Provider_for_SEGS //Inspire",
+            "DWPreprocessor_Provider_for_SEGS //Inspire",
             "KSampler //Inspire",
+            "LeRes_DepthMap_Preprocessor_Provider_for_SEGS //Inspire",
+            "LoadPromptsFromDir //Inspire",
             "LoraBlockInfo //Inspire",
             "LoraLoaderBlockWeight //Inspire",
+            "MediaPipeFaceMeshDetectorProvider //Inspire",
+            "MiDaS_DepthMap_Preprocessor_Provider_for_SEGS //Inspire",
             "OpenPose_Preprocessor_Provider_for_SEGS //Inspire",
-            "OpenposePreprocessor",
-            "XY Input: Lora Block Weight //Inspire"
+            "PromptExtractor //Inspire",
+            "UnzipPrompt //Inspire",
+            "XY Input: Lora Block Weight //Inspire",
+            "ZipPrompt //Inspire",
+            "Zoe_DepthMap_Preprocessor_Provider_for_SEGS //Inspire"
         ],
         {
             "author": "Dr.Lt.Data",
@@ -2351,8 +2446,12 @@
         [
             "AdaptiveCannyDetector_PoP",
             "AnyAspectRatio",
+            "ConditioningMultiplierPoP",
+            "ConditioningNormalizerPoP",
             "LoraStackLoader10_PoP",
-            "LoraStackLoader_PoP"
+            "LoraStackLoader_PoP",
+            "VAEDecoderPoP",
+            "VAEEncoderPoP"
         ],
         {
             "title_aux": "comfy_PoP"
@@ -2362,12 +2461,14 @@
         [
             "CheckpointLoader|pysssss",
             "ConstrainImage|pysssss",
+            "LoadText|pysssss",
             "LoraLoader|pysssss",
             "MathExpression|pysssss",
             "MultiPrimitive|pysssss",
             "PlaySound|pysssss",
             "Repeater|pysssss",
             "ReroutePrimitive|pysssss",
+            "SaveText|pysssss",
             "ShowText|pysssss",
             "StringFunction|pysssss"
         ],
@@ -2415,7 +2516,8 @@
     ],
     "https://github.com/shiimizu/ComfyUI_smZNodes": [
         [
-            "smZ CLIPTextEncode"
+            "smZ CLIPTextEncode",
+            "smZ Settings"
         ],
         {
             "title_aux": "smZNodes"
@@ -2448,13 +2550,17 @@
     "https://github.com/sipherxyz/comfyui-art-venture": [
         [
             "AV_CheckpointModelsToParametersPipe",
+            "AV_ControlNetEfficientLoader",
+            "AV_ControlNetEfficientStacker",
             "AV_ControlNetLoader",
+            "AV_ControlNetPreprocessor",
             "AV_LoraLoader",
             "AV_ParametersPipeToCheckpointModels",
             "AV_ParametersPipeToPrompts",
             "AV_PromptsToParametersPipe",
             "AV_UploadImage",
             "AV_VAELoader",
+            "AspectRatioSelector",
             "BLIPCaption",
             "ColorBlend",
             "ColorCorrect",
@@ -2467,6 +2573,7 @@
             "LoadImageFromUrl",
             "SDXLAspectRatioSelector",
             "SDXLPromptStyler",
+            "SeedSelector",
             "StringToInt"
         ],
         {
@@ -2751,10 +2858,20 @@
             "SDXLPromptStylerbyTheme",
             "SDXLPromptStylerbyTimeofDay",
             "SDXLPromptStylerbyWyvern",
-            "SDXLPromptbyGothicRevival"
+            "SDXLPromptbyCelticArt",
+            "SDXLPromptbyGothicRevival",
+            "SDXLPromptbyIrishFolkArt"
         ],
         {
             "title_aux": "SDXL Prompt Styler (customized version by wolfden)"
+        }
+    ],
+    "https://github.com/wolfden/ComfyUi_String_Function_Tree": [
+        [
+            "StringFunction"
+        ],
+        {
+            "title_aux": "ComfyUi_String_Function_Tree"
         }
     ],
     "https://github.com/wsippel/comfyui_ws/raw/main/sdxl_utility.py": [

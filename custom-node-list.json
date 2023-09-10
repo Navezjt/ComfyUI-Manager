@@ -387,6 +387,17 @@
             "description": "Upscaling stable diffusion latents using a small neural network."
 	    },
         {
+            "author": "city96",
+            "title": "(WIP) ComfyUI_DiT",
+            "reference": "https://github.com/city96/ComfyUI_DiT",
+            "files": [
+                "https://github.com/city96/ComfyUI_DiT"
+            ],
+            "pip": ["huggingface-hub"],
+            "install_type": "git-clone",
+            "description": "Testbed for <a href='https://github.com/facebookresearch/DiT' target='blank'>DiT(Scalable Diffusion Models with Transformers)</a>. <p style='background-color: black; color: red;'>None of this code is stable, expect breaking changes if for some reason you want to use this.</p>"
+	    },
+        {
             "author": "Kaharos94",
             "title": "ComfyUI-Saveaswebp",
             "reference": "https://github.com/Kaharos94/ComfyUI-Saveaswebp",
@@ -507,6 +518,16 @@
             ],
             "install_type": "git-clone",
             "description": "ComfyUI custom node to convert latent to RGB."
+        },
+        {
+            "author": "bvhari",
+            "title": "(WIP) ComfyUI_PerpNeg",
+            "reference": "https://github.com/bvhari/ComfyUI_PerpNeg",
+            "files": [
+                "https://github.com/bvhari/ComfyUI_PerpNeg"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: KSampler (Advanced + Perp-Neg). Implementation of <a href='https://perp-neg.github.io/' target='blank'>Perp-Neg</a><br>Includes Tonemap and CFG Rescale optionsComfyUI custom node to convert latent to RGB.<p style='background-color: black; color: red;'>WARNING: Experimental code, might have incompatibilities and edge cases.</>"
         },
         {
             "author": "ssitu",
@@ -862,6 +883,16 @@
             "description": "These custom nodes provide a variety of customized prompt stylers based on <a href='https://github.com/twri/sdxl_prompt_styler' target='blank'>twri/SDXL Prompt Styler</a>."
         },
         {
+            "author": "wolfden",
+            "title": "ComfyUi_String_Function_Tree",
+            "reference": "https://github.com/wolfden/ComfyUi_String_Function_Tree",
+            "files": [
+                "https://github.com/wolfden/ComfyUi_String_Function_Tree"
+            ],
+            "install_type": "git-clone",
+            "description": "This custom node provides the capability to manipulate multiple string inputs."
+        },
+        {
             "author": "daxthin",
             "title": "facedetailer",
             "reference": "https://github.com/daxthin/facedetailer",
@@ -980,6 +1011,17 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes: ControlNetLoaderAdvanced, DiffControlNetLoaderAdvanced, ScaledSoftControlNetWeights, SoftControlNetWeights, CustomControlNetWeights, SoftT2IAdapterWeights, CustomT2IAdapterWeights"
+        },
+        {
+            "author": "Kosinkadink",
+            "title": "AnimateDiff (Kosinkadink version)",
+            "reference": "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved",
+            "pip": ["flash_attn"],
+            "files": [
+                "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved"
+            ],
+            "install_type": "git-clone",
+            "description": "A forked repository that actively maintains <a href='https://github.com/ArtVentureX/comfyui-animatediff' target='blank'>AnimateDiff</a>, created by ArtVentureX.<BR><BR>Improved AnimateDiff integration for ComfyUI, adapts from sd-webui-animatediff.<br><p style='background-color: black; color: red;'>Download one or more motion models from <a href='https://huggingface.co/guoyww/animatediff/tree/main' target='blank'>Original Models</a> | <a href='https://huggingface.co/manshoety/AD_Stabilized_Motion/tree/main' target='blank'>Finetuned Models</a>. See README for additional model links and usage. Put the model weights under <font color='white'>ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models</font>. You are free to rename the models, but keeping original names will ease use when sharing your workflow.</p>"
         },
         {
             "author": "Gourieff",
@@ -1597,7 +1639,7 @@
                 "https://github.com/mav-rik/facerestore_cf"
             ],
             "install_type": "git-clone",
-            "description": "This is a copy of <a href='https://civitai.com/models/24690/comfyui-facerestore-node' target='blank'>facerestore custom node</a> with a bit of a change to support CodeFormer Fidelity parameter. These ComfyUI nodes can be used to restore faces in images similar to the face restore option in AUTOMATIC1111 webui."
+            "description": "This is a copy of <a href='https://civitai.com/models/24690/comfyui-facerestore-node' target='blank'>facerestore custom node</a> with a bit of a change to support CodeFormer Fidelity parameter. These ComfyUI nodes can be used to restore faces in images similar to the face restore option in AUTOMATIC1111 webui.<BR>NOTE: To use this node, you need to download the face restoration model and face detection model from the 'Install models' menu."
         },
         {
             "author": "braintacles",
@@ -1608,6 +1650,36 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes: CLIPTextEncodeSDXL-Multi-IO, CLIPTextEncodeSDXL-Pipe, Empty Latent Image from Aspect-Ratio, Random Find and Replace."
+        },
+        {
+            "author": "hayden-fr",
+            "title": "ComfyUI-Model-Manager",
+            "reference": "https://github.com/hayden-fr/ComfyUI-Model-Manager",
+            "files": [
+                "https://github.com/hayden-fr/ComfyUI-Model-Manager"
+            ],
+            "install_type": "git-clone",
+            "description": "Manage models: browsing, donwload and delete."
+        },
+        {
+            "author": "Tropfchen",
+            "title": "Embedding Picker",
+            "reference": "https://github.com/Tropfchen/ComfyUI-Embedding_Picker",
+            "files": [
+                "https://github.com/Tropfchen/ComfyUI-Embedding_Picker"
+            ],
+            "install_type": "git-clone",
+            "description": "Tired of forgetting and misspelling often weird names of embeddings you use? Or perhaps you use only one, cause you forgot you have tens of them installed?"
+        },
+        {
+            "author": "ali1234",
+            "title": "comfyui-job-iterator",
+            "reference": "https://github.com/ali1234/comfyui-job-iterator",
+            "files": [
+                "https://github.com/ali1234/comfyui-job-iterator"
+            ],
+            "install_type": "git-clone",
+            "description": "Implements iteration over sequences within a single workflow run. <p style='background-color: black; color: red;'>NOTE: This node replaces the execution of ComfyUI for iterative processing functionality.</p>"
         },
         {
             "author": "taabata",
@@ -1816,6 +1888,16 @@
             ],
             "install_type": "copy",
             "description": "Nodes:LatentGarbageCollector. This ComfyUI custom node flushes the GPU cache and empty cuda interprocess memory. It's helpfull for low memory environment such as the free Google Colab, especially when the workflow VAE decode latents of the size above 1500x1500."
+        },
+        {
+            "author": "Clybius",
+            "title": "ComfyUI-Latent-Modifiers",
+            "reference": "https://github.com/Clybius/ComfyUI-Latent-Modifiers",
+            "files": [
+                "https://github.com/Clybius/ComfyUI-Latent-Modifiers/raw/main/sampler_mega_modifier.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes: Latent Diffusion Mega Modifier. ComfyUI nodes which modify the latent during the diffusion process. (Sharpness, Tonemap, Rescale, Extra Noise)"
         },
         {
             "author": "theally",
