@@ -1,6 +1,117 @@
 {
     "custom_nodes": [
         {
+            "author": "chrisgoringe",
+            "title": "Variation seeds",
+            "reference": "https://github.com/chrisgoringe/cg-noise",
+            "files": [
+                "https://github.com/chrisgoringe/cg-noise"
+            ],
+            "install_type": "git-clone",
+            "description": "Adds KSampler custom nodes with variation seed and variation strength."
+        },
+        {
+            "author": "spinagon",
+            "title": "Seamless tiling Node for ComfyUI",
+            "reference": "https://github.com/spinagon/ComfyUI-seamless-tiling",
+            "files": [
+                "https://github.com/spinagon/ComfyUI-seamless-tiling"
+            ],
+            "install_type": "git-clone",
+            "description": "Node for generating almost seamless textures, based on similar setting from A1111."
+        },
+        {
+            "author": "ramyma",
+            "title": "A8R8 ComfyUI Nodes",
+            "reference": "https://github.com/ramyma/A8R8_ComfyUI_nodes",
+            "files": [
+                "https://github.com/ramyma/A8R8_ComfyUI_nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Base64Image Input Node, Base64Image Output Node. <a href='https://github.com/ramyma/a8r8' target='blank'>A8R8</a> supporting nodes to integrate with ComfyUI"
+        },
+        {
+            "author": "Zuellni",
+            "title": "ComfyUI-ExLlama",
+            "reference": "https://github.com/Zuellni/ComfyUI-ExLlama",
+            "files": [
+                "https://github.com/Zuellni/ComfyUI-ExLlama"
+            ],
+            "pip": ["sentencepiece", "https://github.com/jllllll/exllama/releases/download/0.0.17/exllama-0.0.17+cu118-cp310-cp310-win_amd64.whl"],
+            "install_type": "git-clone",
+            "description": "Nodes: ExLlama Loader, ExLlama Generator. <BR>Used to load 4-bit GPTQ Llama/2 models. You can find a lot of them over at <a href='https://huggingface.co/TheBloke'>https://huggingface.co/TheBloke</a><p style='background-color: black; color: red;'>NOTE: You need to manually install a pip package that suits your system. For example. If your system is 'Python3.10 + Windows + CUDA 11.8' then you need to install 'exllama-0.0.17+cu118-cp310-cp310-win_amd64.whl'. Available package files are <a href='https://github.com/jllllll/exllama/releases'>here</a>."
+        },
+        {
+            "author": "budihartono",
+            "title": "Otonx's Custom Nodes",
+            "reference": "https://github.com/budihartono/comfyui_otonx_nodes",
+            "files": [
+                "https://github.com/budihartono/comfyui_otonx_nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: OTX Multiple Values, OTX KSampler Feeder. This extension provides custom nodes for ComfyUI created for personal projects. Made available for reference. Nodes may be updated or changed intermittently or not at all. Review & test before use."
+        },
+        {
+            "author": "bvhari",
+            "title": "ComfyUI_PerpWeight",
+            "reference": "https://github.com/bvhari/ComfyUI_PerpWeight",
+            "files": [
+                "https://github.com/bvhari/ComfyUI_PerpWeight"
+            ],
+            "install_type": "git-clone",
+            "description": "A novel weighting scheme for token vectors from CLIP. Allows a wider range of values for the weight. Inspired by Perp-Neg."
+        },
+        {
+            "author": "WASasquatch",
+            "title": "Power Noise Suite for ComfyUI",
+            "reference": "https://github.com/WASasquatch/PowerNoiseSuite",
+            "files": [
+                "https://github.com/WASasquatch/PowerNoiseSuite"
+            ],
+            "install_type": "git-clone",
+            "description": "Power Noise Suite contains nodes centered around latent noise input, and diffusion, as well as latent adjustments."
+        },
+        {
+            "author": "aimingfail",
+            "title": "Image2Halftone Node for ComfyUI",
+            "reference": "https://civitai.com/models/143293/image2halftone-node-for-comfyui",
+            "files": [
+                "https://civitai.com/api/download/models/158997"
+            ],
+            "install_type": "unzip",
+            "description": "This is a node to convert an image into a CMYK Halftone dot image."
+        },
+        {
+            "author": "M1kep",
+            "title": "KepPromptLang",
+            "reference": "https://github.com/M1kep/KepPromptLang",
+            "files": [
+                "https://github.com/M1kep/KepPromptLang"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Build Gif, Special CLIP Loader. It offers various manipulation capabilities for the internal operations of the prompt."
+        },
+        {
+            "author": "jmkl",
+            "title": "ComfyUI Ricing",
+            "reference": "https://github.com/jmkl/ComfyUI-ricing",
+            "files": [
+                "https://github.com/jmkl/ComfyUI-ricing"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI custom user.css and some script stuff. mainly for web interface."
+        },
+        {
+            "author": "M1kep",
+            "title": "Comfy_KepListStuff",
+            "reference": "https://github.com/M1kep/Comfy_KepListStuff",
+            "files": [
+                "https://github.com/M1kep/Comfy_KepListStuff"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Range(Step), Range(Num Steps), List Length, Image Overlay, Stack Images, Empty Images, Join Image Lists, Join Float Lists. This extension provides various list manipulation nodes"
+        },
+        {
             "author": "Clybius",
             "title": "ComfyUI-Latent-Modifiers",
             "reference": "https://github.com/Clybius/ComfyUI-Latent-Modifiers",
@@ -43,7 +154,7 @@
         },
         {
             "author": "bvhari",
-            "title": "(WIP) ComfyUI_PerpNeg",
+            "title": "ComfyUI_PerpNeg [WIP]",
             "reference": "https://github.com/bvhari/ComfyUI_PerpNeg",
             "files": [
                 "https://github.com/bvhari/ComfyUI_PerpNeg"
@@ -73,7 +184,7 @@
         },
         {
             "author": "city96",
-            "title": "(WIP) ComfyUI_DiT",
+            "title": "ComfyUI_DiT [WIP]",
             "reference": "https://github.com/city96/ComfyUI_DiT",
             "files": [
                 "https://github.com/city96/ComfyUI_DiT"
@@ -669,7 +780,7 @@
                 "https://github.com/tkoenig89/ComfyUI_Load_Image_With_Metadata"
             ],
             "install_type": "git-clone",
-            "description": "A custom node for comfy ui to read generation data from images (only png for now). This could be used for upscaling generated images, when the original prompts should be used."
+            "description": "A custom node for comfy ui to read generation data from images (prompt, seed, size...). This could be used when upscaling generated images to use the original prompt and seed."
         },
         {
             "author": "mpiquero7164",
