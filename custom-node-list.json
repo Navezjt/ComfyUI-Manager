@@ -226,6 +226,16 @@
             "description": "Power Noise Suite contains nodes centered around latent noise input, and diffusion, as well as latent adjustments."
         },
         {
+            "author": "WASasquatch",
+            "title": "FreeU_Advanced",
+            "reference": "https://github.com/WASasquatch/FreeU_Advanced",
+            "files": [
+                "https://github.com/WASasquatch/FreeU_Advanced"
+            ],
+            "install_type": "git-clone",
+            "description": "This custom node provides advanced settings for FreeU."
+        },
+        {
             "author": "omar92",
             "title": "Quality of life Suit:V2",
             "reference": "https://github.com/omar92/ComfyUI-QualityOfLifeSuit_Omar92",
@@ -1055,6 +1065,16 @@
             "description": "A forked repository that actively maintains <a href='https://github.com/ArtVentureX/comfyui-animatediff' target='blank'>AnimateDiff</a>, created by ArtVentureX.<BR><BR>Improved AnimateDiff integration for ComfyUI, adapts from sd-webui-animatediff.<br><p style='background-color: black; color: red;'>Download one or more motion models from <a href='https://huggingface.co/guoyww/animatediff/tree/main' target='blank'>Original Models</a> | <a href='https://huggingface.co/manshoety/AD_Stabilized_Motion/tree/main' target='blank'>Finetuned Models</a>. See README for additional model links and usage. Put the model weights under <font color='white'>ComfyUI/custom_nodes/ComfyUI-AnimateDiff-Evolved/models</font>. You are free to rename the models, but keeping original names will ease use when sharing your workflow.</p>"
         },
         {
+            "author": "Kosinkadink",
+            "title": "ComfyUI-VideoHelperSuite",
+            "reference": "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite",
+            "files": [
+                "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: VHS_VideoCombine. Nodes related to video workflows"
+        },
+        {
             "author": "Gourieff",
             "title": "ReActor Node 0.1.0 for ComfyUI",
             "reference": "https://github.com/Gourieff/comfyui-reactor-node",
@@ -1173,6 +1193,26 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes: Build Gif, Special CLIP Loader. It offers various manipulation capabilities for the internal operations of the prompt."
+        },
+        {
+            "author": "M1kep",
+            "title": "Comfy_KepMatteAnything",
+            "reference": "https://github.com/M1kep/Comfy_KepMatteAnything",
+            "files": [
+                "https://github.com/M1kep/Comfy_KepMatteAnything"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: MatteAnything_SAMLoader, MatteAnything_InitSamPredictor, MatteAnything_LoadDINO, MatteAnything_DinoBoxes, MatteAnything_SAMMaskFromBoxes, MatteAnything_ToTrimap, MatteAnything_LoadVITMatteModel, MatteAnything_GenerateVITMatte. This nodes provides several detection nodes."
+        },
+        {
+            "author": "M1kep",
+            "title": "Comfy_KepKitchenSink",
+            "reference": "https://github.com/M1kep/Comfy_KepKitchenSink",
+            "files": [
+                "https://github.com/M1kep/Comfy_KepKitchenSink"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: KepRotateImage"
         },
         {
             "author": "uarefans",
@@ -1386,7 +1426,7 @@
         },
         {
             "author": "laksjdjf",
-            "title": "attention-couple-ComfyUI",
+            "title": "cd-tuner_negpip-ComfyUI",
             "reference": "https://github.com/laksjdjf/cd-tuner_negpip-ComfyUI",
             "files": [
                 "https://github.com/laksjdjf/cd-tuner_negpip-ComfyUI"
@@ -1615,16 +1655,6 @@
             "description": "Nodes: Latent Mirror. Node to mirror a latent along the Y (vertical / left to right) or X (horizontal / top to bottom) axis."
         },
         {
-            "author": "Vrahn",
-            "title": "ComfyUI-MasaCtrl-Node",
-            "reference": "https://github.com/Vrahn/ComfyUI-MasaCtrl-Node",
-            "files": [
-                "https://github.com/Vrahn/ComfyUI-MasaCtrl-Node"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: MasaCtrl."
-        },
-        {
             "author": "Tropfchen",
             "title": "Embedding Picker",
             "reference": "https://github.com/Tropfchen/ComfyUI-Embedding_Picker",
@@ -1793,14 +1823,14 @@
             "description": "Adds KSampler custom nodes with variation seed and variation strength."
         },
         {
-            "author": "Endless Sea of Stars",
+            "author": "BiffMunky",
             "title": "Endless Nodes",
             "reference": "https://github.com/tusharbhutt/Endless-Nodes",
             "files": [
                 "https://github.com/tusharbhutt/Endless-Nodes"
             ],
             "install_type": "git-clone",
-            "description": "A small set of nodes I created for various numerical and text inputs."
+            "description": "A small set of nodes I created for various numerical and text inputs.  Features switches for text and numbers, parameter collection nodes, and two aesthetic scoring models."
         },
         {
             "author": "spacepxl",
@@ -1851,6 +1881,66 @@
             ],
             "install_type": "git-clone",
             "description": "Essential nodes that are weirdly missing from ComfyUI core. With few exceptions they are new features and not commodities. I hope this will be just a temporary repository until the nodes get included into ComfyUI."
+        },
+        {
+            "author": "Clybius",
+            "title": "ComfyUI-Latent-Modifiers",
+            "reference": "https://github.com/Clybius/ComfyUI-Latent-Modifiers",
+            "files": [
+                "https://github.com/Clybius/ComfyUI-Latent-Modifiers"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Latent Diffusion Mega Modifier. ComfyUI nodes which modify the latent during the diffusion process. (Sharpness, Tonemap, Rescale, Extra Noise)"
+        },
+        {
+            "author": "mcmonkeyprojects",
+            "title": "Stable Diffusion Dynamic Thresholding (CFG Scale Fix)",
+            "reference": "https://github.com/mcmonkeyprojects/sd-dynamic-thresholding",
+            "files": [
+                "https://github.com/mcmonkeyprojects/sd-dynamic-thresholding"
+            ],
+            "install_type": "git-clone",
+            "description": "Extension for StableSwarmUI, ComfyUI, and AUTOMATIC1111 Stable Diffusion WebUI that enables a way to use higher CFG Scales without color issues. This works by clamping latents between steps."
+        },
+        {
+            "author": "Tropfchen",
+            "title": "YARS: Yet Another Resolution Selector",
+            "reference": "https://github.com/Tropfchen/ComfyUI-yaResolutionSelector",
+            "files": [
+                "https://github.com/Tropfchen/ComfyUI-yaResolutionSelector"
+            ],
+            "install_type": "git-clone",
+            "description": "A slightly different Resolution Selector node, allowing to freely change base resolution and aspect ratio, with options to maintain the pixel count or use the base resolution as the highest or lowest dimension."
+        },
+        {
+            "author": "chrisgoringe",
+            "title": "Variation seeds",
+            "reference": "https://github.com/chrisgoringe/cg-noise",
+            "files": [
+                "https://github.com/chrisgoringe/cg-noise"
+            ],
+            "install_type": "git-clone",
+            "description": "Adds KSampler custom nodes with variation seed and variation strength."
+        },
+        {
+            "author": "chrisgoringe",
+            "title": "Image chooser",
+            "reference": "https://github.com/chrisgoringe/cg-image-picker",
+            "files": [
+                "https://github.com/chrisgoringe/cg-image-picker"
+            ],
+            "install_type": "git-clone",
+            "description": "A custom node that pauses the flow while you choose which image (or latent) to pass on to the rest of the workflow."
+        },
+        {
+            "author": "TGu-97",
+            "title": "TGu Utilities",
+            "reference": "https://github.com/TGu-97/ComfyUI-TGu-utils",
+            "files": [
+                "https://github.com/TGu-97/ComfyUI-TGu-utils"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: MPN Switch, MPN Reroute, PN Switch. This is a set of custom nodes for ComfyUI. Mainly focus on control switches."
         },
         {
             "author": "taabata",
@@ -2059,16 +2149,6 @@
             ],
             "install_type": "copy",
             "description": "Nodes:LatentGarbageCollector. This ComfyUI custom node flushes the GPU cache and empty cuda interprocess memory. It's helpfull for low memory environment such as the free Google Colab, especially when the workflow VAE decode latents of the size above 1500x1500."
-        },
-        {
-            "author": "Clybius",
-            "title": "ComfyUI-Latent-Modifiers",
-            "reference": "https://github.com/Clybius/ComfyUI-Latent-Modifiers",
-            "files": [
-                "https://github.com/Clybius/ComfyUI-Latent-Modifiers"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: Latent Diffusion Mega Modifier. ComfyUI nodes which modify the latent during the diffusion process. (Sharpness, Tonemap, Rescale, Extra Noise)"
         },
         {
             "author": "theally",

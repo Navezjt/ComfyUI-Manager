@@ -323,6 +323,7 @@
             "IFUnet VFI",
             "KSampler Gradually Adding More Denoise (efficient)",
             "M2M VFI",
+            "Make Interpolation State List",
             "RIFE VFI",
             "Sepconv VFI"
         ],
@@ -543,6 +544,8 @@
         [
             "ADE_AnimateDiffCombine",
             "ADE_AnimateDiffLoaderV1Advanced",
+            "ADE_AnimateDiffLoaderWithContext",
+            "ADE_AnimateDiffUniformContextOptions",
             "ADE_AnimateDiffUnload",
             "ADE_EmptyLatentImageLarge",
             "AnimateDiffLoaderV1",
@@ -550,6 +553,14 @@
         ],
         {
             "title_aux": "AnimateDiff (Kosinkadink version)"
+        }
+    ],
+    "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite": [
+        [
+            "VHS_VideoCombine"
+        ],
+        {
+            "title_aux": "ComfyUI-VideoHelperSuite"
         }
     ],
     "https://github.com/LEv145/images-grid-comfy-plugin": [
@@ -626,6 +637,14 @@
             "title_aux": "ComfyLiterals"
         }
     ],
+    "https://github.com/M1kep/Comfy_KepKitchenSink": [
+        [
+            "KepRotateImage"
+        ],
+        {
+            "title_aux": "Comfy_KepKitchenSink"
+        }
+    ],
     "https://github.com/M1kep/Comfy_KepListStuff": [
         [
             "Empty Images",
@@ -641,6 +660,21 @@
         ],
         {
             "title_aux": "Comfy_KepListStuff"
+        }
+    ],
+    "https://github.com/M1kep/Comfy_KepMatteAnything": [
+        [
+            "MatteAnything_DinoBoxes",
+            "MatteAnything_GenerateVITMatte",
+            "MatteAnything_InitSamPredictor",
+            "MatteAnything_LoadDINO",
+            "MatteAnything_LoadVITMatteModel",
+            "MatteAnything_SAMLoader",
+            "MatteAnything_SAMMaskFromBoxes",
+            "MatteAnything_ToTrimap"
+        ],
+        {
+            "title_aux": "Comfy_KepMatteAnything"
         }
     ],
     "https://github.com/M1kep/KepPromptLang": [
@@ -832,11 +866,13 @@
             "CR Keyframe List",
             "CR LoRA List",
             "CR Load Animation Frames",
+            "CR Load Flow Frames",
             "CR Load Schedule From File",
             "CR Load Scheduled ControlNets",
             "CR Load Scheduled LoRAs",
             "CR Load Scheduled Models",
             "CR Model List",
+            "CR Output Flow Frames",
             "CR Output Schedule To File",
             "CR Prompt List",
             "CR Prompt List Keyframes",
@@ -864,6 +900,7 @@
             "CR Apply ControlNet",
             "CR Apply LoRA Stack",
             "CR Apply Model Merge",
+            "CR Apply Multi Upscale",
             "CR Apply Multi-ControlNet",
             "CR Aspect Ratio",
             "CR Aspect Ratio SDXL",
@@ -895,6 +932,7 @@
             "CR Module Input",
             "CR Module Output",
             "CR Module Pipe Loader",
+            "CR Multi Upscale Stack",
             "CR Multi-ControlNet Stack",
             "CR Pipe Switch",
             "CR Process Switch",
@@ -908,7 +946,8 @@
             "CR Seed to Int",
             "CR Switch Model and CLIP",
             "CR Text Input Switch",
-            "CR Text Input Switch (4 way)"
+            "CR Text Input Switch (4 way)",
+            "CR Upscale Image"
         ],
         {
             "title_aux": "ComfyUI_Comfyroll_CustomNodes"
@@ -1053,10 +1092,22 @@
             "title_aux": "ComfyWarp"
         }
     ],
+    "https://github.com/TGu-97/ComfyUI-TGu-utils": [
+        [
+            "MPNReroute",
+            "MPNSwitch",
+            "PNSwitch"
+        ],
+        {
+            "title_aux": "TGu Utilities"
+        }
+    ],
     "https://github.com/TRI3D-LC/tri3d-comfyui-nodes": [
         [
+            "tri3d-atr-parse",
             "tri3d-extract-hand",
-            "tri3d-fuzzification"
+            "tri3d-fuzzification",
+            "tri3d-position-hands"
         ],
         {
             "title_aux": "tri3d-comfyui-nodes"
@@ -1087,9 +1138,12 @@
             "ttN imageOutput",
             "ttN imageREMBG",
             "ttN int",
+            "ttN modelMerge",
+            "ttN multiModelMerge",
             "ttN pipe2BASIC",
             "ttN pipe2DETAILER",
             "ttN pipeEDIT",
+            "ttN pipeEncodeConcat",
             "ttN pipeIN",
             "ttN pipeKSampler",
             "ttN pipeKSamplerAdvanced",
@@ -1117,6 +1171,15 @@
             "title_aux": "Embedding Picker"
         }
     ],
+    "https://github.com/Tropfchen/ComfyUI-yaResolutionSelector": [
+        [
+            "YARS",
+            "YARSAdv"
+        ],
+        {
+            "title_aux": "YARS: Yet Another Resolution Selector"
+        }
+    ],
     "https://github.com/Ttl/ComfyUi_NNLatentUpscale": [
         [
             "NNLatentUpscale"
@@ -1125,20 +1188,20 @@
             "title_aux": "ComfyUI Neural network latent upscale custom node"
         }
     ],
-    "https://github.com/Vrahn/ComfyUI-MasaCtrl-Node": [
-        [
-            "MasaCtrl"
-        ],
-        {
-            "title_aux": "ComfyUI-MasaCtrl-Node"
-        }
-    ],
     "https://github.com/WASasquatch/ComfyUI_Preset_Merger": [
         [
             "Preset_Model_Merge"
         ],
         {
             "title_aux": "ComfyUI Preset Merger"
+        }
+    ],
+    "https://github.com/WASasquatch/FreeU_Advanced": [
+        [
+            "FreeU (Advanced)"
+        ],
+        {
+            "title_aux": "FreeU_Advanced"
         }
     ],
     "https://github.com/WASasquatch/PPF_Noise_ComfyUI": [
@@ -1407,7 +1470,7 @@
         [
             "ZuellniExLlamaGenerator",
             "ZuellniExLlamaLoader",
-            "ZuellniExLlamaLoraLoader",
+            "ZuellniExLlamaLora",
             "ZuellniExLlamaPreviewer"
         ],
         {
@@ -1772,6 +1835,16 @@
             "title_aux": "sc-node-comfyui"
         }
     ],
+    "https://github.com/chrisgoringe/cg-image-picker": [
+        [
+            "Image Chooser",
+            "Latent Chooser",
+            "Preview for Image Chooser"
+        ],
+        {
+            "title_aux": "Image chooser"
+        }
+    ],
     "https://github.com/chrisgoringe/cg-noise": [
         [
             "Hijack",
@@ -1896,6 +1969,7 @@
             "ConsoleDebug+",
             "GetImageSize+",
             "GrowShrinkMask+",
+            "ImageCASharpening+",
             "ImageCrop+",
             "ImageDesaturate+",
             "ImageFlip+",
@@ -2216,7 +2290,7 @@
             "Negpip"
         ],
         {
-            "title_aux": "attention-couple-ComfyUI"
+            "title_aux": "cd-tuner_negpip-ComfyUI"
         }
     ],
     "https://github.com/laksjdjf/pfg-ComfyUI": [
@@ -2356,6 +2430,7 @@
             "ReencodeLatentPipe",
             "RegionalPrompt",
             "RegionalSampler",
+            "RegionalSamplerAdvanced",
             "RemoveNoiseMask",
             "SAMDetectorCombined",
             "SAMDetectorSegmented",
@@ -2403,6 +2478,7 @@
             "GlobalSeed //Inspire",
             "HEDPreprocessor_Provider_for_SEGS //Inspire",
             "KSampler //Inspire",
+            "KSamplerAdvanced //Inspire",
             "LeRes_DepthMap_Preprocessor_Provider_for_SEGS //Inspire",
             "LoadPromptsFromDir //Inspire",
             "LoadPromptsFromFile //Inspire",
@@ -2462,6 +2538,15 @@
         ],
         {
             "title_aux": "Facerestore CF (Code Former)"
+        }
+    ],
+    "https://github.com/mcmonkeyprojects/sd-dynamic-thresholding": [
+        [
+            "DynamicThresholdingFull",
+            "DynamicThresholdingSimple"
+        ],
+        {
+            "title_aux": "Stable Diffusion Dynamic Thresholding (CFG Scale Fix)"
         }
     ],
     "https://github.com/meap158/ComfyUI-GPU-temperature-protection": [
@@ -2703,7 +2788,10 @@
     ],
     "https://github.com/receyuki/comfyui-prompt-reader-node": [
         [
-            "SDPromptReader"
+            "SDParameterGenerator",
+            "SDPromptMerger",
+            "SDPromptReader",
+            "SDPromptSaver"
         ],
         {
             "author": "receyuki",
@@ -3045,9 +3133,16 @@
     ],
     "https://github.com/tusharbhutt/Endless-Nodes": [
         [
+            "Endless Nodes Aesthetic Scoring",
             "Endless Nodes Combo Parameterizer",
             "Endless Nodes Combo Parameterizer & Prompts",
+            "Endless Nodes Display Float",
+            "Endless Nodes Display Integer",
+            "Endless Nodes Display Number",
+            "Endless Nodes Display String",
             "Endless Nodes Eight Input Text Switch",
+            "Endless Nodes Image Reward",
+            "Endless Nodes Image Save with Text File",
             "Endless Nodes Parameterizer",
             "Endless Nodes Parameterizer & Prompts",
             "Endless Nodes Six Input Text Switch",
@@ -3055,10 +3150,10 @@
             "Endless Nodes Six Integer IO Widget"
         ],
         {
-            "author": "Endless Sea of Stars",
-            "description": "A small set of nodes I created for various numerical and text inputs.",
-            "nickname": "Endless Nodes",
-            "title": "Endless Nodes",
+            "author": "BiffMunky",
+            "description": "A small set of nodes I created for various numerical and text inputs.  Features switches for text and numbers, parameter collection nodes, and two aesthetic scoring modwls.",
+            "nickname": "\ud83c\udf0c Endless Nodes \ud83c\udf0c",
+            "title": "\ud83c\udf0c An Endless Sea of Stars Nodes \ud83c\udf0c",
             "title_aux": "Endless Nodes"
         }
     ],
