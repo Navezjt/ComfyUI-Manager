@@ -1,6 +1,46 @@
 {
     "custom_nodes": [
         {
+            "author": "mlinmg",
+            "title": "LaMa Preprocessor [WIP]",
+            "reference": "https://github.com/mlinmg/ComfyUI-LaMA-Preprocessor",
+            "files": [
+                "https://github.com/mlinmg/ComfyUI-LaMA-Preprocessor"
+            ],
+            "install_type": "git-clone",
+            "description": "A LaMa prerocessor for ComfyUI. This preprocessor finally enable users to generate coherent inpaint and outpaint prompt-free. The best results are given on landscapes, not so much in drawings/animation."
+        },
+        {
+            "author": "alpertunga-bile",
+            "title": "prompt-generator",
+            "reference": "https://github.com/alpertunga-bile/prompt-generator-comfyui",
+            "files": [
+                "https://github.com/alpertunga-bile/prompt-generator-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Custom AI prompt generator node for ComfyUI."
+        },
+        {
+            "author": "alkemann",
+            "title": "alkemann nodes",
+            "reference": "https://gist.github.com/alkemann/7361b8eb966f29c8238fd323409efb68",
+            "files": [
+                "https://gist.github.com/alkemann/7361b8eb966f29c8238fd323409efb68/raw/f9605be0b38d38d3e3a2988f89248ff557010076/alkemann.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:Int to Text, Seed With Text, Save A1 Image."
+        },
+        {
+            "author": "seanlynch",
+            "title": "SRL's nodes",
+            "reference": "https://github.com/seanlynch/srl-nodes",
+            "files": [
+                "https://github.com/seanlynch/srl-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Conditional Interrrupt."
+        },
+        {
             "author": "M1kep",
             "title": "Comfy_KepMatteAnything",
             "reference": "https://github.com/M1kep/Comfy_KepMatteAnything",
@@ -8,7 +48,7 @@
                 "https://github.com/M1kep/Comfy_KepMatteAnything"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: MatteAnything_SAMLoader, MatteAnything_InitSamPredictor, MatteAnything_LoadDINO, MatteAnything_DinoBoxes, MatteAnything_SAMMaskFromBoxes, MatteAnything_ToTrimap, MatteAnything_LoadVITMatteModel, MatteAnything_GenerateVITMatte. This nodes provides several detection nodes."
+            "description": "This extension provides a custom node that allows the use of <a href='https://github.com/hustvl/Matte-Anything' target='blank'>Matte Anything</a> in ComfyUI."
         },
         {
             "author": "TGu-97",
@@ -138,7 +178,7 @@
                 "https://github.com/receyuki/comfyui-prompt-reader-node"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: SDPromptReader"
+            "description": "ComfyUI node version of the SD Prompt Reader."
         },
         {
             "author": "spacepxl",

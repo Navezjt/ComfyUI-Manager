@@ -1,4 +1,14 @@
 {
+    "https://gist.github.com/alkemann/7361b8eb966f29c8238fd323409efb68/raw/f9605be0b38d38d3e3a2988f89248ff557010076/alkemann.py": [
+        [
+            "Int to Text",
+            "Save A1 Image",
+            "Seed With Text"
+        ],
+        {
+            "title_aux": "alkemann nodes"
+        }
+    ],
     "https://github.com/AIrjen/OneButtonPrompt": [
         [
             "CreatePromptVariant",
@@ -42,6 +52,7 @@
     "https://github.com/ArtVentureX/comfyui-animatediff": [
         [
             "AnimateDiffCombine",
+            "AnimateDiffLoraLoader",
             "AnimateDiffModuleLoader",
             "AnimateDiffSampler",
             "AnimateDiffSlidingWindowOptions",
@@ -405,6 +416,8 @@
         [
             "AbsCosWave",
             "AbsSinWave",
+            "BatchPromptSchedule",
+            "BatchValueSchedule",
             "CosWave",
             "InvCosWave",
             "InvSinWave",
@@ -543,6 +556,7 @@
     "https://github.com/Kosinkadink/ComfyUI-AnimateDiff-Evolved": [
         [
             "ADE_AnimateDiffCombine",
+            "ADE_AnimateDiffLoRALoader",
             "ADE_AnimateDiffLoaderV1Advanced",
             "ADE_AnimateDiffLoaderWithContext",
             "ADE_AnimateDiffUniformContextOptions",
@@ -557,6 +571,7 @@
     ],
     "https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite": [
         [
+            "VHS_LoadVideo",
             "VHS_VideoCombine"
         ],
         {
@@ -694,6 +709,8 @@
             "Mask Ops"
         ],
         {
+            "author": "ManglerFTW",
+            "title": "ComfyI2I",
             "title_aux": "ComfyI2I"
         }
     ],
@@ -814,7 +831,10 @@
             "GPT Loader Simple",
             "GPTSampler",
             "Integer Variable",
-            "String Variable"
+            "LoadFramesFromFolder",
+            "String Variable",
+            "VideoLoader",
+            "VideoSaver"
         ],
         {
             "title_aux": "ComfyUI-N-Nodes"
@@ -1470,7 +1490,6 @@
         [
             "ZuellniExLlamaGenerator",
             "ZuellniExLlamaLoader",
-            "ZuellniExLlamaLora",
             "ZuellniExLlamaPreviewer"
         ],
         {
@@ -1488,6 +1507,14 @@
         ],
         {
             "title_aux": "DynamicPrompts Custom Nodes"
+        }
+    ],
+    "https://github.com/alpertunga-bile/prompt-generator-comfyui": [
+        [
+            "Prompt Generator"
+        ],
+        {
+            "title_aux": "prompt-generator"
         }
     ],
     "https://github.com/alsritter/asymmetric-tiling-comfyui": [
@@ -1949,7 +1976,8 @@
     "https://github.com/cubiq/ComfyUI_IPAdapter_plus": [
         [
             "IPAdapterApply",
-            "IPAdapterModelLoader"
+            "IPAdapterModelLoader",
+            "PrepImageForClipVision"
         ],
         {
             "title_aux": "ComfyUI_IPAdapter_plus"
@@ -1968,7 +1996,6 @@
         [
             "ConsoleDebug+",
             "GetImageSize+",
-            "GrowShrinkMask+",
             "ImageCASharpening+",
             "ImageCrop+",
             "ImageDesaturate+",
@@ -2360,6 +2387,7 @@
             "FromDetailerPipe",
             "FromDetailerPipeSDXL",
             "FromDetailerPipe_v2",
+            "ImageListToImageBatch",
             "ImageMaskSwitch",
             "ImageReceiver",
             "ImageSender",
@@ -2382,6 +2410,7 @@
             "ImpactKSamplerAdvancedBasicPipe",
             "ImpactKSamplerBasicPipe",
             "ImpactLogger",
+            "ImpactMakeImageBatch",
             "ImpactMakeImageList",
             "ImpactMinMax",
             "ImpactNeg",
@@ -2472,7 +2501,9 @@
     ],
     "https://github.com/ltdrdata/ComfyUI-Inspire-Pack": [
         [
+            "AnimeLineArt_Preprocessor_Provider_for_SEGS //Inspire",
             "Canny_Preprocessor_Provider_for_SEGS //Inspire",
+            "Color_Preprocessor_Provider_for_SEGS //Inspire",
             "DWPreprocessor_Provider_for_SEGS //Inspire",
             "FakeScribblePreprocessor_Provider_for_SEGS //Inspire",
             "GlobalSeed //Inspire",
@@ -2480,10 +2511,13 @@
             "KSampler //Inspire",
             "KSamplerAdvanced //Inspire",
             "LeRes_DepthMap_Preprocessor_Provider_for_SEGS //Inspire",
+            "LineArt_Preprocessor_Provider_for_SEGS //Inspire",
+            "LoadImagesFromDir //Inspire",
             "LoadPromptsFromDir //Inspire",
             "LoadPromptsFromFile //Inspire",
             "LoraBlockInfo //Inspire",
             "LoraLoaderBlockWeight //Inspire",
+            "Manga2Anime_LineArt_Preprocessor_Provider_for_SEGS //Inspire",
             "MediaPipeFaceMeshDetectorProvider //Inspire",
             "MediaPipe_FaceMesh_Preprocessor_Provider_for_SEGS //Inspire",
             "MiDaS_DepthMap_Preprocessor_Provider_for_SEGS //Inspire",
@@ -2622,6 +2656,15 @@
         ],
         {
             "title_aux": "mihaiiancu/Inpaint"
+        }
+    ],
+    "https://github.com/mlinmg/ComfyUI-LaMA-Preprocessor": [
+        [
+            "LaMaPreprocessor",
+            "lamaPreprocessor"
+        ],
+        {
+            "title_aux": "LaMa Preprocessor [WIP]"
         }
     ],
     "https://github.com/mpiquero7164/ComfyUI-SaveImgPrompt": [
@@ -2791,11 +2834,12 @@
             "SDParameterGenerator",
             "SDPromptMerger",
             "SDPromptReader",
-            "SDPromptSaver"
+            "SDPromptSaver",
+            "SDTypeConverter"
         ],
         {
             "author": "receyuki",
-            "description": "ComfyUI node version of SD Prompt Reader",
+            "description": "ComfyUI node version of the SD Prompt Reader",
             "nickname": "SD Prompt Reader",
             "title": "SD Prompt Reader",
             "title_aux": "comfyui-prompt-reader-node"
@@ -2838,6 +2882,14 @@
         ],
         {
             "title_aux": "ComfyUI Optical Flow"
+        }
+    ],
+    "https://github.com/seanlynch/srl-nodes": [
+        [
+            "Conditional Interrrupt"
+        ],
+        {
+            "title_aux": "SRL's nodes"
         }
     ],
     "https://github.com/shiimizu/ComfyUI_smZNodes": [
@@ -2895,10 +2947,20 @@
             "DependenciesEdit",
             "Fooocus_KSampler",
             "Fooocus_KSamplerAdvanced",
+            "GetBoolFromJson",
+            "GetFloatFromJson",
+            "GetIntFromJson",
+            "GetObjectFromJson",
+            "GetTextFromJson",
             "ImageMuxer",
             "ImageScaleDown",
             "ImageScaleDownBy",
+            "LoadImageAsMaskFromUrl",
             "LoadImageFromUrl",
+            "LoadJsonFromUrl",
+            "NumberScaler",
+            "RandomFloat",
+            "RandomInt",
             "SDXLAspectRatioSelector",
             "SDXLPromptStyler",
             "SeedSelector",
