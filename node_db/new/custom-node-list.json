@@ -1,6 +1,137 @@
 {
     "custom_nodes": [
         {
+            "author": "hhhzzyang",
+            "title": "Comfyui-Lama",
+            "reference": "https://github.com/hhhzzyang/Comfyui_Lama",
+            "files": [
+                "https://github.com/hhhzzyang/Comfyui_Lama"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: LamaaModelLoad, LamaApply, YamlConfigLoader. a costumer node is realized to remove anything/inpainting anything from a picture by mask inpainting."
+        },
+        {
+            "author": "WASasquatch",
+            "title": "WAS_Extras",
+            "reference": "https://github.com/WASasquatch/WAS_Extras",
+            "files": [
+                "https://github.com/WASasquatch/WAS_Extras"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Conditioning (Blend), Inpainting VAE Encode (WAS), VividSharpen. Experimental nodes, or other random extra helper nodes."
+        },
+        {
+            "author": "yolanother",
+            "title": "Image to Text Node",
+            "reference": "https://github.com/yolanother/DTAIImageToTextNode",
+            "files": [
+                "https://github.com/yolanother/DTAIImageToTextNode"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Image URL to Text, Image to Text."
+        },
+        {
+            "author": "yolanother",
+            "title": "Comfy UI Online Loaders",
+            "reference": "https://github.com/yolanother/DTAIComfyLoaders",
+            "files": [
+                "https://github.com/yolanother/DTAIComfyLoaders"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Submit Image (Parameters), Submit Image. A collection of loaders that use a shared common online data source rather than relying on the files to be present locally."
+        },
+        {
+            "author": "yolanother",
+            "title": "Comfy AI DoubTech.ai Image Sumission Node",
+            "reference": "https://github.com/yolanother/DTAIComfyImageSubmit",
+            "files": [
+                "https://github.com/yolanother/DTAIComfyImageSubmit"
+            ],
+            "install_type": "git-clone",
+            "description": "A ComfyAI submit node to upload images to DoubTech.ai"
+        },
+        {
+            "author": "yolanother",
+            "title": "Comfy UI QR Codes",
+            "reference": "https://github.com/yolanother/DTAIComfyQRCodes",
+            "files": [
+                "https://github.com/yolanother/DTAIComfyQRCodes"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension introduces QR code nodes for the Comfy UI stable diffusion client. NOTE: ComfyUI qrcode extension required."
+        },
+        {
+            "author": "yolanother",
+            "title": "Variables for Comfy UI",
+            "reference": "https://github.com/yolanother/DTAIComfyVariables",
+            "files": [
+                "https://github.com/yolanother/DTAIComfyVariables"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: String, Int, Float, Short String, CLIP Text Encode (With Variables), String Format, Short String Format. This extension introduces quality of life improvements by providing variable nodes and shared global variables."
+        },
+        {
+            "author": "kijai",
+            "title": "KJNodes for ComfyUI",
+            "reference": "https://github.com/kijai/ComfyUI-KJNodes",
+            "files": [
+                "https://github.com/kijai/ComfyUI-KJNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Various quality of life -nodes for ComfyUI, mostly just visual stuff to improve usability."
+        },
+        {
+            "author": "WASasquatch",
+            "title": "ASTERR",
+            "reference": "https://github.com/WASasquatch/ASTERR",
+            "files": [
+                "https://github.com/WASasquatch/ASTERR"
+            ],
+            "install_type": "git-clone",
+            "description": "Abstract Syntax Trees Evaluated Restricted Run (ASTERR) is a Python Script executor for ComfyUI. <p style='background-color: black; color: red;'>Warning:ASTERR runs Python Code from a Web Interface! It is highly recommended to run this in a closed-off environment, as it could have potential security risks.</p>"
+        },
+        {
+            "author": "Zuellni",
+            "title": "ComfyUI PickScore Nodes",
+            "reference": "https://github.com/Zuellni/ComfyUI-PickScore-Nodes",
+            "files": [
+                "https://github.com/Zuellni/ComfyUI-PickScore-Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Image scoring nodes for ComfyUI using PickScore with a batch of images to predict which ones fit a given prompt the best."
+        },
+        {
+            "author": "chrisgoringe",
+            "title": "Use Everywhere (UE Nodes)",
+            "reference": "https://github.com/chrisgoringe/cg-use-everywhere",
+            "files": [
+                "https://github.com/chrisgoringe/cg-use-everywhere"
+            ],
+            "install_type": "git-clone",
+            "nodename_pattern": "^(UE\\? |UE )",
+            "description": "A set of nodes that allow data to be 'broadcast' to some or all unconnected inputs. Greatly reduces link spaghetti."
+        },
+        {
+            "author": "azazeal04",
+            "title": "ComfyUI-Styles",
+            "reference": "https://github.com/azazeal04/ComfyUI-Styles",
+            "files": [
+                "https://github.com/azazeal04/ComfyUI-Styles"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Anime_Styler, Fantasy_Styler, Gothic_Styler, Line_Art_Styler, Movie_Poster_Styler, Punk_Styler, Travel_Poster_Styler. This extension offers 8 art style nodes, each of which includes approximately 50 individual style variations."
+        },
+        {
+            "author": "city96",
+            "title": "ComfyUI_ColorMod",
+            "reference": "https://github.com/city96/ComfyUI_ColorMod",
+            "files": [
+                "https://github.com/city96/ComfyUI_ColorMod"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension currently has two sets of nodes - one set for editing the contrast/color of images and another set for saving images as 16 bit PNG files."
+	    },
+        {
             "author": "mlinmg",
             "title": "LaMa Preprocessor [WIP]",
             "reference": "https://github.com/mlinmg/ComfyUI-LaMA-Preprocessor",
@@ -38,7 +169,7 @@
                 "https://github.com/seanlynch/srl-nodes"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: Conditional Interrrupt."
+            "description": "Nodes: SRL Conditional Interrupt, SRL Format String, SRL Eval, SRL Filter Image List. This is a collection of nodes I find useful. Note that at least one module allows execution of arbitrary code. Do not use any of these nodes on a system that allow untrusted users to control workflows or inputs.<p style='background-color: black; color: red;'>WARNING: The custom nodes in this extension are vulnerable to <B>security risks</B> because they allow the execution of arbitrary code through the workflow</>"
         },
         {
             "author": "M1kep",
@@ -192,7 +323,7 @@
         },
         {
             "author": "meap158",
-            "title": "ComfyUI-Prompt-Expansion",
+            "title": "ComfyUI Prompt Expansion",
             "reference": "https://github.com/meap158/ComfyUI-Prompt-Expansion",
             "files": [
                 "https://github.com/meap158/ComfyUI-Prompt-Expansion"
@@ -633,13 +764,13 @@
         },
         {
             "author": "Lerc",
-            "title": "canvas_tab",
+            "title": "Canvas Tab",
             "reference": "https://github.com/Lerc/canvas_tab",
             "files": [
                 "https://github.com/Lerc/canvas_tab"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: Edit In Another Tab. ComfyUI canvas editor page"
+            "description": "This extension provides a full page image editor with mask support. There are two nodes, one to receive images from the editor and one to send images to the editor."
         },
         {
             "author": "YOUR-WORST-TACO",
