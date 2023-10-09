@@ -1060,6 +1060,7 @@
             "files": [
                 "https://github.com/jamesWalker55/comfyui-various"
             ],
+            "nodename_pattern": "^JW",
             "install_type": "git-clone",
             "description": "Nodes: JWInteger, JWFloat, JWString, JWImageLoadRGB, JWImageResize, ..."
         },
@@ -1525,6 +1526,16 @@
             "description": "Nodes:Apply CDTuner, Apply Negapip. This extension provides the <a href='https://github.com/hako-mikan/sd-webui-cd-tuner' target='blank'>CD(Color/Detail) Tuner</a> and the <a href='https://github.com/hako-mikan/sd-webui-negpip' target='blank'>Negative Prompt in the Prompt</a>features."
         },
         {
+            "author": "laksjdjf",
+            "title": "LoRA-Merger-ComfyUI",
+            "reference": "https://github.com/laksjdjf/LoRA-Merger-ComfyUI",
+            "files": [
+                "https://github.com/laksjdjf/LoRA-Merger-ComfyUI"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Load LoRA Weight Only, Load LoRA from Weight, Merge LoRA, Save LoRA. This extension provides nodes for merging LoRA."
+        },
+        {
             "author": "alsritter",
             "title": "asymmetric-tiling-comfyui",
             "reference": "https://github.com/alsritter/asymmetric-tiling-comfyui",
@@ -1765,16 +1776,6 @@
             "description": "Nodes: Load Image (Base64), Load Mask (Base64), Send Image (WebSocket), Crop Image, Apply Mask to Image. Provides nodes geared towards using ComfyUI as a backend for external tools."
         },
         {
-            "author": "TRI3D-LC",
-            "title": "tri3d-comfyui-nodes",
-            "reference": "https://github.com/TRI3D-LC/tri3d-comfyui-nodes",
-            "files": [
-                "https://github.com/TRI3D-LC/tri3d-comfyui-nodes"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: tri3d-extract-hand."
-        },
-        {
             "author": "picturesonpictures",
             "title": "comfy_PoP",
             "reference": "https://github.com/picturesonpictures/comfy_PoP",
@@ -1904,13 +1905,13 @@
         },
         {
             "author": "BiffMunky",
-            "title": "Endless Nodes",
+            "title": "Endless ️🌊✨ Nodes",
             "reference": "https://github.com/tusharbhutt/Endless-Nodes",
             "files": [
                 "https://github.com/tusharbhutt/Endless-Nodes"
             ],
             "install_type": "git-clone",
-            "description": "A small set of nodes I created for various numerical and text inputs.  Features switches for text and numbers, parameter collection nodes, and two aesthetic scoring models."
+            "description": "A small set of nodes I created for various numerical and text inputs.  Features image saver with ability to have JSON saved to separate folder, parameter collection nodes, two aesthetic scoring models, switches for text and numbers, and conversion of string to numeric and vice versa."
         },
         {
             "author": "spacepxl",
@@ -2080,6 +2081,7 @@
             "files": [
                 "https://github.com/kijai/ComfyUI-KJNodes"
             ],
+            "pip": ["librosa"],
             "install_type": "git-clone",
             "description": "Various quality of life -nodes for ComfyUI, mostly just visual stuff to improve usability."
         },
@@ -2092,6 +2094,86 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes: LamaaModelLoad, LamaApply, YamlConfigLoader. a costumer node is realized to remove anything/inpainting anything from a picture by mask inpainting."
+        },
+        {
+            "author": "thedyze",
+            "title": "Save Image Extended for ComfyUI",
+            "reference": "https://github.com/thedyze/save-image-extended-comfyui",
+            "files": [
+                "https://github.com/thedyze/save-image-extended-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Customize the information saved in file- and folder names. Use the values of sampler parameters as part of file or folder names. Save your positive & negative prompt as entries in a JSON (text) file, in each folder."
+        },
+        {
+            "author": "SOELexicon",
+            "title": "ComfyUI-LexTools",
+            "reference": "https://github.com/SOELexicon/ComfyUI-LexTools",
+            "files": [
+                "https://github.com/SOELexicon/ComfyUI-LexTools"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI-LexTools is a Python-based image processing and analysis toolkit that uses machine learning models for semantic image segmentation, image scoring, and image captioning."
+        },
+        {
+            "author": "mikkel",
+            "title": "ComfyUI - Text Overlay Plugin",
+            "reference": "https://github.com/mikkel/ComfyUI-text-overlay",
+            "files": [
+                "https://github.com/mikkel/ComfyUI-text-overlay"
+            ],
+            "install_type": "git-clone",
+            "description": "The ComfyUI Text Overlay Plugin provides functionalities for superimposing text on images. Users can select different font types, set text size, choose color, and adjust the text's position on the image."
+        },
+        {
+            "author": "avatechai",
+            "title": "avatar-graph-comfyui",
+            "reference": "https://github.com/avatechai/avatar-graph-comfyui",
+            "files": [
+                "https://github.com/avatechai/avatar-graph-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "A custom nodes module for creating real-time interactive avatars powered by blender bpy mesh api + Avatech Shape Flow runtime."
+        },
+        {
+            "author": "TRI3D-LC",
+            "title": "tri3d-comfyui-nodes",
+            "reference": "https://github.com/TRI3D-LC/tri3d-comfyui-nodes",
+            "files": [
+                "https://github.com/TRI3D-LC/tri3d-comfyui-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: tri3d-extract-hand, tri3d-fuzzification, tri3d-position-hands, tri3d-atr-parse."
+        },
+        {
+            "author": "storyicon",
+            "title": "segment anything",
+            "reference": "https://github.com/storyicon/comfyui_segment_anything",
+            "files": [
+                "https://github.com/storyicon/comfyui_segment_anything"
+            ],
+            "install_type": "git-clone",
+            "description": "Based on GroundingDino and SAM, use semantic strings to segment any element in an image. The comfyui version of sd-webui-segment-anything."
+        },
+        {
+            "author": "a1lazydog",
+            "title": "ComfyUI-AudioScheduler",
+            "reference": "https://github.com/a1lazydog/ComfyUI-AudioScheduler",
+            "files": [
+                "https://github.com/a1lazydog/ComfyUI-AudioScheduler"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: LoadAudioFromPath, AudioToFFTs, BatchAmplitudeSchedule, AmplitudeSchedule."
+        },
+        {
+            "author": "whatbirdisthat",
+            "title": "cyberdolphin",
+            "reference": "https://github.com/whatbirdisthat/cyberdolphin",
+            "files": [
+                "https://github.com/whatbirdisthat/cyberdolphin"
+            ],
+            "install_type": "git-clone",
+            "description": "Cyberdolphin Suite of ComfyUI nodes for wiring up things."
         },
         {
             "author": "taabata",
@@ -2300,6 +2382,16 @@
             ],
             "install_type": "copy",
             "description": "Nodes:Int to Text, Seed With Text, Save A1 Image."
+        },
+        {
+            "author": "catscandrive",
+            "title": "Image loader with subfolders",
+            "reference": "https://github.com/catscandrive/comfyui-imagesubfolders",
+            "files": [
+                "https://github.com/catscandrive/comfyui-imagesubfolders/raw/main/loadImageWithSubfolders.py"
+            ],
+            "install_type": "copy",
+            "description": "Adds an Image Loader node that also shows images in subfolders of the default input directory"
         },
         {
             "author": "theally",
