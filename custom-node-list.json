@@ -81,6 +81,16 @@
             "description": "A collection of nodes which can be useful for animation in ComfyUI. The main focus of this extension is implementing a mechanism called loopchain. A loopchain in this case is the chain of nodes only executed repeatly in the workflow. If a node chain contains a loop node from this extension, it will become a loop chain."
         },
         {
+            "author": "Fannovel16",
+            "title": "ComfyUI MotionDiff",
+            "reference": "https://github.com/Fannovel16/ComfyUI-MotionDiff",
+            "files": [
+                "https://github.com/Fannovel16/ComfyUI-MotionDiff"
+            ],
+            "install_type": "git-clone",
+            "description": "Implementation of MDM, MotionDiffuse and ReMoDiffuse into ComfyUI."
+        },
+        {
             "author": "biegert",
             "title": "CLIPSeg",
             "reference": "https://github.com/biegert/ComfyUI-CLIPSeg",
@@ -447,6 +457,16 @@
             "install_type": "git-clone",
             "description": "This extension currently has two sets of nodes - one set for editing the contrast/color of images and another set for saving images as 16 bit PNG files."
 	    },
+        {
+            "author": "city96",
+            "title": "Extra Models for ComfyUI",
+            "reference": "https://github.com/city96/ComfyUI_ExtraModels",
+            "files": [
+                "https://github.com/city96/ComfyUI_ExtraModels"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension aims to add support for various random image diffusion models to ComfyUI."
+        },
         {
             "author": "Kaharos94",
             "title": "ComfyUI-Saveaswebp",
@@ -1725,16 +1745,6 @@
             "description": "A custom ComfyUI node designed for rapid latent upscaling using a compact neural network, eliminating the need for VAE-based decoding and encoding."
         },
         {
-            "author": "GeLi1989",
-            "title": "roop nodes for ComfyUI",
-            "reference": "https://github.com/GeLi1989/GK-beifen-ComfyUI_roop",
-            "files": [
-                "https://github.com/GeLi1989/GK-beifen-ComfyUI_roop"
-            ],
-            "install_type": "git-clone",
-            "description": "ComfyUI nodes for the roop A1111 webui script. NOTE: Need to download <a href='https://github.com/SumDeusVitae/FaceSwap_v01/raw/main/inswapper_128.onnx' target='blank'/>model</a> to use this node."
-        },
-        {
             "author": "spro",
             "title": "Latent Mirror node for ComfyUI",
             "reference": "https://github.com/spro/comfyui-mirror",
@@ -2176,13 +2186,13 @@
         },
         {
             "author": "chrish-slingshot",
-            "title": "ComfyUI-ImageGlitcher",
-            "reference": "https://github.com/chrish-slingshot/ComfyUI-ImageGlitcher",
+            "title": "CrasH Utils",
+            "reference": "https://github.com/chrish-slingshot/CrasHUtils",
             "files": [
-                "https://github.com/chrish-slingshot/ComfyUI-ImageGlitcher"
+                "https://github.com/chrish-slingshot/CrasHUtils"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: ImageGlitcher. Based on the HTML image glitcher by Felix Turner <a href='https://www.airtightinteractive.com/demos/js/imageglitcher/' target='blank'>here</a>."
+            "description": "A mixture of effects and quality of life nodes. Nodes: ImageGlitcher (gives an image a cool glitchy effect), ColorStylizer (highlights a single color in an image), QueryLocalLLM (queries a local LLM API though oobabooga), SDXLReslution (resolution picker for the standard SDXL resolutions, the complete list), SDXLResolutionSplit (splits the SDXL resolution into width and height). "
         },
         {
             "author": "spinagon",
@@ -2266,13 +2276,44 @@
         },
         {
             "author": "shadowcz007",
-            "title": "comfyui-mixlab-nodes",
+            "title": "comfyui-mixlab-nodes [WIP]",
             "reference": "https://github.com/shadowcz007/comfyui-mixlab-nodes",
             "files": [
                 "https://github.com/shadowcz007/comfyui-mixlab-nodes"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: RandomPrompt, TransparentImage, LoadImageFromPath, SplitLongMask"
+            "description": "Nodes: RandomPrompt, TransparentImage, LoadImageFromPath, SplitLongMask, ImagesCrop, RunWorkflow"
+        },
+        {
+            "author": "ostris",
+            "title": "Ostris Nodes ComfyUI",
+            "reference": "https://github.com/ostris/ostris_nodes_comfyui",
+            "files": [
+                "https://github.com/ostris/ostris_nodes_comfyui"
+            ],
+            "install_type": "git-clone",
+            "nodename_pattern": "- Ostris$",
+            "description": "This is a collection of custom nodes for ComfyUI that I made for some QOL. I will be adding much more advanced ones in the future once I get more familiar with the API."
+        },
+        {
+            "author": "0xbitches",
+            "title": "Latent Consistency Model for ComfyUI",
+            "reference": "https://github.com/0xbitches/ComfyUI-LCM",
+            "files": [
+                "https://github.com/0xbitches/ComfyUI-LCM"
+            ],
+            "install_type": "git-clone",
+            "description": "This custom node implements a Latent Consistency Model sampler in ComfyUI."
+        },
+        {
+            "author": "aszc-dev",
+            "title": "Core ML Suite for ComfyUI",
+            "reference": "https://github.com/aszc-dev/ComfyUI-CoreMLSuite",
+            "files": [
+                "https://github.com/aszc-dev/ComfyUI-CoreMLSuite"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension contains a set of custom nodes for ComfyUI that allow you to use Core ML models in your ComfyUI workflows. The models can be obtained here, or you can convert your own models using coremltools. The main motivation behind using Core ML models in ComfyUI is to allow you to utilize the ANE (Apple Neural Engine) on Apple Silicon (M1/M2) machines to improve performance."
         },
         {
             "author": "taabata",
@@ -2283,6 +2324,36 @@
             ],
             "install_type": "copy",
             "description": "Nodes:Prompt editing, Word as Image"
+        },
+        {
+            "author": "taabata",
+            "title": "LCM_Inpaint-Outpaint_Comfy",
+            "reference": "https://github.com/taabata/LCM_Inpaint-Outpaint_Comfy",
+            "files": [
+                "https://github.com/taabata/LCM_Inpaint-Outpaint_Comfy"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI custom nodes for inpainting/outpainting using the new latent consistency model (LCM)"
+        },
+        {
+            "author": "noxinias",
+            "title": "ComfyUI_NoxinNodes",
+            "reference": "https://github.com/noxinias/ComfyUI_NoxinNodes",
+            "files": [
+                "https://github.com/noxinias/ComfyUI_NoxinNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Noxin Complete Chime, Noxin Scaled Resolutions, Load from Noxin Prompt Library, Save to Noxin Prompt Library"
+        },
+        {
+            "author": "apesplat",
+            "title": "ezXY scripts and nodes",
+            "reference": "https://github.com/GMapeSplat/ComfyUI_ezXY",
+            "files": [
+                "https://github.com/GMapeSplat/ComfyUI_ezXY"
+            ],
+            "install_type": "git-clone",
+            "description": "Extensions/Patches: Enables linking float and integer inputs and ouputs. Values are automatically cast to the correct type and clamped to the correct range. Works with both builtin and custom nodes.<p style='background-color: black; color: red;'>NOTE: This repo patches ComfyUI's validate_inputs and map_node_over_list functions while running. May break depending on your version of ComfyUI. Can be deactivated in config.yaml.</p>Nodes: A collection of nodes for facilitating the generation of XY plots. Capable of plotting changes over most primitive values."
         },
         {
             "author": "Ser-Hilary",
@@ -2501,6 +2572,16 @@
             ],
             "install_type": "copy",
             "description": "Nodes: Chatbox Overlay. Custom node for ComfyUI to add a text box over a processed image before save node."
+        },
+        {
+            "author": "CaptainGrock",
+            "title": "ComfyUIInvisibleWatermark",
+            "reference": "https://github.com/CaptainGrock/ComfyUIInvisibleWatermark",
+            "files": [
+                "https://github.com/CaptainGrock/ComfyUIInvisibleWatermark/raw/main/Invisible%20Watermark.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:Apply Invisible Watermark, Extract Watermark. Adds up to 12 characters encoded into an image that can be extracted."
         },
         {
             "author": "theally",

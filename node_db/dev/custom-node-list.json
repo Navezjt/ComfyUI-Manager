@@ -1,6 +1,46 @@
 {
     "custom_nodes": [
         {
+            "author": "laksjdjf",
+            "title": "ssd-1b-comfyui",
+            "reference": "https://github.com/laksjdjf/ssd-1b-comfyui",
+            "files": [
+                "https://github.com/laksjdjf/ssd-1b-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Experimental node for SSD-1B. This node is not need for latest comfyui."
+        },
+        {
+            "author": "Feidorian",
+            "title": "feidorian-nodes",
+            "reference": "https://github.com/Feidorian/feidorian-ComfyNodes",
+            "files": [
+                "https://github.com/Feidorian/feidorian-ComfyNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Feidorian_WorkflowImageLoader"
+        },
+        {
+            "author": "flowtyone",
+            "title": "comfyui-flowty-lcm",
+            "reference": "https://github.com/flowtyone/comfyui-flowty-lcm",
+            "files": [
+                "https://github.com/flowtyone/comfyui-flowty-lcm"
+            ],
+            "install_type": "git-clone",
+            "description": "This is a comfyui early testing node for LCM, adapted from <a href='https://github.com/0xbitches/sd-webui-lcm'/>https://github.com/0xbitches/sd-webui-lcm</a>. It uses the diffusers backend unfortunately and not comfy's model loading mechanism. But the intention here is just to be able to execute lcm inside comfy.<BR>NOTE: 0xbitches's 'Latent Consistency Model for ComfyUI' is original implementation."
+        },
+        {
+            "author": "doucx",
+            "title": "ComfyUI_WcpD_Utility_Kit",
+            "reference": "https://github.com/doucx/ComfyUI_WcpD_Utility_Kit",
+            "files": [
+                "https://github.com/doucx/ComfyUI_WcpD_Utility_Kit"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: MergeStrings, ExecStrAsCode, RandnLatentImage. <p style='background-color: black; color: red;'>NOTE: This extension includes the ability to execute code as a string in nodes. Be cautious during installation, as it can pose a security risk.</p>"
+        },
+        {
             "author": "AbyssYuan0",
             "title": "ComfyUI_BadgerTools",
             "reference": "https://github.com/AbyssYuan0/ComfyUI_BadgerTools",
@@ -8,7 +48,7 @@
                 "https://github.com/AbyssYuan0/ComfyUI_BadgerTools"
             ],
             "install_type": "git-clone",
-            "description": "Nodees: ImageOverlap-badger, FloatToInt-badger, IntToString-badger, FloatToString-badger."
+            "description": "Nodes: ImageOverlap-badger, FloatToInt-badger, IntToString-badger, FloatToString-badger."
         },
         {
             "author": "WSJUSA",

@@ -1,14 +1,115 @@
 {
     "custom_nodes": [
         {
+            "author": "CaptainGrock",
+            "title": "ComfyUIInvisibleWatermark",
+            "reference": "https://github.com/CaptainGrock/ComfyUIInvisibleWatermark",
+            "files": [
+                "https://github.com/CaptainGrock/ComfyUIInvisibleWatermark/raw/main/Invisible%20Watermark.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:Apply Invisible Watermark, Extract Watermark. Adds up to 12 characters encoded into an image that can be extracted."
+        },
+        {
+            "author": "apesplat",
+            "title": "ezXY scripts and nodes",
+            "reference": "https://github.com/GMapeSplat/ComfyUI_ezXY",
+            "files": [
+                "https://github.com/GMapeSplat/ComfyUI_ezXY"
+            ],
+            "install_type": "git-clone",
+            "description": "Extensions/Patches: Enables linking float and integer inputs and ouputs. Values are automatically cast to the correct type and clamped to the correct range. Works with both builtin and custom nodes.<p style='background-color: black; color: red;'>NOTE: This repo patches ComfyUI's validate_inputs and map_node_over_list functions while running. May break depending on your version of ComfyUI. Can be deactivated in config.yaml.</p>Nodes: A collection of nodes for facilitating the generation of XY plots. Capable of plotting changes over most primitive values."
+        },
+        {
+            "author": "noxinias",
+            "title": "ComfyUI_NoxinNodes",
+            "reference": "https://github.com/noxinias/ComfyUI_NoxinNodes",
+            "files": [
+                "https://github.com/noxinias/ComfyUI_NoxinNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Noxin Complete Chime, Noxin Scaled Resolutions, Load from Noxin Prompt Library, Save to Noxin Prompt Library"
+        },
+        {
+            "author": "taabata",
+            "title": "LCM_Inpaint-Outpaint_Comfy",
+            "reference": "https://github.com/taabata/LCM_Inpaint-Outpaint_Comfy",
+            "files": [
+                "https://github.com/taabata/LCM_Inpaint-Outpaint_Comfy"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI custom nodes for inpainting/outpainting using the new latent consistency model (LCM)"
+        },
+        {
+            "author": "0xbitches",
+            "title": "Latent Consistency Model for ComfyUI",
+            "reference": "https://github.com/0xbitches/ComfyUI-LCM",
+            "files": [
+                "https://github.com/0xbitches/ComfyUI-LCM"
+            ],
+            "install_type": "git-clone",
+            "description": "This custom node implements a Latent Consistency Model sampler in ComfyUI."
+        },
+        {
+            "author": "flowtyone",
+            "title": "comfyui-flowty-lcm",
+            "reference": "https://github.com/flowtyone/comfyui-flowty-lcm",
+            "files": [
+                "https://github.com/flowtyone/comfyui-flowty-lcm"
+            ],
+            "install_type": "git-clone",
+            "description": "This is a comfyui early testing node for LCM, adapted from <a href='https://github.com/0xbitches/sd-webui-lcm'/>https://github.com/0xbitches/sd-webui-lcm</a>. It uses the diffusers backend unfortunately and not comfy's model loading mechanism. But the intention here is just to be able to execute lcm inside comfy.<BR>NOTE: 0xbitches's 'Latent Consistency Model for ComfyUI' is original implementation."
+        },
+        {
+            "author": "aszc-dev",
+            "title": "Core ML Suite for ComfyUI",
+            "reference": "https://github.com/aszc-dev/ComfyUI-CoreMLSuite",
+            "files": [
+                "https://github.com/aszc-dev/ComfyUI-CoreMLSuite"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension contains a set of custom nodes for ComfyUI that allow you to use Core ML models in your ComfyUI workflows. The models can be obtained here, or you can convert your own models using coremltools. The main motivation behind using Core ML models in ComfyUI is to allow you to utilize the ANE (Apple Neural Engine) on Apple Silicon (M1/M2) machines to improve performance."
+        },
+        {
+            "author": "Fannovel16",
+            "title": "ComfyUI MotionDiff",
+            "reference": "https://github.com/Fannovel16/ComfyUI-MotionDiff",
+            "files": [
+                "https://github.com/Fannovel16/ComfyUI-MotionDiff"
+            ],
+            "install_type": "git-clone",
+            "description": "Implementation of MDM, MotionDiffuse and ReMoDiffuse into ComfyUI."
+        },
+        {
+            "author": "ostris",
+            "title": "Ostris Nodes ComfyUI",
+            "reference": "https://github.com/ostris/ostris_nodes_comfyui",
+            "files": [
+                "https://github.com/ostris/ostris_nodes_comfyui"
+            ],
+            "install_type": "git-clone",
+            "nodename_pattern": "- Ostris$",
+            "description": "This is a collection of custom nodes for ComfyUI that I made for some QOL. I will be adding much more advanced ones in the future once I get more familiar with the API."
+        },
+        {
+            "author": "city96",
+            "title": "Extra Models for ComfyUI",
+            "reference": "https://github.com/city96/ComfyUI_ExtraModels",
+            "files": [
+                "https://github.com/city96/ComfyUI_ExtraModels"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension aims to add support for various random image diffusion models to ComfyUI."
+        },
+        {
             "author": "shadowcz007",
-            "title": "comfyui-mixlab-nodes",
+            "title": "comfyui-mixlab-nodes [WIP]",
             "reference": "https://github.com/shadowcz007/comfyui-mixlab-nodes",
             "files": [
                 "https://github.com/shadowcz007/comfyui-mixlab-nodes"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: RandomPrompt, TransparentImage, LoadImageFromPath, SplitLongMask"
+            "description": "Nodes: RandomPrompt, TransparentImage, LoadImageFromPath, SplitLongMask, ImagesCrop, RunWorkflow"
         },
         {
             "author": "chrisgoringe",
@@ -132,13 +233,13 @@
         },
         {
             "author": "chrish-slingshot",
-            "title": "ComfyUI-ImageGlitcher",
-            "reference": "https://github.com/chrish-slingshot/ComfyUI-ImageGlitcher",
+            "title": "CrasH Utils",
+            "reference": "https://github.com/chrish-slingshot/CrasHUtils",
             "files": [
-                "https://github.com/chrish-slingshot/ComfyUI-ImageGlitcher"
+                "https://github.com/chrish-slingshot/CrasHUtils"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: ImageGlitcher. Based on the HTML image glitcher by Felix Turner <a href='https://www.airtightinteractive.com/demos/js/imageglitcher/' target='blank'>here</a>."
+            "description": "A mixture of effects and quality of life nodes. Nodes: ImageGlitcher (gives an image a cool glitchy effect), ColorStylizer (highlights a single color in an image), QueryLocalLLM (queries a local LLM API though oobabooga), SDXLReslution (resolution picker for the standard SDXL resolutions, the complete list), SDXLResolutionSplit (splits the SDXL resolution into width and height). "
         },
         {
             "author": "whatbirdisthat",
@@ -883,174 +984,6 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes: ModelSamplerTonemapNoiseTest, ReferenceOnlySimple, RescaleClassifierFreeGuidanceTest, ModelMergeBlockNumber, ModelMergeSDXL, ModelMergeSDXLTransformers, ModelMergeSDXLDetailedTransformers.<p style='background-color: black; color: red;'>This is a consolidation of the previously separate custom nodes. Please delete the sampler_tonemap.py, sampler_rescalecfg.py, advanced_model_merging.py, sdxl_model_merging.py, and reference_only.py files installed in custom_nodes before.</p>"
-        },
-        {
-            "author": "ssitu",
-            "title": "ComfyUI fabric",
-            "reference": "https://github.com/ssitu/ComfyUI_fabric",
-            "files": [
-                "https://github.com/ssitu/ComfyUI_fabric"
-            ],
-            "install_type": "git-clone",
-            "description": "ComfyUI nodes based on the paper '<a href='https://arxiv.org/abs/2307.10159'/>FABRIC: Personalizing Diffusion Models with Iterative Feedback</a>' (Feedback via Attention-Based Reference Image Conditioning)"
-        },
-        {
-            "author": "picturesonpictures",
-            "title": "comfy_PoP",
-            "reference": "https://github.com/picturesonpictures/comfy_PoP",
-            "files": ["https://github.com/picturesonpictures/comfy_PoP"],
-            "install_type": "git-clone",
-            "description": "A collection of custom nodes for ComfyUI. Includes a quick canny edge detection node with unconventional settings, simple LoRA stack nodes for workflow efficiency, and a customizable aspect ratio node."
-        },
-        {
-            "author": "Acly",
-            "title": "ComfyUI Nodes for External Tooling",
-            "reference": "https://github.com/Acly/comfyui-tooling-nodes",
-            "files": [
-                "https://github.com/Acly/comfyui-tooling-nodes"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: Load Image (Base64), Load Mask (Base64), Send Image (WebSocket), Crop Image, Apply Mask to Image. Provides nodes geared towards using ComfyUI as a backend for external tools."
-        },
-        {
-            "author": "ntdviet",
-            "title": "ntdviet/comfyui-ext",
-            "reference": "https://github.com/ntdviet/comfyui-ext",
-            "files": [
-                "https://github.com/ntdviet/comfyui-ext/raw/main/custom_nodes/gcLatentTunnel/gcLatentTunnel.py"
-            ],
-            "install_type": "copy",
-            "description": "Nodes:LatentGarbageCollector. This ComfyUI custom node flushes the GPU cache and empty cuda interprocess memory. It's helpfull for low memory environment such as the free Google Colab, especially when the workflow VAE decode latents of the size above 1500x1500."
-        },
-        {
-            "author": "laksjdjf",
-            "title": "attention-couple-ComfyUI",
-            "reference": "https://github.com/laksjdjf/attention-couple-ComfyUI",
-            "files": [
-                "https://github.com/laksjdjf/attention-couple-ComfyUI"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:Attention couple. This is a custom node that manipulates region-specific prompts. While vanilla ComfyUI employs an area specification method based on latent couples, this node divides regions using attention layers within UNet."
-        },
-        {
-            "author": "spro",
-            "title": "Latent Mirror node for ComfyUI",
-            "reference": "https://github.com/spro/comfyui-mirror",
-            "files": [
-                "https://github.com/spro/comfyui-mirror"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: Latent Mirror. Node to mirror a latent along the Y (vertical / left to right) or X (horizontal / top to bottom) axis."
-        },
-        {
-            "author": "WASasquatch",
-            "title": "PPF_Noise_ComfyUI",
-            "reference": "https://github.com/WASasquatch/PPF_Noise_ComfyUI",
-            "files": [
-                "https://github.com/WASasquatch/PPF_Noise_ComfyUI"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: WAS_PFN_Latent. Perlin Power Fractal Noisey Latents"
-        },
-        {
-            "author": "Ttl",
-            "title": "ComfyUI Neural network latent upscale custom node",
-            "reference": "https://github.com/Ttl/ComfyUi_NNLatentUpscale",
-            "files": [
-                "https://github.com/Ttl/ComfyUi_NNLatentUpscale"
-            ],
-            "install_type": "git-clone",
-            "description": "A custom ComfyUI node designed for rapid latent upscaling using a compact neural network, eliminating the need for VAE-based decoding and encoding."
-        },
-        {
-            "author": "GeLi1989",
-            "title": "roop nodes for ComfyUI",
-            "reference": "https://github.com/GeLi1989/GK-beifen-ComfyUI_roop",
-            "files": [
-                "https://github.com/GeLi1989/GK-beifen-ComfyUI_roop"
-            ],
-            "install_type": "git-clone",
-            "description": "ComfyUI nodes for the roop A1111 webui script."
-        },
-        {
-            "author": "Onierous",
-            "title": "QRNG_Node_ComfyUI",
-            "reference": "https://github.com/Onierous/QRNG_Node_ComfyUI",
-            "files": [
-                "https://github.com/Onierous/QRNG_Node_ComfyUI/raw/main/qrng_node.py"
-            ],
-            "install_type": "copy",
-            "description": "Nodes: QRNG Node CSV. A node that takes in an array of random numbers from the ANU QRNG API and stores them locally for generating quantum random number noise_seeds in ComfyUI"
-        },
-        {
-            "author": "Lerc",
-            "title": "Canvas Tab",
-            "reference": "https://github.com/Lerc/canvas_tab",
-            "files": [
-                "https://github.com/Lerc/canvas_tab"
-            ],
-            "install_type": "git-clone",
-            "description": "This extension provides a full page image editor with mask support. There are two nodes, one to receive images from the editor and one to send images to the editor."
-        },
-        {
-            "author": "YOUR-WORST-TACO",
-            "title": "ComfyUI-TacoNodes",
-            "reference": "https://github.com/YOUR-WORST-TACO/ComfyUI-TacoNodes",
-            "files": [
-                "https://github.com/YOUR-WORST-TACO/ComfyUI-TacoNodes"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:TacoLatent, TacoAnimatedLoader, TacoImg2ImgAnimatedLoader, TacoGifMaker."
-        },
-        {
-            "author": "skfoo",
-            "title": "ComfyUI-Coziness",
-            "reference": "https://github.com/skfoo/ComfyUI-Coziness",
-            "files": [
-                "https://github.com/skfoo/ComfyUI-Coziness"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:MultiLora Loader, Lora Text Extractor. Provides a node for assisting in loading loras through text."
-        },
-        {
-            "author": "Fannovel16",
-            "title": "ComfyUI Loopchain",
-            "reference": "https://github.com/Fannovel16/ComfyUI-Loopchain",
-            "files": [
-                "https://github.com/Fannovel16/ComfyUI-Loopchain"
-            ],
-            "install_type": "git-clone",
-            "description": "A collection of nodes which can be useful for animation in ComfyUI. The main focus of this extension is implementing a mechanism called loopchain. A loopchain in this case is the chain of nodes only executed repeatly in the workflow. If a node chain contains a loop node from this extension, it will become a loop chain."
-        },
-        {
-            "author": "Sxela",
-            "title": "ComfyWarp",
-            "reference": "https://github.com/Sxela/ComfyWarp",
-            "files": [
-                "https://github.com/Sxela/ComfyWarp"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:LoadFrameSequence, LoadFrame"
-        },
-        {
-            "author": "Beinsezii",
-            "title": "bsz-cui-extras",
-            "reference": "https://github.com/Beinsezii/bsz-cui-extras",
-            "files": [
-                "https://github.com/Beinsezii/bsz-cui-extras"
-            ],
-            "install_type": "git-clone",
-            "description": "This extension consists of auxiliary nodes for automatic calculation of latent sizes, an all-in-one node for SDXL's t2i, i2i, and scaling/hiresfix, and nodes capable of loading the Pixelbuster library.<p style='background-color: black; color: red;'>NOTE:Currently, the Pixelbuster library includes libraries for Windows and Linux environments by default. For other environments such as OSX, you will need to build and use Pixelbuster directly from <a href='https://github.com/Beinsezii/pixelbuster' target='blank'>here</a>.</P>"
-        },        
-        {
-            "author": "richinsley",
-            "title": "Comfy-LFO",
-            "reference": "https://github.com/richinsley/Comfy-LFO",
-            "files": [
-                "https://github.com/richinsley/Comfy-LFO"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:LFO_Triangle, LFO_Sine, SawtoothNode, SquareNode, PulseNode. ComfyUI custom nodes to create Low Frequency Oscillators."
         }
     ]
 }
