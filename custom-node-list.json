@@ -151,14 +151,14 @@
             "description": "It provides the capability to generate CLIP from an image input, unlike unCLIP, which works in all models. (To use this extension, you need to download the required model file from <B>Install Models</B>)"
         },
         {
-            "author": "LucianoCirino",
-            "title": "Efficiency Nodes for ComfyUI",
-            "reference": "https://github.com/LucianoCirino/efficiency-nodes-comfyui",
+            "author": "jags111",
+            "title": "Efficiency Nodes for ComfyUI Version 2.0+",
+            "reference": "https://github.com/jags111/efficiency-nodes-comfyui",
             "files": [
-                "https://github.com/LucianoCirino/efficiency-nodes-comfyui"
+                "https://github.com/jags111/efficiency-nodes-comfyui"
             ],
             "install_type": "git-clone",
-            "description": "A collection of ComfyUI custom nodes to help streamline workflows and reduce total node count."
+            "description": "A collection of ComfyUI custom nodes to help streamline workflows and reduce total node count.<p style='background-color: black; color: red;'>NOTE: This node is originally created by LucianoCirino, but the <a href='https://github.com/LucianoCirino/efficiency-nodes-comfyui'>original repository</a> is no longer maintained and has been forked by a new maintainer. To use the forked version, you should uninstall the original version and <B>REINSTALL</B> this one.</p>"
         },
         {
             "author": "Derfuu",
@@ -1315,6 +1315,16 @@
             "description": "Nodes: KepRotateImage"
         },
         {
+            "author": "M1kep",
+            "title": "ComfyUI-OtherVAEs",
+            "reference": "https://github.com/M1kep/ComfyUI-OtherVAEs",
+            "files": [
+                "https://github.com/M1kep/ComfyUI-OtherVAEs"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: TAESD VAE Decode"
+        },
+        {
             "author": "uarefans",
             "title": "ComfyUI-Fans",
             "reference": "https://github.com/uarefans/ComfyUI-Fans",
@@ -2090,7 +2100,6 @@
             "files": [
                 "https://github.com/kijai/ComfyUI-KJNodes"
             ],
-            "pip": ["librosa"],
             "install_type": "git-clone",
             "description": "Various quality of life -nodes for ComfyUI, mostly just visual stuff to improve usability."
         },
@@ -2222,7 +2231,7 @@
                 "https://github.com/chibiace/ComfyUI-Chibi-Nodes"
             ],
             "install_type": "git-clone",
-            "description": "Nodes:Loader, Prompts, ..."
+            "description": "Nodes:Loader, Prompts, ImageTool, Wildcards, LoadEmbedding, ConditionText, SaveImages, ..."
         },
         {
             "author": "DigitalIO",
@@ -2243,6 +2252,16 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes:RetainFace, FaceFusion, RatioMerge2Image, MaskMerge2Image, ReplaceBoxImg, ExpandMaskBox, FaceSkin, SkinRetouching, PortraitEnhancement, ..."
+        },
+        {
+            "author": "THtianhao",
+            "title": "ComfyUI-FaceChain",
+            "reference": "https://github.com/THtianhao/ComfyUI-FaceChain",
+            "files": [
+                "https://github.com/THtianhao/ComfyUI-FaceChain"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:FC_LoraMerge."
         },
         {
             "author": "zer0TF",
@@ -2303,7 +2322,7 @@
                 "https://github.com/0xbitches/ComfyUI-LCM"
             ],
             "install_type": "git-clone",
-            "description": "This custom node implements a Latent Consistency Model sampler in ComfyUI."
+            "description": "This custom node implements a Latent Consistency Model sampler in ComfyUI. (LCM)"
         },
         {
             "author": "aszc-dev",
@@ -2354,6 +2373,76 @@
             ],
             "install_type": "git-clone",
             "description": "Extensions/Patches: Enables linking float and integer inputs and ouputs. Values are automatically cast to the correct type and clamped to the correct range. Works with both builtin and custom nodes.<p style='background-color: black; color: red;'>NOTE: This repo patches ComfyUI's validate_inputs and map_node_over_list functions while running. May break depending on your version of ComfyUI. Can be deactivated in config.yaml.</p>Nodes: A collection of nodes for facilitating the generation of XY plots. Capable of plotting changes over most primitive values."
+        },
+        {
+            "author": "kinfolk0117",
+            "title": "ComfyUI_SimpleTiles",
+            "reference": "https://github.com/kinfolk0117/ComfyUI_SimpleTiles",
+            "files": [
+                "https://github.com/kinfolk0117/ComfyUI_SimpleTiles"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:TileSplit, TileMerge."
+        },
+        {
+            "author": "Fictiverse",
+            "title": "ComfyUI Fictiverse Nodes",
+            "reference": "https://github.com/Fictiverse/ComfyUI_Fictiverse",
+            "files": [
+                "https://github.com/Fictiverse/ComfyUI_Fictiverse"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Color correction."
+        },
+        {
+            "author": "idrirap",
+            "title": "ComfyUI-Lora-Auto-Trigger-Words",
+            "reference": "https://github.com/idrirap/ComfyUI-Lora-Auto-Trigger-Words",
+            "files": [
+                "https://github.com/idrirap/ComfyUI-Lora-Auto-Trigger-Words"
+            ],
+            "install_type": "git-clone",
+            "description": "This project is a fork of <a href='https://github.com/Extraltodeus/LoadLoraWithTags'>https://github.com/Extraltodeus/LoadLoraWithTags</a> The aim of these custom nodes is to get an easy access to the tags used to trigger a lora."
+        },
+        {
+            "author": "aianimation55",
+            "title": "Comfy UI FatLabels",
+            "reference": "https://github.com/aianimation55/ComfyUI-FatLabels",
+            "files": [
+                "https://github.com/aianimation55/ComfyUI-FatLabels"
+            ],
+            "install_type": "git-clone",
+            "description": "It's a super simple custom node for Comfy UI, to generate text, with a font size option. Useful for bigger labelling of nodes, helpful for wider screen captures or tutorials. Plus you can of course use the text within your generations."
+        },
+        {
+            "author": "noembryo",
+            "title": "ComfyUI-noEmbryo",
+            "reference": "https://github.com/noembryo/ComfyUI-noEmbryo",
+            "files": [
+                "https://github.com/noembryo/ComfyUI-noEmbryo"
+            ],
+            "install_type": "git-clone",
+            "description": "PromptTermList (1-6) are some nodes that help with the creation of Prompts inside ComfyUI."
+        },
+        {
+            "author": "mikkel",
+            "title": "ComfyUI - Mask Bounding Box",
+            "reference": "https://github.com/mikkel/comfyui-mask-boundingbox",
+            "files": [
+                "https://github.com/mikkel/comfyui-mask-boundingbox"
+            ],
+            "install_type": "git-clone",
+            "description": "The ComfyUI Mask Bounding Box Plugin provides functionalities for selecting a specific size mask from an image. Can be combined with ClipSEG to replace any aspect of an SDXL image with an SD1.5 output."
+        },
+        {
+            "author": "ParmanBabra",
+            "title": "ComfyUI-Malefish-Custom-Scripts",
+            "reference": "https://github.com/ParmanBabra/ComfyUI-Malefish-Custom-Scripts",
+            "files": [
+                "https://github.com/ParmanBabra/ComfyUI-Malefish-Custom-Scripts"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Multi Lora Loader, Random (Prompt), Combine (Prompt), CSV Prompts Loader"
         },
         {
             "author": "Ser-Hilary",
