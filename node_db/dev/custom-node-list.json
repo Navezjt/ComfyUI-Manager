@@ -1,6 +1,36 @@
 {
     "custom_nodes": [
         {
+            "author": "Jordach",
+            "title": "comfy-consistency-vae",
+            "reference": "https://github.com/Jordach/comfy-consistency-vae",
+            "files": [
+                "https://github.com/Jordach/comfy-consistency-vae"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Comfy_ConsistencyVAE"
+        },
+        {
+            "author": "gameltb",
+            "title": "ComfyUI_stable_fast",
+            "reference": "https://github.com/gameltb/ComfyUI_stable_fast",
+            "files": [
+                "https://github.com/gameltb/ComfyUI_stable_fast"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:ApplyStableFastUnet. Experimental usage of stable-fast."
+        },
+        {
+            "author": "jn-jairo",
+            "title": "jn_node_suite_comfyui [WIP]",
+            "reference": "https://github.com/jn-jairo/jn_node_suite_comfyui",
+            "files": [
+                "https://github.com/jn-jairo/jn_node_suite_comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Image manipulation nodes, Temperature control nodes, Tiling nodes, Primitive and operation nodes, ..."
+        },
+        {
             "author": "PluMaZero",
             "title": "ComfyUI-SpaceFlower",
             "reference": "https://github.com/PluMaZero/ComfyUI-SpaceFlower",
