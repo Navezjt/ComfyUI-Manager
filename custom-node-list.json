@@ -17,6 +17,7 @@
             "files": [
                 "https://github.com/ltdrdata/ComfyUI-Impact-Pack"
             ],
+            "pip": ["ultralytics"],
             "install_type": "git-clone",
             "description": "This extension offers various detector nodes and detailer nodes that allow you to configure a workflow that automatically enhances facial details. And provide iterative upscaler.<BR><p style='background-color: black; color: red;'>NOTE:MMDetDetectorProvider and other legacy nodes are disabled by default. If you want to activate these nodes and use them, please edit the impact-pack.ini file in the ComfyUI-Impact-Pack directory and change 'mmdet_skip = True' to 'mmdet_skip = False.' </p>"
         },
@@ -24,6 +25,7 @@
             "author": "Dr.Lt.Data",
             "title": "ComfyUI Inspire Pack",
             "reference": "https://github.com/ltdrdata/ComfyUI-Inspire-Pack",
+            "nodename_pattern": "Inspire$",
             "files": [
                 "https://github.com/ltdrdata/ComfyUI-Inspire-Pack"
             ],
@@ -1395,16 +1397,6 @@
             "description": "An extension to ComfyUI that introduces logic nodes and conditional rendering capabilities."
         },
         {
-            "author": "tkoenig89",
-            "title": "Load Image with metadata",
-            "reference": "https://github.com/tkoenig89/ComfyUI_Load_Image_With_Metadata",
-            "files": [
-                "https://github.com/tkoenig89/ComfyUI_Load_Image_With_Metadata"
-            ],
-            "install_type": "git-clone",
-            "description": "A custom node for comfy ui to read generation data from images (prompt, seed, size...). This could be used when upscaling generated images to use the original prompt and seed."
-        },
-        {
             "author": "mpiquero7164",
             "title": "SaveImgPrompt",
             "reference": "https://github.com/mpiquero7164/ComfyUI-SaveImgPrompt",
@@ -2457,13 +2449,13 @@
         },
         {
             "author": "noEmbryo",
-            "title": "ComfyUI-noEmbryo nodes",
+            "title": "noEmbryo nodes",
             "reference": "https://github.com/noembryo/ComfyUI-noEmbryo",
             "files": [
                 "https://raw.githubusercontent.com/noembryo/ComfyUI-noEmbryo/master/nodes.py"
             ],
             "install_type": "copy",
-            "description": "PromptTermList (1-6): are some nodes that help with the creation of Prompts inside ComfyUI."
+            "description": "PromptTermList (1-6): are some nodes that help with the creation of Prompts inside ComfyUI. Resolution Scale outputs image dimensions using a scale factor. Regex Text Chopper outputs the chopped parts of a text using RegEx."
         },
         {
             "author": "mikkel",
@@ -2554,6 +2546,126 @@
             ],
             "install_type": "git-clone",
             "description": "This tool will turn entire workflows or parts of them into single integrated nodes. In a way, it is similar to the Node Templates functionality but hides the inner structure. This is useful if all you want is to reuse and quickly configure a bunch of nodes without caring how they are interconnected."
+        },
+        {
+            "author": "palant",
+            "title": "Extended Save Image for ComfyUI",
+            "reference": "https://github.com/palant/extended-saveimage-comfyui",
+            "files": [
+                "https://github.com/palant/extended-saveimage-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "This custom node is largely identical to the usual Save Image but allows saving images also in JPEG and WEBP formats, the latter with both lossless and lossy compression. Metadata is embedded in the images as usual, and the resulting images can be used to load a workflow."
+        },
+        {
+            "author": "whmc76",
+            "title": "ComfyUI-Openpose-Editor-Plus",
+            "reference": "https://github.com/whmc76/ComfyUI-Openpose-Editor-Plus",
+            "files": [
+                "https://github.com/whmc76/ComfyUI-Openpose-Editor-Plus"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Openpose Editor Plus"
+        },
+        {
+            "author": "martijnat",
+            "title": "comfyui-previewlatent",
+            "reference": "https://github.com/martijnat/comfyui-previewlatent",
+            "files": [
+                "https://github.com/martijnat/comfyui-previewlatent"
+            ],
+            "install_type": "git-clone",
+            "description": "a ComfyUI plugin for previewing latents without vae decoding. Useful for showing intermediate results and can be used a faster 'preview image' if you don't wan't to use vae decode."
+        },
+        {
+            "author": "peteromallet",
+            "title": "ComfyUI-Creative-Interpolation [Beta]",
+            "reference": "https://github.com/peteromallet/ComfyUI-Creative-Interpolation",
+            "files": [
+                "https://github.com/peteromallet/ComfyUI-Creative-Interpolation"
+            ],
+            "install_type": "git-clone",
+            "description": "This a ComfyUI node for batch creative interpolation. The goal is to allow you to input a batch of images, and to provide a range of simple settings to control how the images are interpolated between."
+        },
+        {
+            "author": "gemell1",
+            "title": "ComfyUI_GMIC",
+            "reference": "https://github.com/gemell1/ComfyUI_GMIC",
+            "files": [
+                "https://github.com/gemell1/ComfyUI_GMIC"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:GMIC Image Processing."
+        },
+        {
+            "author": "LonicaMewinsky",
+            "title": "ComfyBreakAnim",
+            "reference": "https://github.com/LonicaMewinsky/ComfyUI-MakeFrame",
+            "files": [
+                "https://github.com/LonicaMewinsky/ComfyUI-MakeFrame"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:BreakFrames, GetKeyFrames, MakeGrid."
+        },
+        {
+            "author": "TheBarret",
+            "title": "ZSuite",
+            "reference": "https://github.com/TheBarret/ZSuite",
+            "files": [
+                "https://github.com/TheBarret/ZSuite"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Prompter, RF Noise, SeedMod."
+        },
+        {
+            "author": "romeobuilderotti",
+            "title": "ComfyUI PNG Metadata",
+            "reference": "https://github.com/romeobuilderotti/ComfyUI-PNG-Metadata",
+            "files": [
+                "https://github.com/romeobuilderotti/ComfyUI-PNG-Metadata"
+            ],
+            "install_type": "git-clone",
+            "description": "Add custom Metadata fields to your saved PNG files."
+        },
+        {
+            "author": "ka-puna",
+            "title": "comfyui-yanc",
+            "reference": "https://github.com/ka-puna/comfyui-yanc",
+            "files": [
+                "https://github.com/ka-puna/comfyui-yanc"
+            ],
+            "install_type": "git-clone",
+            "description": "NOTE: Concatenate Strings, Format Datetime String, Integer Caster, Multiline String, Truncate String. Yet Another Node Collection, a repository of simple nodes for ComfyUI. This repository eases the addition or removal of custom nodes to itself."
+        },
+        {
+            "author": "amorano",
+            "title": "Jovimetrix Composition Nodes",
+            "reference": "https://github.com/Amorano/Jovimetrix",
+            "files": [
+                "https://github.com/Amorano/Jovimetrix"
+            ],
+            "install_type": "git-clone",
+            "description": "Composition nodes like Substance Designer heavily inspired by WAS and MTB Node Suites"
+        },
+        {
+            "author": "Umikaze-job",
+            "title": "select_folder_path_easy",
+            "reference": "https://github.com/Umikaze-job/select_folder_path_easy",
+            "files": [
+                "https://github.com/Umikaze-job/select_folder_path_easy"
+            ],
+            "install_type": "git-clone",
+            "description": "This extension simply connects the nodes and specifies the output path of the generated images to a manageable path."
+        },
+        {
+            "author": "Off-Live",
+            "title": "ComfyUI-off-suite",
+            "reference": "https://github.com/Off-Live/ComfyUI-off-suite",
+            "files": [
+                "https://github.com/Off-Live/ComfyUI-off-suite"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:Image Crop Fit Node, OFF SEGS to Image, Crop Center wigh SEGS, GW Number Formatting Node."
         },
         {
             "author": "Ser-Hilary",
