@@ -1,7 +1,7 @@
 import { app } from "../../scripts/app.js";
 import { api } from "../../scripts/api.js"
 import { ComfyDialog, $el } from "../../scripts/ui.js";
-import { install_checked_custom_node, manager_instance } from  "./common.js";
+import { install_checked_custom_node, manager_instance, rebootAPI } from  "./common.js";
 
 async function getCustomNodes() {
 	var mode = "url";
@@ -27,6 +27,53 @@ async function getCustomnodeMappings() {
 
 	const data = await response.json();
 	return data;
+}
+
+async function getConflictMappings() {
+	var mode = "url";
+	if(manager_instance.local_mode_checkbox.checked)
+		mode = "local";
+
+	const response = await api.fetchApi(`/customnode/getmappings?mode=${mode}`);
+
+	const data = await response.json();
+
+	let node_to_extensions_map = {};
+
+	for(let k in data) {
+		for(let i in data[k][0]) {
+			let node = data[k][0][i];
+			let l = node_to_extensions_map[node];
+			if(!l) {
+				l = [];
+				node_to_extensions_map[node] = l;
+			}
+			l.push(k);
+		}
+	}
+
+	let conflict_map = {};
+	for(let node in node_to_extensions_map) {
+		if(node_to_extensions_map[node].length > 1) {
+			for(let i in node_to_extensions_map[node]) {
+				let extension = node_to_extensions_map[node][i];
+				let l = conflict_map[extension];
+
+				if(!l) {
+					l = [];
+					conflict_map[extension] = l;
+				}
+
+				for(let j in node_to_extensions_map[node]) {
+					let extension2 = node_to_extensions_map[node][j];
+					if(extension != extension2)
+						l.push([node, extension2]);
+				}
+			}
+		}
+	}
+
+	return conflict_map;
 }
 
 async function getUnresolvedNodesInComponent() {
@@ -58,8 +105,9 @@ export class CustomNodesInstaller extends ComfyDialog {
 		this.data = null;
 	}
 
-	constructor() {
+	constructor(app, manager_dialog) {
 		super();
+		this.manager_dialog = manager_dialog;
 		this.search_keyword = '';
 		this.element = $el("div.comfy-modal", { parent: document.body }, []);
 	}
@@ -180,6 +228,8 @@ export class CustomNodesInstaller extends ComfyDialog {
 		// invalidate
 		this.data = (await getCustomNodes()).custom_nodes;
 
+		this.conflict_mappings = await getConflictMappings();
+
 		if(this.is_missing_node_mode)
 			this.data = await this.filter_missing_node(this.data);
 
@@ -195,93 +245,103 @@ export class CustomNodesInstaller extends ComfyDialog {
 		this.createBottomControls();
 	}
 
-	updateMessage(msg) {
+	updateMessage(msg, btn_id) {
 		this.message_box.innerHTML = msg;
+		if(btn_id) {
+			const rebootButton = document.getElementById(btn_id);
+			const self = this;
+			rebootButton.onclick = function() {
+				if(rebootAPI()) {
+					self.close();
+					self.manager_dialog.close();
+				}
+			};
+		}
 	}
 
-    invalidate_checks(is_checked, install_state) {
-        if(is_checked) {
-            for(let i in this.grid_rows) {
-                let data = this.grid_rows[i].data;
-                let checkbox = this.grid_rows[i].checkbox;
-                let buttons = this.grid_rows[i].buttons;
+	invalidate_checks(is_checked, install_state) {
+		if(is_checked) {
+			for(let i in this.grid_rows) {
+				let data = this.grid_rows[i].data;
+				let checkbox = this.grid_rows[i].checkbox;
+				let buttons = this.grid_rows[i].buttons;
 
-                checkbox.disabled = data.installed != install_state;
+				checkbox.disabled = data.installed != install_state;
 
-                if(checkbox.disabled) {
-                    for(let j in buttons) {
-                        buttons[j].style.display = 'none';
-                    }
-                }
-                else {
-                    for(let j in buttons) {
-                        buttons[j].style.display = null;
-                    }
-                }
-            }
+				if(checkbox.disabled) {
+					for(let j in buttons) {
+						buttons[j].style.display = 'none';
+					}
+				}
+				else {
+					for(let j in buttons) {
+						buttons[j].style.display = null;
+					}
+				}
+			}
 
-            this.checkbox_all.disabled = false;
-        }
-        else {
-            for(let i in this.grid_rows) {
-                let checkbox = this.grid_rows[i].checkbox;
-                if(checkbox.check)
-                    return; // do nothing
-            }
+			this.checkbox_all.disabled = false;
+		}
+		else {
+			for(let i in this.grid_rows) {
+				let checkbox = this.grid_rows[i].checkbox;
+				if(checkbox.check)
+					return; // do nothing
+			}
 
-            // every checkbox is unchecked -> enable all checkbox
-            for(let i in this.grid_rows) {
-                let checkbox = this.grid_rows[i].checkbox;
-                let buttons = this.grid_rows[i].buttons;
-                checkbox.disabled = false;
+			// every checkbox is unchecked -> enable all checkbox
+			for(let i in this.grid_rows) {
+				let checkbox = this.grid_rows[i].checkbox;
+				let buttons = this.grid_rows[i].buttons;
+				checkbox.disabled = false;
 
-                for(let j in buttons) {
-                    buttons[j].style.display = null;
-                }
-            }
+				for(let j in buttons) {
+					buttons[j].style.display = null;
+				}
+			}
 
-            this.checkbox_all.checked = false;
-            this.checkbox_all.disabled = true;
-        }
-    }
+			this.checkbox_all.checked = false;
+			this.checkbox_all.disabled = true;
+		}
+	}
 
-    check_all(is_checked) {
-        if(is_checked) {
-            // lookup first checked item's state
-            let check_state = null;
-            for(let i in this.grid_rows) {
-                let checkbox = this.grid_rows[i].checkbox;
-                if(checkbox.checked) {
-                    check_state = this.grid_rows[i].data.installed;
-                }
-            }
+	check_all(is_checked) {
+		if(is_checked) {
+			// lookup first checked item's state
+			let check_state = null;
+			for(let i in this.grid_rows) {
+				let checkbox = this.grid_rows[i].checkbox;
+				if(checkbox.checked) {
+					check_state = this.grid_rows[i].data.installed;
+				}
+			}
 
-            if(check_state == null)
-                return;
+			if(check_state == null)
+				return;
 
-            // check only same state items
-            for(let i in this.grid_rows) {
-                let checkbox = this.grid_rows[i].checkbox;
-                if(this.grid_rows[i].data.installed == check_state)
-                    checkbox.checked = true;
-            }
-        }
-        else {
-            // uncheck all
-            for(let i in this.grid_rows) {
-                let checkbox = this.grid_rows[i].checkbox;
-                let buttons = this.grid_rows[i].buttons;
-                checkbox.checked = false;
-                checkbox.disabled = false;
+			// check only same state items
+			for(let i in this.grid_rows) {
+				let checkbox = this.grid_rows[i].checkbox;
+				if(this.grid_rows[i].data.installed == check_state)
+					checkbox.checked = true;
+			}
+		}
+		else {
+			// uncheck all
+			for(let i in this.grid_rows) {
+				let checkbox = this.grid_rows[i].checkbox;
+				let buttons = this.grid_rows[i].buttons;
+				checkbox.checked = false;
+				checkbox.disabled = false;
 
-                for(let j in buttons) {
-                    buttons[j].style.display = null;
-                }
-            }
+				for(let j in buttons) {
+					buttons[j].style.display = null;
+				}
+			}
 
-            this.checkbox_all.disabled = true;
-        }
-    }
+			this.checkbox_all.disabled = true;
+		}
+	}
 
 	async createGrid() {
 		var grid = document.createElement('table');
@@ -289,24 +349,24 @@ export class CustomNodesInstaller extends ComfyDialog {
 
 		this.grid_rows = {};
 
-        let self = this;
+		let self = this;
 
-        var thead = document.createElement('thead');
-        var tbody = document.createElement('tbody');
+		var thead = document.createElement('thead');
+		var tbody = document.createElement('tbody');
 
 		var headerRow = document.createElement('tr');
 		thead.style.position = "sticky";
 		thead.style.top = "0px";
-        thead.style.borderCollapse = "collapse";
-        thead.style.tableLayout = "fixed";
+		thead.style.borderCollapse = "collapse";
+		thead.style.tableLayout = "fixed";
 
 		var header0 = document.createElement('th');
 		header0.style.width = "20px";
-        this.checkbox_all = $el("input",{type:'checkbox', id:'check_all'},[]);
-        header0.appendChild(this.checkbox_all);
-        this.checkbox_all.checked = false;
-        this.checkbox_all.disabled = true;
-        this.checkbox_all.addEventListener('change', function() { self.check_all.call(self, self.checkbox_all.checked); });
+		this.checkbox_all = $el("input",{type:'checkbox', id:'check_all'},[]);
+		header0.appendChild(this.checkbox_all);
+		this.checkbox_all.checked = false;
+		this.checkbox_all.disabled = true;
+		this.checkbox_all.addEventListener('change', function() { self.check_all.call(self, self.checkbox_all.checked); });
 
 		var header1 = document.createElement('th');
 		header1.innerHTML = '&nbsp;&nbsp;ID&nbsp;&nbsp;';
@@ -320,7 +380,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 		var header4 = document.createElement('th');
 		header4.innerHTML = 'Description';
 		header4.style.width = "60%";
-//        header4.classList.add('expandable-column');
+//		header4.classList.add('expandable-column');
 		var header5 = document.createElement('th');
 		header5.innerHTML = 'Install';
 		header5.style.width = "130px";
@@ -338,7 +398,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 		header5.style.position = "sticky";
 		header5.style.top = "0px";
 
-        thead.appendChild(headerRow);
+		thead.appendChild(headerRow);
 		headerRow.appendChild(header0);
 		headerRow.appendChild(header1);
 		headerRow.appendChild(header2);
@@ -361,29 +421,59 @@ export class CustomNodesInstaller extends ComfyDialog {
 				let dataRow = document.createElement('tr');
 
 				let data0 = document.createElement('td');
-		        let checkbox = $el("input",{type:'checkbox', id:`check_${i}`},[]);
-		        data0.appendChild(checkbox);
-		        checkbox.checked = false;
-		        checkbox.addEventListener('change', function() { self.invalidate_checks.call(self, checkbox.checked, data.installed); });
+				let checkbox = $el("input",{type:'checkbox', id:`check_${i}`},[]);
+				data0.appendChild(checkbox);
+				checkbox.checked = false;
+				checkbox.addEventListener('change', function() { self.invalidate_checks.call(self, checkbox.checked, data.installed); });
 
 				var data1 = document.createElement('td');
 				data1.style.textAlign = "center";
 				data1.innerHTML = i+1;
+
 				var data2 = document.createElement('td');
-		        data2.style.maxWidth = "100px";
+				data2.style.maxWidth = "100px";
 				data2.className = "cm-node-author"
 				data2.textContent = ` ${data.author}`;
 				data2.style.whiteSpace = "nowrap";
-                data2.style.overflow = "hidden";
+				data2.style.overflow = "hidden";
 				data2.style.textOverflow = "ellipsis";
-                var data3 = document.createElement('td');
-                data3.style.maxWidth = "200px";
-                data3.style.wordWrap = "break-word";
+
+				var data3 = document.createElement('td');
+				data3.style.maxWidth = "200px";
+				data3.style.wordWrap = "break-word";
 				data3.className = "cm-node-name"
-                data3.innerHTML = `&nbsp;<a href=${data.reference} target="_blank"><font color="skyblue"><b>${data.title}</b></font></a>`;
+				data3.innerHTML = `&nbsp;<a href=${data.reference} target="_blank"><font color="skyblue"><b>${data.title}</b></font></a>`;
+				if(data.installed == 'Fail')
+					data3.innerHTML = '&nbsp;<font color="BLACK"><B>(IMPORT FAILED)</B></font>' + data3.innerHTML;
+
 				var data4 = document.createElement('td');
 				data4.innerHTML = data.description;
 				data4.className = "cm-node-desc"
+
+				let conflicts = this.conflict_mappings[data.files[0]];
+				if(conflicts) {
+					let buf = '<p class="cm-conflicted-nodes-text"><B><font color="BLACK">Conflicted Nodes:</FONT></B><BR>';
+					for(let k in conflicts) {
+						let node_name = conflicts[k][0];
+
+						let extension_name = conflicts[k][1].split('/').pop();
+						if(extension_name.endsWith('/')) {
+							extension_name = extension_name.slice(0, -1);
+						}
+						if(node_name.endsWith('.git')) {
+							extension_name = extension_name.slice(0, -4);
+						}
+
+						buf += `<B>${node_name}</B> [${extension_name}], `;
+					}
+
+					if(buf.endsWith(', ')) {
+						buf = buf.slice(0, -2);
+					}
+					buf += "</p>";
+					data4.innerHTML += buf;
+				}
+
 				var data5 = document.createElement('td');
 				data5.style.textAlign = "center";
 
@@ -424,6 +514,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 					installBtn.innerHTML = 'Uninstall';
 					installBtn.style.backgroundColor = 'red';
 					break;
+				case 'Fail':
 				case 'True':
 					installBtn3 = document.createElement('button');
 					installBtn3.innerHTML = 'Disable';
@@ -441,12 +532,12 @@ export class CustomNodesInstaller extends ComfyDialog {
 					installBtn.style.color = 'white';
 					break;
 				default:
-					installBtn.innerHTML = 'Try Install';
+					installBtn.innerHTML = `Try Install${data.installed}`;
 					installBtn.style.backgroundColor = 'Gray';
 					installBtn.style.color = 'white';
 				}
 
-                let j = i;
+				let j = i;
 				if(installBtn2 != null) {
 					installBtn2.style.width = "120px";
 					installBtn2.addEventListener('click', function() {
@@ -479,7 +570,10 @@ export class CustomNodesInstaller extends ComfyDialog {
 
 				data5.appendChild(installBtn);
 
-				dataRow.style.backgroundColor = "var(--bg-color)";
+				if(data.installed == 'Fail')
+					dataRow.style.backgroundColor = "#880000";
+				else
+					dataRow.style.backgroundColor = "var(--bg-color)";
 				dataRow.style.color = "var(--fg-color)";
 				dataRow.style.textAlign = "left";
 
@@ -493,28 +587,28 @@ export class CustomNodesInstaller extends ComfyDialog {
 
 				let buttons = [];
 				if(installBtn) {
-				    buttons.push(installBtn);
-                }
+					buttons.push(installBtn);
+				}
 				if(installBtn2) {
-				    buttons.push(installBtn2);
-                }
+					buttons.push(installBtn2);
+				}
 				if(installBtn3) {
-				    buttons.push(installBtn3);
-                }
+					buttons.push(installBtn3);
+				}
 
 				this.grid_rows[i] = {data:data, buttons:buttons, checkbox:checkbox, control:dataRow};
 			}
 
 		const panel = document.createElement('div');
-        panel.style.width = "100%";
+		panel.style.width = "100%";
 		panel.appendChild(grid);
 
-        function handleResize() {
-          const parentHeight = self.element.clientHeight;
-          const gridHeight = parentHeight - 200;
+		function handleResize() {
+		  const parentHeight = self.element.clientHeight;
+		  const gridHeight = parentHeight - 200;
 
-          grid.style.height = gridHeight + "px";
-        }
+		  grid.style.height = gridHeight + "px";
+		}
 		window.addEventListener("resize", handleResize);
 
 		grid.style.position = "relative";
@@ -526,7 +620,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 		this.element.style.width = "80%";
 		this.element.appendChild(panel);
 
-        handleResize();
+		handleResize();
 	}
 
 	createFilterCombo() {
@@ -548,6 +642,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 				{ value:'Update', text:'Filter: update' },
 				{ value:'True', text:'Filter: installed' },
 				{ value:'False', text:'Filter: not-installed' },
+				{ value:'Fail', text:'Filter: import failed' },
 			];
 
 		items.forEach(item => {
@@ -563,8 +658,8 @@ export class CustomNodesInstaller extends ComfyDialog {
 			self.apply_searchbox();
 		});
 
-        if(self.filter) {
-		    combo.value = self.filter;
+		if(self.filter) {
+			combo.value = self.filter;
 		}
 
 		return combo;

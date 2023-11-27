@@ -9,6 +9,7 @@ import locale
 
 
 message_collapses = []
+import_failed_extensions = set()
 
 
 def register_message_collapse(f):
@@ -16,10 +17,16 @@ def register_message_collapse(f):
     message_collapses.append(f)
 
 
+def is_import_failed_extension(x):
+    global import_failed_extensions
+    return x in import_failed_extensions
+
+
 sys.__comfyui_manager_register_message_collapse = register_message_collapse
+sys.__comfyui_manager_is_import_failed_extension = is_import_failed_extension
 
 comfyui_manager_path = os.path.dirname(__file__)
-custom_nodes_path = os.path.join(comfyui_manager_path, "..")
+custom_nodes_path = os.path.abspath(os.path.join(comfyui_manager_path, ".."))
 startup_script_path = os.path.join(comfyui_manager_path, "startup-scripts")
 restore_snapshot_path = os.path.join(startup_script_path, "restore-snapshot.json")
 git_script_path = os.path.join(comfyui_manager_path, "git_helper.py")
@@ -78,14 +85,20 @@ try:
     original_stdout = sys.stdout
     original_stderr = sys.stderr
 
-    tqdm = r'\d+%.*\[(.*?)\]'
+    pat_tqdm = r'\d+%.*\[(.*?)\]'
+    pat_import_fail = r'seconds \(IMPORT FAILED\):'
+    pat_custom_node = r'[/\\]custom_nodes[/\\](.*)$'
+
+    is_start_mode = True
+    is_import_fail_mode = False
 
     log_file = open(f"comfyui{postfix}.log", "w", encoding="utf-8")
     log_lock = threading.Lock()
 
-    class Logger:
+    class ComfyUIManagerLogger:
         def __init__(self, is_stdout):
             self.is_stdout = is_stdout
+            self.encoding = "utf-8"
 
         def fileno(self):
             try:
@@ -98,11 +111,30 @@ try:
                 raise ValueError("The object does not have a fileno method")
 
         def write(self, message):
+            global is_start_mode
+            global is_import_fail_mode
+
             if any(f(message) for f in message_collapses):
                 return
 
+            if is_start_mode:
+                if is_import_fail_mode:
+                    match = re.search(pat_custom_node, message)
+                    if match:
+                        import_failed_extensions.add(match.group(1))
+                        is_import_fail_mode = False
+                else:
+                    match = re.search(pat_import_fail, message)
+                    if match:
+                        is_import_fail_mode = True
+                    else:
+                        is_import_fail_mode = False
+
+                    if 'Starting server' in message:
+                        is_start_mode = False
+
             if not self.is_stdout:
-                match = re.search(tqdm, message)
+                match = re.search(pat_tqdm, message)
                 if match:
                     message = re.sub(r'([#|])\d', r'\1▌', message)
                     message = re.sub('#', '█', message)
@@ -135,16 +167,26 @@ try:
             else:
                 original_stderr.flush()
 
+        def close(self):
+            self.flush()
+            pass
+
         def reconfigure(self, *args, **kwargs):
             pass
 
-
+        # You can close through sys.stderr.close_log()
+        def close_log(self):
+            sys.stderr = original_stderr
+            sys.stdout = original_stdout
+            log_file.close()
+            
     def close_log():
+        sys.stderr = original_stderr
+        sys.stdout = original_stdout
         log_file.close()
-
-
-    sys.stdout = Logger(True)
-    sys.stderr = Logger(False)
+        
+    sys.stdout = ComfyUIManagerLogger(True)
+    sys.stderr = ComfyUIManagerLogger(False)
 
     atexit.register(close_log)
 except Exception as e:
@@ -164,13 +206,48 @@ def check_bypass_ssl():
         default_conf = config['default']
 
         if 'bypass_ssl' in default_conf and default_conf['bypass_ssl'].lower() == 'true':
-            print(f"[ComfyUI-Manager] WARN: Unsafe - SSL verification option is Enabled. (see ComfyUI-Manager/config.ini)")
+            print(f"[ComfyUI-Manager] WARN: Unsafe - SSL verification bypass option is Enabled. (see ComfyUI-Manager/config.ini)")
             ssl._create_default_https_context = ssl._create_unverified_context  # SSL certificate error fix.
     except Exception:
         pass
 
 
 check_bypass_ssl()
+
+
+# Perform install
+processed_install = set()
+script_list_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "startup-scripts", "install-scripts.txt")
+pip_list = None
+
+
+def get_installed_packages():
+    global pip_list
+
+    if pip_list is None:
+        try:
+            result = subprocess.check_output([sys.executable, '-m', 'pip', 'list'], universal_newlines=True)
+            pip_list = set([line.split()[0].lower() for line in result.split('\n') if line.strip()])
+        except subprocess.CalledProcessError as e:
+            print(f"[ComfyUI-Manager] Failed to retrieve the information of installed pip packages.")
+            return set()
+    
+    return pip_list
+
+
+def is_installed(name):
+    name = name.strip()
+
+    if name.startswith('#'):
+        return True
+
+    pattern = r'([^<>!=]+)([<>!=]=?)'
+    match = re.search(pattern, name)
+    
+    if match:
+        name = match.group(1)
+        
+    return name.lower() in get_installed_packages()
 
 
 if os.path.exists(restore_snapshot_path):
@@ -221,11 +298,12 @@ if os.path.exists(restore_snapshot_path):
                         with open(requirements_path, 'r', encoding="UTF-8") as file:
                             for line in file:
                                 package_name = line.strip()
-                                if package_name:
+                                if package_name and not is_installed(package_name):
                                     install_cmd = [sys.executable, "-m", "pip", "install", package_name]
                                     this_exit_code += process_wrap(install_cmd, repo_path)
 
-                    if os.path.exists(install_script_path):
+                    if os.path.exists(install_script_path) and f'{repo_path}/install.py' not in processed_install:
+                        processed_install.add(f'{repo_path}/install.py')
                         install_cmd = [sys.executable, install_script_path]
                         print(f">>> {install_cmd} / {repo_path}")
                         this_exit_code += process_wrap(install_cmd, repo_path)
@@ -249,8 +327,27 @@ if os.path.exists(restore_snapshot_path):
     os.remove(restore_snapshot_path)
 
 
-# Perform install
-script_list_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "startup-scripts", "install-scripts.txt")
+def execute_lazy_install_script(repo_path, executable):
+    global processed_install
+
+    install_script_path = os.path.join(repo_path, "install.py")
+    requirements_path = os.path.join(repo_path, "requirements.txt")
+
+    if os.path.exists(requirements_path):
+        print(f"Install: pip packages for '{repo_path}'")
+        with open(requirements_path, "r") as requirements_file:
+            for line in requirements_file:
+                package_name = line.strip()
+                if package_name and not is_installed(package_name):
+                    install_cmd = [executable, "-m", "pip", "install", package_name]
+                    process_wrap(install_cmd, repo_path)
+
+    if os.path.exists(install_script_path) and f'{repo_path}/install.py' not in processed_install:
+        processed_install.add(f'{repo_path}/install.py')
+        print(f"Install: install script for '{repo_path}'")
+        install_cmd = [executable, "install.py"]
+        process_wrap(install_cmd, repo_path)
+
 
 # Check if script_list_path exists
 if os.path.exists(script_list_path):
@@ -268,10 +365,18 @@ if os.path.exists(script_list_path):
 
             try:
                 script = eval(line)
-                if os.path.exists(script[0]):
-                    print(f"\n## ComfyUI-Manager: EXECUTE => {script[1:]}")
 
+                if script[1].startswith('#'):
+                    if script[1] == "#LAZY-INSTALL-SCRIPT":
+                        execute_lazy_install_script(script[0], script[2])
+
+                elif os.path.exists(script[0]):
+                    if 'pip' in script[1:] and 'install' in script[1:] and is_installed(script[-1]):
+                        continue
+
+                    print(f"\n## ComfyUI-Manager: EXECUTE => {script[1:]}")
                     print(f"\n## Execute install/(de)activation script for '{script[0]}'")
+
                     exit_code = process_wrap(script[1:], script[0])
 
                     if exit_code != 0:
@@ -289,3 +394,5 @@ if os.path.exists(script_list_path):
     print("\n[ComfyUI-Manager] Startup script completed.")
     print("#######################################################################\n")
 
+del processed_install
+del pip_list

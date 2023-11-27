@@ -1,25 +1,26 @@
 import { app } from "../../scripts/app.js";
 import { api } from "../../scripts/api.js"
 import { ComfyDialog, $el } from "../../scripts/ui.js";
-import { ShareDialog, SUPPORTED_OUTPUT_NODE_TYPES, getPotentialOutputsAndOutputNodes } from "./comfyui-share.js";
+import { ShareDialog, SUPPORTED_OUTPUT_NODE_TYPES, getPotentialOutputsAndOutputNodes, ShareDialogChooser, showOpenArtShareDialog, showShareDialog } from "./comfyui-share-common.js";
+import { OpenArtShareDialog } from "./comfyui-share-openart.js";
 import { CustomNodesInstaller } from "./custom-nodes-downloader.js";
 import { AlternativesInstaller } from "./a1111-alter-downloader.js";
 import { SnapshotManager } from "./snapshot.js";
 import { ModelInstaller } from "./model-downloader.js";
-import { manager_instance, setManagerInstance, install_via_git_url } from  "./common.js";
+import { manager_instance, setManagerInstance, install_via_git_url, rebootAPI } from  "./common.js";
 
 var docStyle = document.createElement('style');
 docStyle.innerHTML = `
 .cm-menu-container {
-  column-gap: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+	column-gap: 20px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
 }
 
 .cm-menu-column {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .cm-title {
@@ -27,6 +28,24 @@ docStyle.innerHTML = `
 	background-color: black;
 	text-align: center;
 	height: 45px;
+}
+
+.cm-notice-board {
+	width: 250px;
+	height: 160px;
+	overflow: auto;
+	color: var(--input-text);
+	border: 1px solid #ccc;
+	padding: 10px;
+	overflow-x: hidden;
+}
+
+.cm-conflicted-nodes-text {
+	background-color: #CCCC55 !important;
+	color: #AA3333 !important;
+	font-size: 10px;
+	border-radius: 5px;
+	padding: 5px;
 }
 `;
 
@@ -36,25 +55,26 @@ var update_comfyui_button = null;
 var fetch_updates_button = null;
 var update_all_button = null;
 var badge_mode = "none";
+let share_option = 'all';
 
 // copied style from https://github.com/pythongosssss/ComfyUI-Custom-Scripts
 const style = `
 #comfyworkflows-button {
 	position: relative;
 	overflow: hidden;
- } 
+ }
 .pysssss-workflow-arrow-2 {
-   position: absolute;
-   top: 0;
-   bottom: 0;
-   right: 0;
-   font-size: 12px;
-   display: flex;
-   align-items: center;
-   width: 24px;
-   justify-content: center;
-   background: rgba(255,255,255,0.1);
-   content: "▼";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	font-size: 12px;
+	display: flex;
+	align-items: center;
+	width: 24px;
+	justify-content: center;
+	background: rgba(255,255,255,0.1);
+	content: "▼";
 }
 .pysssss-workflow-arrow-2:after {
 	content: "▼";
@@ -79,7 +99,24 @@ async function init_badge_mode() {
 		.then(data => { badge_mode = data; })
 }
 
+async function init_share_option() {
+	api.fetchApi('/manager/share_option')
+		.then(response => response.text())
+		.then(data => {
+			share_option = data || 'all';
+		});
+}
+
+async function init_notice(notice) {
+	api.fetchApi('/manager/notice')
+		.then(response => response.text())
+		.then(data => {
+			notice.innerHTML = data;
+		})
+}
+
 await init_badge_mode();
+await init_share_option();
 
 
 async function fetchNicknames() {
@@ -155,8 +192,8 @@ async function fetchUpdates(update_check_checkbox) {
 
 	try {
 		var mode = "url";
-        if(manager_instance.local_mode_checkbox.checked)
-            mode = "local";
+		if(manager_instance.local_mode_checkbox.checked)
+			mode = "local";
 
 		const response = await api.fetchApi(`/customnode/fetch_updates?mode=${mode}`);
 
@@ -190,7 +227,7 @@ async function fetchUpdates(update_check_checkbox) {
 	}
 }
 
-async function updateAll(update_check_checkbox) {
+async function updateAll(update_check_checkbox, manager_dialog) {
 	let prev_text = update_all_button.innerText;
 	update_all_button.innerText = "Updating all...(ComfyUI)";
 	update_all_button.disabled = true;
@@ -198,8 +235,8 @@ async function updateAll(update_check_checkbox) {
 
 	try {
 		var mode = "url";
-        if(manager_instance.local_mode_checkbox.checked)
-            mode = "local";
+		if(manager_instance.local_mode_checkbox.checked)
+			mode = "local";
 
 		update_all_button.innerText = "Updating all...";
 		const response1 = await api.fetchApi('/comfyui_manager/update_comfyui');
@@ -211,13 +248,21 @@ async function updateAll(update_check_checkbox) {
 			return false;
 		}
 		if(response1.status == 201 || response2.status == 201) {
-	        app.ui.dialog.show('ComfyUI and all extensions have been updated to the latest version.');
+			app.ui.dialog.show("ComfyUI and all extensions have been updated to the latest version.<BR>To apply the updated custom node, please <button id='cm-reboot-button'><font size='3px'>RESTART</font></button> ComfyUI. And refresh browser.");
+
+			const rebootButton = document.getElementById('cm-reboot-button');
+			rebootButton.onclick = function() {
+				if(rebootAPI()) {
+					manager_dialog.close();
+				}
+			};
+
 			app.ui.dialog.element.style.zIndex = 10010;
 		}
 		else {
 			app.ui.dialog.show('ComfyUI and all extensions are already up-to-date with the latest versions.');
-	        app.ui.dialog.element.style.zIndex = 10010;
-        }
+			app.ui.dialog.element.style.zIndex = 10010;
+		}
 
 		return true;
 	}
@@ -235,23 +280,37 @@ async function updateAll(update_check_checkbox) {
 
 function newDOMTokenList(initialTokens) {
 	const tmp = document.createElement(`div`);
-  
+
 	const classList = tmp.classList;
 	if (initialTokens) {
-	  initialTokens.forEach(token => {
+		initialTokens.forEach(token => {
 		classList.add(token);
-	  });
+		});
 	}
-  
-	return classList;
-  }  
 
+	return classList;
+	}
+
+/**
+ * Check whether the node is a potential output node (img, gif or video output)
+ */
+const isOutputNode = (node) => {
+	return [
+		"VHS_VideoCombine",
+		"PreviewImage",
+		"SaveImage",
+		"ADE_AnimateDiffCombine",
+		"SaveAnimatedWEBP",
+	].includes(node.type);
+}
 
 // -----------
 class ManagerMenuDialog extends ComfyDialog {
 	local_mode_checkbox = null;
 
 	createControlsMid() {
+		let self = this;
+
 		update_comfyui_button =
 			$el("button", {
 				type: "button",
@@ -273,7 +332,7 @@ class ManagerMenuDialog extends ComfyDialog {
 				type: "button",
 				textContent: "Update All",
 				onclick:
-					() => updateAll(this.update_check_checkbox)
+					() => updateAll(this.update_check_checkbox, self)
 			});
 
 		const res =
@@ -284,7 +343,7 @@ class ManagerMenuDialog extends ComfyDialog {
 					onclick:
 						() => {
 							if(!CustomNodesInstaller.instance)
-								CustomNodesInstaller.instance = new CustomNodesInstaller(app);
+								CustomNodesInstaller.instance = new CustomNodesInstaller(app, self);
 							CustomNodesInstaller.instance.show(false);
 						}
 				}),
@@ -295,7 +354,7 @@ class ManagerMenuDialog extends ComfyDialog {
 					onclick:
 						() => {
 							if(!CustomNodesInstaller.instance)
-								CustomNodesInstaller.instance = new CustomNodesInstaller(app);
+								CustomNodesInstaller.instance = new CustomNodesInstaller(app, self);
 							CustomNodesInstaller.instance.show(true);
 						}
 				}),
@@ -306,12 +365,12 @@ class ManagerMenuDialog extends ComfyDialog {
 					onclick:
 						() => {
 							if(!ModelInstaller.instance)
-								ModelInstaller.instance = new ModelInstaller(app);
+								ModelInstaller.instance = new ModelInstaller(app, self);
 							ModelInstaller.instance.show();
 						}
 				}),
 
-                $el("br", {}, []),
+				$el("br", {}, []),
 				update_all_button,
 				update_comfyui_button,
 				fetch_updates_button,
@@ -323,7 +382,7 @@ class ManagerMenuDialog extends ComfyDialog {
 					onclick:
 						() => {
 							if(!AlternativesInstaller.instance)
-								AlternativesInstaller.instance = new AlternativesInstaller(app);
+								AlternativesInstaller.instance = new AlternativesInstaller(app, self);
 							AlternativesInstaller.instance.show();
 						}
 				}),
@@ -335,6 +394,8 @@ class ManagerMenuDialog extends ComfyDialog {
 	}
 
 	createControlsLeft() {
+		let self = this;
+
 		this.local_mode_checkbox = $el("input",{type:'checkbox', id:"use_local_db"},[])
 		const checkbox_text = $el("label",{},[" Use local DB"])
 		checkbox_text.style.color = "var(--fg-color)";
@@ -364,7 +425,9 @@ class ManagerMenuDialog extends ComfyDialog {
 		let badge_combo = document.createElement("select");
 		badge_combo.appendChild($el('option', { value: 'none', text: 'Badge: None' }, []));
 		badge_combo.appendChild($el('option', { value: 'nick', text: 'Badge: Nickname' }, []));
+		badge_combo.appendChild($el('option', { value: 'nick_hide', text: 'Badge: Nickname (hide built-in)' }, []));
 		badge_combo.appendChild($el('option', { value: 'id_nick', text: 'Badge: #ID Nickname' }, []));
+		badge_combo.appendChild($el('option', { value: 'id_nick_hide', text: 'Badge: #ID Nickname (hide built-in)' }, []));
 
 		api.fetchApi('/manager/badge_mode')
 			.then(response => response.text())
@@ -401,12 +464,45 @@ class ManagerMenuDialog extends ComfyDialog {
 				}
 			});
 
+		// share
+		let share_combo = document.createElement("select");
+		const share_options = [
+			['none', 'None'],
+			['openart', 'OpenArt AI'],
+			['matrix', 'Matrix Server'],
+			['comfyworkflows', 'ComfyWorkflows'],
+			['all', 'All'],
+		];
+		for (const option of share_options) {
+			share_combo.appendChild($el('option', { value: option[0], text: `Share: ${option[1]}` }, []));
+		}
+
+		api.fetchApi('/manager/share_option')
+			.then(response => response.text())
+			.then(data => {
+				share_combo.value = data || 'all';
+				share_option = data || 'all';
+			});
+
+		share_combo.addEventListener('change', function (event) {
+			const value = event.target.value;
+			share_option = value;
+			api.fetchApi(`/manager/share_option?value=${value}`);
+			const shareButton = document.getElementById("shareButton");
+			if (value === 'none') {
+				shareButton.style.display = "none";
+			} else {
+				shareButton.style.display = "inline-block";
+			}
+		});
+
 		return [
 			$el("div", {}, [this.local_mode_checkbox, checkbox_text, this.update_check_checkbox, uc_checkbox_text]),
 			$el("br", {}, []),
 			preview_combo,
 			badge_combo,
 			channel_combo,
+			share_combo,
 
 			$el("hr", {}, []),
 			$el("center", {}, ["!! EXPERIMENTAL !!"]),
@@ -417,7 +513,7 @@ class ManagerMenuDialog extends ComfyDialog {
 				onclick:
 					() => {
 						if(!SnapshotManager.instance)
-						SnapshotManager.instance = new SnapshotManager(app);
+						SnapshotManager.instance = new SnapshotManager(app, self);
 						SnapshotManager.instance.show();
 					}
 			}),
@@ -436,7 +532,7 @@ class ManagerMenuDialog extends ComfyDialog {
 	}
 
 	createControlsRight() {
-		return [
+		const elts = [
 				$el("button", {
 					type: "button",
 					textContent: "ComfyUI Community Manual",
@@ -466,14 +562,14 @@ class ManagerMenuDialog extends ComfyDialog {
 											if (!ShareDialog.instance) {
 												ShareDialog.instance = new ShareDialog();
 											}
-								
+
 											app.graphToPrompt().then(prompt => {
 												// console.log({ prompt })
 												return app.graph._nodes;
 											}).then(nodes => {
 												// console.log({ nodes });
 												const { potential_outputs, potential_output_nodes } = getPotentialOutputsAndOutputNodes(nodes);
-								
+
 												if (potential_outputs.length === 0) {
 													if (potential_output_nodes.length === 0) {
 														// todo: add support for other output node types (animatediff combine, etc.)
@@ -484,7 +580,7 @@ class ManagerMenuDialog extends ComfyDialog {
 													}
 													return;
 												}
-								
+
 												ShareDialog.instance.show({ potential_outputs, potential_output_nodes });
 											});
 										},
@@ -514,7 +610,16 @@ class ManagerMenuDialog extends ComfyDialog {
 					textContent: "ComfyUI Nodes Info",
 					onclick: () => { window.open("https://ltdrdata.github.io/", "comfyui-node-info"); }
 				}),
+				$el("br", {}, []),
 		];
+
+		var textarea = document.createElement("div");
+		textarea.className = "cm-notice-board";
+		elts.push(textarea);
+
+		init_notice(textarea);
+
+		return elts;
 	}
 
 	constructor() {
@@ -547,7 +652,7 @@ class ManagerMenuDialog extends ComfyDialog {
 
 		this.element = $el("div.comfy-modal", { parent: document.body }, [ content ]);
 		this.element.style.width = '1000px';
-		this.element.style.height = '400px';
+		this.element.style.height = '420px';
 		this.element.style.zIndex = 10000;
 	}
 
@@ -584,52 +689,30 @@ app.registerExtension({
 
 
 		const shareButton = document.createElement("button");
+		shareButton.id = "shareButton";
 		shareButton.textContent = "Share";
 		shareButton.onclick = () => {
-			if (!ShareDialog.instance) {
-				ShareDialog.instance = new ShareDialog();
+			if (share_option === 'openart') {
+				showOpenArtShareDialog();
+				return;
+			} else if (share_option === 'matrix' || share_option === 'comfyworkflows') {
+				showShareDialog(share_option);
+				return;
 			}
 
-			app.graphToPrompt().then(prompt => {
-				// console.log({ prompt })
-				return app.graph._nodes;
-			}).then(nodes => {
-				// console.log({ nodes });
-				const { potential_outputs, potential_output_nodes } = getPotentialOutputsAndOutputNodes(nodes);
-
-				if (potential_outputs.length === 0) {
-					if (potential_output_nodes.length === 0) {
-						// todo: add support for other output node types (animatediff combine, etc.)
-						const supported_nodes_string = SUPPORTED_OUTPUT_NODE_TYPES.join(", ");
-						alert(`No supported output node found (${supported_nodes_string}). To share this workflow, please add an output node to your graph and re-run your prompt.`);
-					} else {
-						alert("To share this, first run a prompt. Once it's done, click 'Share'.\n\nNOTE: Images of the Share target can only be selected in the PreviewImage, SaveImage, and VHS_VideoCombine nodes. In the case of VHS_VideoCombine, only the image/gif and image/webp formats are supported.");
-					}
-					return;
-				}
-
-				ShareDialog.instance.show({ potential_outputs, potential_output_nodes });
-			});
+			if(!ShareDialogChooser.instance) {
+				ShareDialogChooser.instance = new ShareDialogChooser();
+			}
+			ShareDialogChooser.instance.show();
 		}
 		// make the background color a gradient of blue to green
 		shareButton.style.background = "linear-gradient(90deg, #00C9FF 0%, #92FE9D 100%)";
 		shareButton.style.color = "black";
 
-		app.ui.settings.addSetting({
-			id: "ComfyUIManager.ShowShareButtonInMainMenu",
-			name: "Show 'Share' button in the main menu",
-			type: "boolean",
-			defaultValue: true,
-			onChange: (value) => {
-				if (value) {
-					// show the button
-					shareButton.style.display = "inline-block";
-				} else {
-					// hide the button
-					shareButton.style.display = "none";
-				}
-			}
-		});
+		// Load share option from local storage to determine whether to show
+		// the share button.
+		const shouldShowShareButton = share_option !== 'none';
+		shareButton.style.display = shouldShowShareButton ? "inline-block" : "none";
 
 		menu.append(shareButton);
 	},
@@ -641,11 +724,20 @@ app.registerExtension({
 
 			if (!this.flags.collapsed && badge_mode != 'none' && nodeType.title_mode != LiteGraph.NO_TITLE) {
 				let text = "";
-				if (badge_mode == 'id_nick')
+				if (badge_mode.startsWith('id_nick'))
 					text = `#${this.id} `;
 
 				if (nicknames[nodeData.name.trim()]) {
 					let nick = nicknames[nodeData.name.trim()];
+
+					if (nick == 'ComfyUI') {
+						if(badge_mode.endsWith('hide')) {
+							nick = "";
+						}
+						else {
+							nick = "🦊"
+						}
+					}
 
 					if (nick.length > 25) {
 						text += nick.substring(0, 23) + "..";
@@ -675,6 +767,8 @@ app.registerExtension({
 			}
 			return r;
 		};
+
+		this._addExtraNodeContextMenu(nodeType, app);
 	},
 
 	async loadedGraphNode(node, app) {
@@ -685,11 +779,20 @@ app.registerExtension({
 
 				if (!this.flags.collapsed && badge_mode != 'none') {
 					let text = "";
-					if (badge_mode == 'id_nick')
+					if (badge_mode.startsWith('id_nick'))
 						text = `#${this.id} `;
 
 					if (nicknames[node.type.trim()]) {
 						let nick = nicknames[node.type.trim()];
+
+						if (nick == 'ComfyUI') {
+							if(badge_mode.endsWith('hide')) {
+								nick = "";
+							}
+							else {
+								nick = "🦊"
+							}
+						}
 
 						if (nick.length > 25) {
 							text += nick.substring(0, 23) + "..";
@@ -728,5 +831,45 @@ app.registerExtension({
 				return r;
 			};
 		}
-	}
+	},
+
+	_addExtraNodeContextMenu(node, app) {
+		const origGetExtraMenuOptions = node.prototype.getExtraMenuOptions;
+		node.prototype.getExtraMenuOptions = function (_, options) {
+			origGetExtraMenuOptions?.apply?.(this, arguments);
+			if (isOutputNode(node)) {
+				const { potential_outputs } = getPotentialOutputsAndOutputNodes([this]);
+				const hasOutput = potential_outputs.length > 0;
+
+				// Check if the previous menu option is `null`. If it's not,
+				// then we need to add a `null` as a separator.
+				if (options[options.length - 1] !== null) {
+					options.push(null);
+				}
+
+				options.push({
+					content: "🏞️ Share Output",
+					disabled: !hasOutput,
+					callback: (obj) => {
+						if (!ShareDialog.instance) {
+							ShareDialog.instance = new ShareDialog();
+						}
+						const shareButton = document.getElementById("shareButton");
+						if (shareButton) {
+							const currentNode = this;
+							if (!OpenArtShareDialog.instance) {
+								OpenArtShareDialog.instance = new OpenArtShareDialog();
+							}
+							OpenArtShareDialog.instance.selectedNodeId = currentNode.id;
+							if (!ShareDialog.instance) {
+								ShareDialog.instance = new ShareDialog(share_option);
+							}
+							ShareDialog.instance.selectedNodeId = currentNode.id;
+							shareButton.click();
+						}
+					}
+				}, null);
+			}
+		}
+	},
 });

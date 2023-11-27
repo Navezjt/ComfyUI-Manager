@@ -5,7 +5,8 @@
 ![menu](misc/menu.jpg)
 
 ## NOTICE
-* If you wish to hide the 'Share' button, please refer to the settings menu.
+* 🏆 John us for the [ComfyUI Workflow Contest](https://contest.openart.ai/), hosted by OpenArt AI (11.27.2023 - 12.15.2023). Our esteemed judge panel includes Scott E. Detweiler, Olivio Sarikas, MERJIC麦橘, among others. We're also thrilled to have the authors of ComfyUI Manager and AnimateDiff as our special guests!  
+* If you wish to hide the "Share" button, click "Manager" and choose "Share: None" option.
 * You can see whole nodes info on [ComfyUI Nodes Info](https://ltdrdata.github.io/) page.
 * Versions prior to V0.22.2 will no longer detect missing nodes unless using a local database. Please update ComfyUI-Manager to the latest version.
 
@@ -192,14 +193,14 @@ NODE_CLASS_MAPPINGS.update({
 
 ## Roadmap
 
-- [ ] System displaying information about failed custom nodes import.
-- [ ] Guide for missing nodes in ComfyUI vanilla nodes.
+- [x] System displaying information about failed custom nodes import.
+- [x] Guide for missing nodes in ComfyUI vanilla nodes.
+- [x] Collision checking system for nodes with the same ID across extensions.
 - [ ] Auto migration for custom nodes with changed structures.
 - [ ] Version control feature for nodes.
 - [ ] List of currently used custom nodes.
 - [ ] Template sharing system.
 - [ ] 3rd party API system.
-- [ ] Collision checking system for nodes with the same ID across extensions.
 
 
 # Disclaimer

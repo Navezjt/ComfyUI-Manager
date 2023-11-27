@@ -13,8 +13,11 @@ from tqdm.auto import tqdm
 import concurrent
 import ssl
 from urllib.parse import urlparse
+import http.client
+import re
+import signal
 
-version = "V1.0.2"
+version = "V1.5.2"
 print(f"### Loading: ComfyUI-Manager ({version})")
 
 
@@ -34,6 +37,10 @@ def handle_stream(stream, prefix):
 
 
 def run_script(cmd, cwd='.'):
+    if len(cmd) > 0 and cmd[0].startswith("#"):
+        print(f"[ComfyUI-Manager] Unexpected behavior: `{cmd}`")
+        return 0
+
     process = subprocess.Popen(cmd, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
 
     stdout_thread = threading.Thread(target=handle_stream, args=(process.stdout, ""))
@@ -80,6 +87,7 @@ from torchvision.datasets.utils import download_url
 
 comfy_ui_required_revision = 1240
 comfy_ui_revision = "Unknown"
+comfy_ui_commit_date = ""
 
 comfy_path = os.path.dirname(folder_paths.__file__)
 custom_nodes_path = os.path.join(comfy_path, 'custom_nodes')
@@ -115,6 +123,7 @@ def write_config():
         'git_exe':  get_config()['git_exe'],
         'channel_url': get_config()['channel_url'],
         'channel_url_list': get_config()['channel_url_list'],
+        'share_option': get_config()['share_option'],
         'bypass_ssl': get_config()['bypass_ssl']
     }
     with open(config_path, 'w') as configfile:
@@ -146,6 +155,7 @@ def read_config():
                     'git_exe': default_conf['git_exe'] if 'git_exe' in default_conf else '',
                     'channel_url': default_conf['channel_url'] if 'channel_url' in default_conf else 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main',
                     'channel_url_list': ch_url_list,
+                    'share_option': default_conf['share_option'] if 'share_option' in default_conf else 'all',
                     'bypass_ssl': default_conf['bypass_ssl'] if 'bypass_ssl' in default_conf else False,
                }
 
@@ -156,6 +166,7 @@ def read_config():
             'git_exe': '',
             'channel_url': 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main',
             'channel_url_list': '',
+            'share_option': 'all',
             'bypass_ssl': False
         }
 
@@ -233,11 +244,15 @@ def try_install_script(url, repo_path, install_cmd):
                 pass
 
         if code != 0:
+            if url is None:
+                url = os.path.dirname(repo_path)
             print(f"install script failed: {url}")
             return False
 
 def print_comfyui_version():
     global comfy_ui_revision
+    global comfy_ui_commit_date
+
     try:
         repo = git.Repo(os.path.dirname(folder_paths.__file__))
 
@@ -251,10 +266,11 @@ def print_comfyui_version():
         except:
             pass
 
+        comfy_ui_commit_date = repo.head.commit.committed_datetime.date()
         if current_branch == "master":
-            print(f"### ComfyUI Revision: {comfy_ui_revision} [{git_hash[:8]}] | Released on '{repo.head.commit.committed_datetime.date()}'")
+            print(f"### ComfyUI Revision: {comfy_ui_revision} [{git_hash[:8]}] | Released on '{comfy_ui_commit_date}'")
         else:
-            print(f"### ComfyUI Revision: {comfy_ui_revision} on '{current_branch}' [{git_hash[:8]}] | Released on '{repo.head.commit.committed_datetime.date()}'")
+            print(f"### ComfyUI Revision: {comfy_ui_revision} on '{current_branch}' [{git_hash[:8]}] | Released on '{comfy_ui_commit_date}'")
     except:
         print("### ComfyUI Revision: UNKNOWN (The currently installed ComfyUI is not a Git repository)")
 
@@ -325,7 +341,9 @@ def git_repo_has_updates(path, do_fetch=False, do_update=False):
         raise ValueError('Not a git repository')
 
     if platform.system() == "Windows":
-        return __win_check_git_update(path, do_fetch, do_update)
+        res = __win_check_git_update(path, do_fetch, do_update)
+        execute_install_script(None, path, lazy_mode=True)
+        return res
     else:
         # Fetch the latest commits from the remote repository
         repo = git.Repo(path)
@@ -349,6 +367,7 @@ def git_repo_has_updates(path, do_fetch=False, do_update=False):
                 new_commit_hash = repo.head.commit.hexsha
 
                 if commit_hash != new_commit_hash:
+                    execute_install_script(None, path)
                     print(f"\x1b[2K\rUpdated: {path}")
                     return True
                 else:
@@ -522,10 +541,15 @@ def check_a_custom_node_installed(item, do_fetch=False, do_update_check=True, do
             try:
                 if do_update_check and git_repo_has_updates(dir_path, do_fetch, do_update):
                     item['installed'] = 'Update'
+                elif sys.__comfyui_manager_is_import_failed_extension(dir_name):
+                    item['installed'] = 'Fail'
                 else:
                     item['installed'] = 'True'
             except:
-                item['installed'] = 'True'
+                if sys.__comfyui_manager_is_import_failed_extension(dir_name):
+                    item['installed'] = 'Fail'
+                else:
+                    item['installed'] = 'True'
 
         elif os.path.exists(dir_path + ".disabled"):
             item['installed'] = 'Disabled'
@@ -545,7 +569,10 @@ def check_a_custom_node_installed(item, do_fetch=False, do_update_check=True, do
 
         file_path = os.path.join(base_path, dir_name)
         if os.path.exists(file_path):
-            item['installed'] = 'True'
+            if sys.__comfyui_manager_is_import_failed_extension(dir_name):
+                item['installed'] = 'Fail'
+            else:
+                item['installed'] = 'True'
         elif os.path.exists(file_path + ".disabled"):
             item['installed'] = 'Disabled'
         else:
@@ -824,6 +851,14 @@ def save_snapshot_with_postfix(postfix):
             json.dump(get_current_snapshot(), json_file, indent=4)
 
 
+@server.PromptServer.instance.routes.get("/snapshot/get_current")
+async def get_current_snapshot_api(request):
+    try:
+        return web.json_response(get_current_snapshot(), content_type='application/json')
+    except:
+        return web.Response(status=400)
+
+
 @server.PromptServer.instance.routes.get("/snapshot/save")
 async def save_snapshot(request):
     try:
@@ -958,24 +993,28 @@ def copy_set_active(files, is_disable, js_path_name='.'):
     return True
 
 
-def execute_install_script(url, repo_path):
+def execute_install_script(url, repo_path, lazy_mode=False):
     install_script_path = os.path.join(repo_path, "install.py")
     requirements_path = os.path.join(repo_path, "requirements.txt")
 
-    if os.path.exists(requirements_path):
-        print("Install: pip packages")
-        with open(requirements_path, "r") as requirements_file:
-            for line in requirements_file:
-                package_name = line.strip()
-                if package_name:
-                    install_cmd = [sys.executable, "-m", "pip", "install", package_name]
-                    if package_name.strip() != "":
-                        try_install_script(url, repo_path, install_cmd)
-
-    if os.path.exists(install_script_path):
-        print(f"Install: install script")
-        install_cmd = [sys.executable, "install.py"]
+    if lazy_mode:
+        install_cmd = ["#LAZY-INSTALL-SCRIPT",  sys.executable]
         try_install_script(url, repo_path, install_cmd)
+    else:
+        if os.path.exists(requirements_path):
+            print("Install: pip packages")
+            with open(requirements_path, "r") as requirements_file:
+                for line in requirements_file:
+                    package_name = line.strip()
+                    if package_name:
+                        install_cmd = [sys.executable, "-m", "pip", "install", package_name]
+                        if package_name.strip() != "":
+                            try_install_script(url, repo_path, install_cmd)
+
+        if os.path.exists(install_script_path):
+            print(f"Install: install script")
+            install_cmd = [sys.executable, "install.py"]
+            try_install_script(url, repo_path, install_cmd)
 
     return True
 
@@ -1163,7 +1202,7 @@ def gitclone_update(files):
             repo_path = os.path.join(custom_nodes_path, repo_name)
             git_pull(repo_path)
 
-            if not execute_install_script(url, repo_path):
+            if not execute_install_script(url, repo_path, lazy_mode=True):
                 return False
 
         except Exception as e:
@@ -1408,11 +1447,74 @@ async def channel_url_list(request):
 
     return web.Response(status=200)
 
-def get_matrix_auth():
-    if not os.path.exists(os.path.join(folder_paths.base_path, "matrix_auth")):
+
+@server.PromptServer.instance.routes.get("/manager/notice")
+async def get_notice(request):
+    url = "github.com"
+    path = "/ltdrdata/ltdrdata.github.io/wiki/News"
+
+    conn = http.client.HTTPSConnection(url)
+    conn.request("GET", path)
+
+    response = conn.getresponse()
+
+    try:
+        if response.status == 200:
+            html_content = response.read().decode('utf-8')
+
+            pattern = re.compile(r'<div class="markdown-body">([\s\S]*?)</div>')
+            match = pattern.search(html_content)
+
+            if match:
+                markdown_content = match.group(1)
+                markdown_content += f"<HR>ComfyUI: {comfy_ui_revision} ({comfy_ui_commit_date})"
+                markdown_content += f"<BR>Manager: {version}"
+                return web.Response(text=markdown_content, status=200)
+            else:
+                return web.Response(text="Unable to retrieve Notice", status=200)
+        else:
+            return web.Response(text="Unable to retrieve Notice", status=200)
+    finally:
+        conn.close()
+
+
+@server.PromptServer.instance.routes.get("/manager/reboot")
+def restart(self):
+    try:
+        sys.stdout.close_log()
+    except Exception as e:
+        pass
+
+    return os.execv(sys.executable, [sys.executable] + sys.argv)
+
+
+@server.PromptServer.instance.routes.get("/manager/share_option")
+async def share_option(request):
+    if "value" in request.rel_url.query:
+        get_config()['share_option'] = request.rel_url.query['value']
+        write_config()
+    else:
+        return web.Response(text=get_config()['share_option'], status=200)
+
+    return web.Response(status=200)
+
+
+def get_openart_auth():
+    if not os.path.exists(os.path.join(comfyui_manager_path, ".openart_key")):
         return None
     try:
-        with open(os.path.join(folder_paths.base_path, "matrix_auth"), "r") as f:
+        with open(os.path.join(comfyui_manager_path, ".openart_key"), "r") as f:
+            openart_key = f.read().strip()
+        return openart_key if openart_key else None
+    except:
+        return None
+
+
+def get_matrix_auth():
+    if not os.path.exists(os.path.join(comfyui_manager_path, "matrix_auth")):
+        return None
+    try:
+        with open(os.path.join(comfyui_manager_path, "matrix_auth"), "r") as f:
             matrix_auth = f.read()
             homeserver, username, password = matrix_auth.strip().split("\n")
             if not homeserver or not username or not password:
@@ -1425,17 +1527,37 @@ def get_matrix_auth():
     except:
         return None
 
+
 def get_comfyworkflows_auth():
-    if not os.path.exists(os.path.join(folder_paths.base_path, "comfyworkflows_sharekey")):
+    if not os.path.exists(os.path.join(comfyui_manager_path, "comfyworkflows_sharekey")):
         return None
     try:
-        with open(os.path.join(folder_paths.base_path, "comfyworkflows_sharekey"), "r") as f:
+        with open(os.path.join(comfyui_manager_path, "comfyworkflows_sharekey"), "r") as f:
             share_key = f.read()
             if not share_key.strip():
                 return None
         return share_key
     except:
         return None
+
+
+@server.PromptServer.instance.routes.get("/manager/get_openart_auth")
+async def api_get_openart_auth(request):
+    # print("Getting stored Matrix credentials...")
+    openart_key = get_openart_auth()
+    if not openart_key:
+        return web.Response(status=404)
+    return web.json_response({"openart_key": openart_key})
+
+
+@server.PromptServer.instance.routes.post("/manager/set_openart_auth")
+async def api_set_openart_auth(request):
+    json_data = await request.json()
+    openart_key = json_data['openart_key']
+    with open(os.path.join(comfyui_manager_path, ".openart_key"), "w") as f:
+        f.write(openart_key)
+    return web.Response(status=200)
+
 
 @server.PromptServer.instance.routes.get("/manager/get_matrix_auth")
 async def api_get_matrix_auth(request):
@@ -1444,6 +1566,7 @@ async def api_get_matrix_auth(request):
     if not matrix_auth:
         return web.Response(status=404)
     return web.json_response(matrix_auth)
+
 
 @server.PromptServer.instance.routes.get("/manager/get_comfyworkflows_auth")
 async def api_get_comfyworkflows_auth(request):
@@ -1455,15 +1578,17 @@ async def api_get_comfyworkflows_auth(request):
         return web.Response(status=404)
     return web.json_response({"comfyworkflows_sharekey" : comfyworkflows_auth})
 
+
 def set_matrix_auth(json_data):
     homeserver = json_data['homeserver']
     username = json_data['username']
     password = json_data['password']
-    with open(os.path.join(folder_paths.base_path, "matrix_auth"), "w") as f:
+    with open(os.path.join(comfyui_manager_path, "matrix_auth"), "w") as f:
         f.write("\n".join([homeserver, username, password]))
 
+
 def set_comfyworkflows_auth(comfyworkflows_sharekey):
-    with open(os.path.join(folder_paths.base_path, "comfyworkflows_sharekey"), "w") as f:
+    with open(os.path.join(comfyui_manager_path, "comfyworkflows_sharekey"), "w") as f:
         f.write(comfyworkflows_sharekey)
 
 def has_provided_matrix_auth(matrix_auth):
@@ -1530,7 +1655,7 @@ async def share_art(request):
                 json={
                     "assetFileName": asset_filename,
                     "assetFileType": assetFileType,
-                    "workflowJsonFileName" : 'workflow.json', 
+                    "workflowJsonFileName" : 'workflow.json',
                     "workflowJsonFileType" : 'application/json',
 
                 },
@@ -1541,7 +1666,7 @@ async def share_art(request):
                 assetFileKey = presigned_urls_json["assetFileKey"]
                 workflowJsonFilePresignedUrl = presigned_urls_json["workflowJsonFilePresignedUrl"]
                 workflowJsonFileKey = presigned_urls_json["workflowJsonFileKey"]
-        
+
         # upload asset
         async with aiohttp.ClientSession(trust_env=True, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
             async with session.put(assetFilePresignedUrl, data=open(asset_filepath, "rb")) as resp:
