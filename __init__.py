@@ -16,10 +16,15 @@ from urllib.parse import urlparse
 import http.client
 import re
 import signal
+import nodes
 
-version = "V1.5.2"
+version = "V1.11.1"
 print(f"### Loading: ComfyUI-Manager ({version})")
 
+required_comfyui_revision = 1793
+
+
+cache_lock = threading.Lock()
 
 def handle_stream(stream, prefix):
     stream.reconfigure(encoding=locale.getpreferredencoding(), errors='replace')
@@ -94,6 +99,7 @@ custom_nodes_path = os.path.join(comfy_path, 'custom_nodes')
 js_path = os.path.join(comfy_path, "web", "extensions")
 
 comfyui_manager_path = os.path.dirname(__file__)
+cache_dir = os.path.join(comfyui_manager_path, '.cache')
 local_db_model = os.path.join(comfyui_manager_path, "model-list.json")
 local_db_alter = os.path.join(comfyui_manager_path, "alter-list.json")
 local_db_custom_node_list = os.path.join(comfyui_manager_path, "custom-node-list.json")
@@ -252,13 +258,14 @@ def try_install_script(url, repo_path, install_cmd):
 def print_comfyui_version():
     global comfy_ui_revision
     global comfy_ui_commit_date
+    global comfy_ui_hash
 
     try:
         repo = git.Repo(os.path.dirname(folder_paths.__file__))
 
         comfy_ui_revision = len(list(repo.iter_commits('HEAD')))
         current_branch = repo.active_branch.name
-        git_hash = repo.head.commit.hexsha
+        comfy_ui_hash = repo.head.commit.hexsha
 
         try:
             if int(comfy_ui_revision) < comfy_ui_required_revision:
@@ -268,9 +275,9 @@ def print_comfyui_version():
 
         comfy_ui_commit_date = repo.head.commit.committed_datetime.date()
         if current_branch == "master":
-            print(f"### ComfyUI Revision: {comfy_ui_revision} [{git_hash[:8]}] | Released on '{comfy_ui_commit_date}'")
+            print(f"### ComfyUI Revision: {comfy_ui_revision} [{comfy_ui_hash[:8]}] | Released on '{comfy_ui_commit_date}'")
         else:
-            print(f"### ComfyUI Revision: {comfy_ui_revision} on '{current_branch}' [{git_hash[:8]}] | Released on '{comfy_ui_commit_date}'")
+            print(f"### ComfyUI Revision: {comfy_ui_revision} on '{current_branch}' [{comfy_ui_hash[:8]}] | Released on '{comfy_ui_commit_date}'")
     except:
         print("### ComfyUI Revision: UNKNOWN (The currently installed ComfyUI is not a Git repository)")
 
@@ -433,8 +440,9 @@ async def get_data(uri):
             async with session.get(uri) as resp:
                 json_text = await resp.text()
     else:
-        with open(uri, "r", encoding="utf-8") as f:
-            json_text = f.read()
+        with cache_lock:
+            with open(uri, "r", encoding="utf-8") as f:
+                json_text = f.read()
 
     json_obj = json.loads(json_text)
     return json_obj
@@ -479,6 +487,57 @@ import aiohttp
 import json
 import zipfile
 import urllib.request
+
+
+def simple_hash(input_string):
+    hash_value = 0
+    for char in input_string:
+        hash_value = (hash_value * 31 + ord(char)) % (2**32)
+
+    return hash_value
+
+
+def is_file_created_within_one_day(file_path):
+    if not os.path.exists(file_path):
+        return False
+
+    file_creation_time = os.path.getctime(file_path)
+    current_time = datetime.datetime.now().timestamp()
+    time_difference = current_time - file_creation_time
+
+    return time_difference <= 86400
+
+
+async def get_data_by_mode(mode, filename):
+    try:
+        if mode == "local":
+            uri = os.path.join(comfyui_manager_path, filename)
+            json_obj = await get_data(uri)
+        else:
+            uri = get_config()['channel_url'] + '/' + filename
+            cache_uri = str(simple_hash(uri))+'_'+filename
+            cache_uri = os.path.join(cache_dir, cache_uri)
+
+            if mode == "cache":
+                if is_file_created_within_one_day(cache_uri):
+                    json_obj = await get_data(cache_uri)
+                else:
+                    json_obj = await get_data(uri)
+                    with cache_lock:
+                        with open(cache_uri, "w", encoding='utf-8') as file:
+                            json.dump(json_obj, file, indent=4, sort_keys=True)
+            else:
+                uri = get_config()['channel_url'] + '/' + filename
+                json_obj = await get_data(uri)
+                with cache_lock:
+                    with open(cache_uri, "w", encoding='utf-8') as file:
+                        json.dump(json_obj, file, indent=4, sort_keys=True)
+    except Exception as e:
+        print(f"[ComfyUI-Manager] Due to a network error, switching to local mode.\n=> {filename}\n=> {e}")
+        uri = os.path.join(comfyui_manager_path, filename)
+        json_obj = await get_data(uri)
+
+    return json_obj
 
 
 def get_model_dir(data):
@@ -605,14 +664,25 @@ def check_custom_nodes_installed(json_obj, do_fetch=False, do_update_check=True,
     elif do_update_check:
         print(f"\x1b[2K\rUpdate check done.")
 
+
 @server.PromptServer.instance.routes.get("/customnode/getmappings")
 async def fetch_customnode_mappings(request):
-    if request.rel_url.query["mode"] == "local":
-        uri = local_db_extension_node_mappings
-    else:
-        uri = get_config()['channel_url'] + '/extension-node-map.json'
+    json_obj = await get_data_by_mode(request.rel_url.query["mode"], 'extension-node-map.json')
+    
+    all_nodes = set()
+    patterns = []
+    for k, x in json_obj.items():
+        all_nodes.update(set(x[0]))
 
-    json_obj = await get_data(uri)
+        if 'nodename_pattern' in x[1]:
+            patterns.append((x[1]['nodename_pattern'], x[0]))
+
+    missing_nodes = set(nodes.NODE_CLASS_MAPPINGS.keys()) - all_nodes
+
+    for x in missing_nodes:
+        for pat, item in patterns:
+            if re.match(pat, x):
+                item.append(x)
 
     return web.json_response(json_obj, content_type='application/json')
 
@@ -620,12 +690,8 @@ async def fetch_customnode_mappings(request):
 @server.PromptServer.instance.routes.get("/customnode/fetch_updates")
 async def fetch_updates(request):
     try:
-        if request.rel_url.query["mode"] == "local":
-            uri = local_db_custom_node_list
-        else:
-            uri = get_config()['channel_url'] + '/custom-node-list.json'
+        json_obj = await get_data_by_mode(request.rel_url.query["mode"], 'custom-node-list.json')
 
-        json_obj = await get_data(uri)
         check_custom_nodes_installed(json_obj, True)
 
         update_exists = any('custom_nodes' in json_obj and 'installed' in node and node['installed'] == 'Update' for node in
@@ -644,12 +710,8 @@ async def update_all(request):
     try:
         save_snapshot_with_postfix('autosave')
 
-        if request.rel_url.query["mode"] == "local":
-            uri = local_db_custom_node_list
-        else:
-            uri = get_config()['channel_url'] + '/custom-node-list.json'
+        json_obj = await get_data_by_mode(request.rel_url.query["mode"], 'custom-node-list.json')
 
-        json_obj = await get_data(uri)
         check_custom_nodes_installed(json_obj, do_update=True)
 
         update_exists = any(item['installed'] == 'Update' for item in json_obj['custom_nodes'])
@@ -662,6 +724,47 @@ async def update_all(request):
         return web.Response(status=400)
 
 
+def convert_markdown_to_html(input_text):
+    pattern_a = re.compile(r'\[a/([^]]+)\]\(([^)]+)\)')
+    pattern_w = re.compile(r'\[w/([^]]+)\]')
+    pattern_i = re.compile(r'\[i/([^]]+)\]')
+    pattern_bold = re.compile(r'\*\*([^*]+)\*\*')
+    pattern_white = re.compile(r'%%([^*]+)%%')
+
+    def replace_a(match):
+        return f"<a href='{match.group(2)}'>{match.group(1)}</a>"
+
+    def replace_w(match):
+        return f"<p class='cm-warn-note'>{match.group(1)}</p>"
+
+    def replace_i(match):
+        return f"<p class='cm-info-note'>{match.group(1)}</p>"
+
+    def replace_bold(match):
+        return f"<B>{match.group(1)}</B>"
+
+    def replace_white(match):
+        return f"<font color='white'>{match.group(1)}</font>"
+
+    input_text = input_text.replace('\\[', '&#91;').replace('\\]', '&#93;').replace('<', '&lt;').replace('>', '&gt;')
+
+    result_text = re.sub(pattern_a, replace_a, input_text)
+    result_text = re.sub(pattern_w, replace_w, result_text)
+    result_text = re.sub(pattern_i, replace_i, result_text)
+    result_text = re.sub(pattern_bold, replace_bold, result_text)
+    result_text = re.sub(pattern_white, replace_white, result_text)
+
+    return result_text.replace("\n", "<BR>")
+
+
+def populate_markdown(x):
+    if 'description' in x:
+        x['description'] = convert_markdown_to_html(x['description'])
+
+    if 'title' in x:
+        x['title'] = x['title'].replace('<', '&lt;').replace('>', '&gt;')
+
+
 @server.PromptServer.instance.routes.get("/customnode/getlist")
 async def fetch_customnode_list(request):
     if "skip_update" in request.rel_url.query and request.rel_url.query["skip_update"] == "true":
@@ -670,12 +773,30 @@ async def fetch_customnode_list(request):
         skip_update = False
 
     if request.rel_url.query["mode"] == "local":
-        uri = local_db_custom_node_list
+        channel = 'local'
     else:
-        uri = get_config()['channel_url'] + '/custom-node-list.json'
+        channel = get_config()['channel_url']
 
-    json_obj = await get_data(uri)
+    json_obj = await get_data_by_mode(request.rel_url.query["mode"], 'custom-node-list.json')
+
     check_custom_nodes_installed(json_obj, False, not skip_update)
+
+    for x in json_obj['custom_nodes']:
+        populate_markdown(x)
+
+    if channel != 'local':
+        channels = default_channels+","+get_config()['channel_url_list']
+        channels = channels.split(',')
+
+        found = 'custom'
+        for item in channels:
+            item_info = item.split('::')
+            if len(item_info) == 2 and item_info[1] == channel:
+                found = item_info[0]
+
+        channel = found
+
+    json_obj['channel'] = channel
 
     return web.json_response(json_obj, content_type='application/json')
 
@@ -687,17 +808,11 @@ async def fetch_alternatives_list(request):
     else:
         skip_update = False
 
-    if request.rel_url.query["mode"] == "local":
-        uri1 = local_db_alter
-        uri2 = local_db_custom_node_list
-    else:
-        uri1 = get_config()['channel_url'] + '/alter-list.json'
-        uri2 = get_config()['channel_url'] + '/custom-node-list.json'
-
-    alter_json = await get_data(uri1)
-    custom_node_json = await get_data(uri2)
+    alter_json = await get_data_by_mode(request.rel_url.query["mode"], 'alter-list.json')
+    custom_node_json = await get_data_by_mode(request.rel_url.query["mode"], 'custom-node-list.json')
 
     fileurl_to_custom_node = {}
+
     for item in custom_node_json['custom_nodes']:
         for fileurl in item['files']:
             fileurl_to_custom_node[fileurl] = item
@@ -707,6 +822,9 @@ async def fetch_alternatives_list(request):
         if fileurl in fileurl_to_custom_node:
             custom_node = fileurl_to_custom_node[fileurl]
             check_a_custom_node_installed(custom_node, not skip_update)
+
+            populate_markdown(item)
+            populate_markdown(custom_node)
             item['custom_node'] = custom_node
 
     return web.json_response(alter_json, content_type='application/json')
@@ -730,12 +848,8 @@ def check_model_installed(json_obj):
 
 @server.PromptServer.instance.routes.get("/externalmodel/getlist")
 async def fetch_externalmodel_list(request):
-    if request.rel_url.query["mode"] == "local":
-        uri = local_db_model
-    else:
-        uri = get_config()['channel_url'] + '/model-list.json'
+    json_obj = await get_data_by_mode(request.rel_url.query["mode"], 'model-list.json')
 
-    json_obj = await get_data(uri)
     check_model_installed(json_obj)
 
     return web.json_response(json_obj, content_type='application/json')
@@ -1467,8 +1581,16 @@ async def get_notice(request):
 
             if match:
                 markdown_content = match.group(1)
-                markdown_content += f"<HR>ComfyUI: {comfy_ui_revision} ({comfy_ui_commit_date})"
+                markdown_content += f"<HR>ComfyUI: {comfy_ui_revision}[{comfy_ui_hash[:6]}]({comfy_ui_commit_date})"
+                # markdown_content += f"<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;()"
                 markdown_content += f"<BR>Manager: {version}"
+
+                try:
+                    if required_comfyui_revision > int(comfy_ui_revision):
+                        markdown_content = f'<P style="text-align: center; color:red; background-color:white; font-weight:bold">Your ComfyUI is too OUTDATED!!!</P>' + markdown_content
+                except:
+                    pass
+
                 return web.Response(text=markdown_content, status=200)
             else:
                 return web.Response(text="Unable to retrieve Notice", status=200)
@@ -1591,11 +1713,14 @@ def set_comfyworkflows_auth(comfyworkflows_sharekey):
     with open(os.path.join(comfyui_manager_path, "comfyworkflows_sharekey"), "w") as f:
         f.write(comfyworkflows_sharekey)
 
+
 def has_provided_matrix_auth(matrix_auth):
     return matrix_auth['homeserver'].strip() and matrix_auth['username'].strip() and matrix_auth['password'].strip()
 
+
 def has_provided_comfyworkflows_auth(comfyworkflows_sharekey):
     return comfyworkflows_sharekey.strip()
+
 
 @server.PromptServer.instance.routes.post("/manager/share")
 async def share_art(request):
@@ -1755,6 +1880,31 @@ async def share_art(request):
             "success" : None if "matrix" not in share_destinations else True
         }
     }, content_type='application/json', status=200)
+
+
+import asyncio
+async def default_cache_update():
+    async def get_cache(filename):
+        uri = 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/' + filename
+        cache_uri = str(simple_hash(uri)) + '_' + filename
+        cache_uri = os.path.join(cache_dir, cache_uri)
+
+        json_obj = await get_data(uri)
+
+        with cache_lock:
+            with open(cache_uri, "w", encoding='utf-8') as file:
+                json.dump(json_obj, file, indent=4, sort_keys=True)
+                print(f"[ComfyUI-Manager] default cache updated: {uri}")
+
+    a = get_cache("custom-node-list.json")
+    b = get_cache("extension-node-map.json")
+    c = get_cache("model-list.json")
+    d = get_cache("alter-list.json")
+
+    await asyncio.gather(a, b, c, d)
+
+threading.Thread(target=lambda: asyncio.run(default_cache_update())).start()
+
 
 WEB_DIRECTORY = "js"
 NODE_CLASS_MAPPINGS = {}

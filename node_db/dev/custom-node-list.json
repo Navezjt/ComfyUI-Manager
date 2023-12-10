@@ -1,6 +1,126 @@
 {
     "custom_nodes": [
         {
+            "author": "talesofai",
+            "title": "comfyui-supersave [WIP]",
+            "reference": "https://github.com/talesofai/comfyui-supersave",
+            "files": [
+                "https://github.com/talesofai/comfyui-supersave"
+            ],
+            "install_type": "git-clone",
+            "description": "WIP"
+        },
+        {
+            "author": "Sai-ComfyUI",
+            "title": "ComfyUI-MS-Nodes [WIP]",
+            "reference": "https://github.com/Sai-ComfyUI/ComfyUI-MS-Nodes",
+            "files": [
+                "https://github.com/Sai-ComfyUI/ComfyUI-MS-Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "WIP"
+        },
+        {
+            "author": "eigenpunk",
+            "title": "ComfyUI-audio",
+            "reference": "https://github.com/eigenpunk/ComfyUI-audio",
+            "files": [
+                "https://github.com/eigenpunk/ComfyUI-audio"
+            ],
+            "install_type": "git-clone",
+            "description": "generative audio tools for ComfyUI. highly experimental-expect things to break."
+        },
+        {
+            "author": "dmarx",
+            "title": "ComfyUI-Keyframed [WIP]",
+            "reference": "https://github.com/dmarx/ComfyUI-Keyframed",
+            "files": [
+                "https://github.com/dmarx/ComfyUI-Keyframed"
+            ],
+            "install_type": "git-clone",
+            "description": " ComfyUI nodes to facilitate value keyframing by providing an interface for using [a/keyframed](https://github.com/dmarx/keyframed) in ComfyUI workflows."
+        },
+        {
+            "author": "glibsonoran",
+            "title": "Plush-for-ComfyUI",
+            "reference": "https://github.com/glibsonoran/Plush-for-ComfyUI",
+            "files": [
+                "https://github.com/glibsonoran/Plush-for-ComfyUI"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Style Prompt, OAI Dall_e Image"
+        },
+        {
+            "author": "crystian",
+            "title": "Crystian Node Suite [WIP]",
+            "reference": "https://github.com/crystian/ComfyUI-Crys-Plugins",
+            "files": [
+                "https://github.com/crystian/ComfyUI-Crys-Plugins"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Debugger, CryConvert, Util, ..."
+        },
+        {
+            "author": "Jaxkr",
+            "title": "comfyui-terminal-command [UNSAFE]",
+            "reference": "https://github.com/Jaxkr/comfyui-terminal-command",
+            "files": [
+                "https://github.com/Jaxkr/comfyui-terminal-command"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Run Terminal Command. [w/This node is an unsafe node that includes the capability to execute terminal commands.]"
+        },
+        {
+            "author": "BlueDangerX",
+            "title": "ComfyUI-BDXNodes [WIP]",
+            "reference": "https://github.com/BlueDangerX/ComfyUI-BDXNodes",
+            "files": [
+                "https://github.com/BlueDangerX/ComfyUI-BDXNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Node Jumper. Various quality of life testing nodes"
+        },
+        {
+            "author": "ilovejohnwhite",
+            "title": "TatToolkit",
+            "reference": "https://github.com/ilovejohnwhite/UncleBillyGoncho",
+            "files": [
+                "https://github.com/ilovejohnwhite/UncleBillyGoncho"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:UWU TTK Preprocessor, Pixel Perfect Resolution, Generation Resolution From Image, Generation Resolution From Latent, Enchance And Resize Hint Images, ..."
+        },
+        {
+            "author": "ilovejohnwhite",
+            "title": "TatToolkit",
+            "reference": "https://github.com/ilovejohnwhite/TatToolkit",
+            "files": [
+                "https://github.com/ilovejohnwhite/TatToolkit"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Dip It, Rip It. This extension provides several image processing nodes."
+        },
+        {
+            "author": "IvanZhd",
+            "title": "comfyui-codeformer [WIP]",
+            "reference": "https://github.com/IvanZhd/comfyui-codeformer",
+            "files": [
+                "https://github.com/IvanZhd/comfyui-codeformer"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Image Inverter"
+        },
+        {
+            "author": "hinablue",
+            "title": "ComfyUI 3D Pose Editor",
+            "reference": "https://github.com/hinablue/ComfyUI_3dPoseEditor",
+            "files": [
+                "https://github.com/hinablue/ComfyUI_3dPoseEditor"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:3D Pose Editor"
+        },
+        {
             "author": "alt-key-project",
             "title": "Dream Project Video Batches [WIP]",
             "reference": "https://github.com/alt-key-project/comfyui-dream-video-batches",
@@ -68,7 +188,7 @@
                 "https://github.com/phineas-pta/comfy-trt-test"
             ],
             "install_type": "git-clone",
-            "description": "Test project for ComfyUI TensorRT Support.<BR>NOT WORKING YET.<BR>not automatic yet, do not use ComfyUI-Manager to install !!!.<BR>not beginner-friendly yet, still intended to technical users<BR>NOTE: The reason for registration in the Manager is for guidance, and for detailed installation instructions, please visit the repository."
+            "description": "Test project for ComfyUI TensorRT Support.\nNOT WORKING YET.\nnot automatic yet, do not use ComfyUI-Manager to install !!!.\nnot beginner-friendly yet, still intended to technical users\nNOTE: The reason for registration in the Manager is for guidance, and for detailed installation instructions, please visit the repository."
         },
         {
             "author": "Brandelan",
@@ -118,7 +238,7 @@
                 "https://github.com/PluMaZero/ComfyUI-SpaceFlower"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: SpaceFlower_Prompt."
+            "description": "Nodes: SpaceFlower_Prompt, SpaceFlower_HangulPrompt, ..."
         },
         {
             "author": "laksjdjf",
@@ -138,7 +258,7 @@
                 "https://github.com/flowtyone/comfyui-flowty-lcm"
             ],
             "install_type": "git-clone",
-            "description": "This is a comfyui early testing node for LCM, adapted from <a href='https://github.com/0xbitches/sd-webui-lcm'/>https://github.com/0xbitches/sd-webui-lcm</a>. It uses the diffusers backend unfortunately and not comfy's model loading mechanism. But the intention here is just to be able to execute lcm inside comfy.<BR>NOTE: 0xbitches's 'Latent Consistency Model for ComfyUI' is original implementation."
+            "description": "This is a comfyui early testing node for LCM, adapted from [a/https://github.com/0xbitches/sd-webui-lcm](https://github.com/0xbitches/sd-webui-lcm). It uses the diffusers backend unfortunately and not comfy's model loading mechanism. But the intention here is just to be able to execute lcm inside comfy.\nNOTE: 0xbitches's 'Latent Consistency Model for ComfyUI' is original implementation."
         },
         {
             "author": "doucx",
@@ -148,7 +268,7 @@
                 "https://github.com/doucx/ComfyUI_WcpD_Utility_Kit"
             ],
             "install_type": "git-clone",
-            "description": "Nodes: MergeStrings, ExecStrAsCode, RandnLatentImage. <p style='background-color: black; color: red;'>NOTE: This extension includes the ability to execute code as a string in nodes. Be cautious during installation, as it can pose a security risk.</p>"
+            "description": "Nodes: MergeStrings, ExecStrAsCode, RandnLatentImage. [w/NOTE: This extension includes the ability to execute code as a string in nodes. Be cautious during installation, as it can pose a security risk.]"
         },
         {
             "author": "AbyssYuan0",

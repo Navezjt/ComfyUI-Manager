@@ -4,9 +4,7 @@ import { ComfyDialog, $el } from "../../scripts/ui.js";
 import { install_checked_custom_node, manager_instance, rebootAPI } from  "./common.js";
 
 async function getCustomNodes() {
-	var mode = "url";
-	if(manager_instance.local_mode_checkbox.checked)
-		mode = "local";
+	var mode = manager_instance.datasrc_combo.value;
 
 	var skip_update = "";
 	if(manager_instance.update_check_checkbox.checked)
@@ -19,9 +17,7 @@ async function getCustomNodes() {
 }
 
 async function getCustomnodeMappings() {
-	var mode = "url";
-	if(manager_instance.local_mode_checkbox.checked)
-		mode = "local";
+	var mode = manager_instance.datasrc_combo.value;
 
 	const response = await api.fetchApi(`/customnode/getmappings?mode=${mode}`);
 
@@ -30,9 +26,7 @@ async function getCustomnodeMappings() {
 }
 
 async function getConflictMappings() {
-	var mode = "url";
-	if(manager_instance.local_mode_checkbox.checked)
-		mode = "local";
+	var mode = manager_instance.datasrc_combo.value;
 
 	const response = await api.fetchApi(`/customnode/getmappings?mode=${mode}`);
 
@@ -78,9 +72,7 @@ async function getConflictMappings() {
 
 async function getUnresolvedNodesInComponent() {
 	try {
-		var mode = "url";
-		if(manager_instance.local_mode_checkbox.checked)
-			mode = "local";
+		var mode = manager_instance.datasrc_combo.value;
 
 		const response = await api.fetchApi(`/component/get_unresolved`);
 
@@ -129,7 +121,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 		let keyword = this.search_box.value.toLowerCase();
 		for(let i in this.grid_rows) {
 			let data = this.grid_rows[i].data;
-			let content = data.author.toLowerCase() + data.description.toLowerCase() + data.title.toLowerCase();
+			let content = data.author.toLowerCase() + data.description.toLowerCase() + data.title.toLowerCase() + data.reference.toLowerCase();
 
 			if(this.filter && this.filter != '*') {
 				if(this.filter != data.installed) {
@@ -177,9 +169,20 @@ export class CustomNodesInstaller extends ComfyDialog {
 		}
 
 		const missing_nodes = new Set();
-		const nodes = app.graph.serialize().nodes;
+		const workflow = app.graph.serialize();
+		const group_nodes = workflow.extra && workflow.extra.groupNodes ? workflow.extra.groupNodes : [];
+		let nodes = workflow.nodes;
+
+		for (let i in group_nodes) {
+			let group_node = group_nodes[i];
+			nodes = nodes.concat(group_node.nodes);
+		}
+
 		for (let i in nodes) {
 			const node_type = nodes[i].type;
+			if(node_type.startsWith('workflow/'))
+				continue;
+
 			if (!registered_nodes.has(node_type)) {
 				const url = name_to_url[node_type.trim()];
 				if(url)
@@ -226,7 +229,9 @@ export class CustomNodesInstaller extends ComfyDialog {
 		this.element.appendChild(msg);
 
 		// invalidate
-		this.data = (await getCustomNodes()).custom_nodes;
+		let data = await getCustomNodes();
+		this.data = data.custom_nodes;
+		this.channel = data.channel;
 
 		this.conflict_mappings = await getConflictMappings();
 
@@ -250,12 +255,14 @@ export class CustomNodesInstaller extends ComfyDialog {
 		if(btn_id) {
 			const rebootButton = document.getElementById(btn_id);
 			const self = this;
-			rebootButton.onclick = function() {
-				if(rebootAPI()) {
-					self.close();
-					self.manager_dialog.close();
-				}
-			};
+			rebootButton.addEventListener("click",
+				function() {
+					if(rebootAPI()) {
+						self.close();
+						self.manager_dialog.close();
+					}
+				});
+			console.log(rebootButton);
 		}
 	}
 
@@ -667,7 +674,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 
 	createHeaderControls() {
 		let self = this;
-		this.search_box = $el('input', {type:'text', id:'manager-customnode-search-box', placeholder:'input search keyword', value:this.search_keyword}, []);
+		this.search_box = $el('input.cm-search-filter', {type:'text', id:'manager-customnode-search-box', placeholder:'input search keyword', value:this.search_keyword}, []);
 		this.search_box.style.height = "25px";
 		this.search_box.onkeydown = (event) => {
 				if (event.key === 'Enter') {
@@ -682,6 +689,7 @@ export class CustomNodesInstaller extends ComfyDialog {
 
 
 		let search_button = document.createElement("button");
+		search_button.className = "cm-small-button";
 		search_button.innerHTML = "Search";
 		search_button.onclick = () => {
 			self.search_keyword = self.search_box.value;
@@ -692,7 +700,14 @@ export class CustomNodesInstaller extends ComfyDialog {
 		let filter_control = this.createFilterCombo();
 		filter_control.style.display = "inline-block";
 
-		let cell = $el('td', {width:'100%'}, [filter_control, this.search_box, '  ', search_button]);
+		let channel_badge = '';
+		if(this.channel != 'default') {
+			channel_badge = $el('span', {id:'cm-channel-badge'}, [`Channel: ${this.channel}`]);
+		}
+		else {
+
+		}
+		let cell = $el('td', {width:'100%'}, [filter_control, channel_badge, this.search_box, '  ', search_button]);
 		let search_control = $el('table', {width:'100%'},
 				[
 					$el('tr', {}, [cell])
@@ -705,7 +720,8 @@ export class CustomNodesInstaller extends ComfyDialog {
 	}
 
 	async createBottomControls() {
-		let close_button = document.createElement("button");
+		var close_button = document.createElement("button");
+		close_button.className = "cm-small-button";
 		close_button.innerHTML = "Close";
 		close_button.onclick = () => { this.close(); }
 		close_button.style.display = "inline-block";

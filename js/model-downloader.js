@@ -32,9 +32,7 @@ async function install_model(target) {
 }
 
 async function getModelList() {
-	var mode = "url";
-	if(manager_instance.local_mode_checkbox.checked)
-		mode = "local";
+	var mode = manager_instance.datasrc_combo.value;
 
 	const response = await api.fetchApi(`/externalmodel/getlist?mode=${mode}`);
 
@@ -64,7 +62,7 @@ export class ModelInstaller extends ComfyDialog {
 
 	createControls() {
 		return [
-			$el("button", {
+			$el("button.cm-small-button", {
 				type: "button",
 				textContent: "Close",
 				onclick: () => { this.close(); }
@@ -132,12 +130,13 @@ export class ModelInstaller extends ComfyDialog {
 		if(btn_id) {
 			const rebootButton = document.getElementById(btn_id);
 			const self = this;
-			rebootButton.onclick = function() {
-				if(rebootAPI()) {
-					self.close();
-					self.manager_dialog.close();
-				}
-			};
+			rebootButton.addEventListener("click",
+				function() {
+					if(rebootAPI()) {
+						self.close();
+						self.manager_dialog.close();
+					}
+				});
 		}
 	}
 
@@ -326,7 +325,7 @@ export class ModelInstaller extends ComfyDialog {
 
 	createHeaderControls() {
 		let self = this;
-		this.search_box = $el('input', {type:'text', id:'manager-model-search-box', placeholder:'input search keyword', value:this.search_keyword}, []);
+		this.search_box = $el('input.cm-search-filter', {type:'text', id:'manager-model-search-box', placeholder:'input search keyword', value:this.search_keyword}, []);
 		this.search_box.style.height = "25px";
 		this.search_box.onkeydown = (event) => {
 				if (event.key === 'Enter') {
@@ -340,6 +339,7 @@ export class ModelInstaller extends ComfyDialog {
 			};
 
 		let search_button = document.createElement("button");
+		search_button.className = "cm-small-button";
 		search_button.innerHTML = "Search";
 		search_button.onclick = () => {
 			self.search_keyword = self.search_box.value;
@@ -363,6 +363,7 @@ export class ModelInstaller extends ComfyDialog {
 
 	async createBottomControls() {
 		var close_button = document.createElement("button");
+		close_button.className = "cm-small-button";
 		close_button.innerHTML = "Close";
 		close_button.onclick = () => { this.close(); }
 		close_button.style.display = "inline-block";
