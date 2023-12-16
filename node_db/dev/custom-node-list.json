@@ -1,6 +1,36 @@
 {
     "custom_nodes": [
         {
+            "author": "#NOTICE_1.13",
+            "title": "NOTICE: This channel is not the default channel.",
+            "reference": "https://github.com/ltdrdata/ComfyUI-Manager",
+            "files": [],
+            "install_type": "git-clone",
+            "description": "If you see this message, your ComfyUI-Manager is outdated.\nDev channel provides only the list of the developing nodes. If you want to find the complete node list, please go to the Default channel."
+        },
+        
+
+        {
+            "author": "foglerek",
+            "title": "comfyui-cem-tools",
+            "reference": "https://github.com/foglerek/comfyui-cem-tools",
+            "files": [
+                "https://github.com/foglerek/comfyui-cem-tools"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:ProcessImageBatch"
+        },
+        {
+            "author": "komojini",
+            "title": "ComfyUI_Prompt_Template_CustomNodes",
+            "reference": "https://github.com/komojini/ComfyUI_Prompt_Template_CustomNodes",
+            "files": [
+                "https://github.com/komojini/ComfyUI_Prompt_Template_CustomNodes/raw/main/prompt_with_template.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:Prompt with Template"
+        },
+        {
             "author": "talesofai",
             "title": "comfyui-supersave [WIP]",
             "reference": "https://github.com/talesofai/comfyui-supersave",
@@ -41,16 +71,6 @@
             "description": " ComfyUI nodes to facilitate value keyframing by providing an interface for using [a/keyframed](https://github.com/dmarx/keyframed) in ComfyUI workflows."
         },
         {
-            "author": "glibsonoran",
-            "title": "Plush-for-ComfyUI",
-            "reference": "https://github.com/glibsonoran/Plush-for-ComfyUI",
-            "files": [
-                "https://github.com/glibsonoran/Plush-for-ComfyUI"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: Style Prompt, OAI Dall_e Image"
-        },
-        {
             "author": "crystian",
             "title": "Crystian Node Suite [WIP]",
             "reference": "https://github.com/crystian/ComfyUI-Crys-Plugins",
@@ -89,16 +109,6 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes:UWU TTK Preprocessor, Pixel Perfect Resolution, Generation Resolution From Image, Generation Resolution From Latent, Enchance And Resize Hint Images, ..."
-        },
-        {
-            "author": "ilovejohnwhite",
-            "title": "TatToolkit",
-            "reference": "https://github.com/ilovejohnwhite/TatToolkit",
-            "files": [
-                "https://github.com/ilovejohnwhite/TatToolkit"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:Dip It, Rip It. This extension provides several image processing nodes."
         },
         {
             "author": "IvanZhd",
@@ -149,16 +159,6 @@
             ],
             "install_type": "git-clone",
             "description": "ComfyUI-EZ-Pipes is a set of custom pipe nodes for ComfyUI. It provides a set of Input/Edit/Output nodes for each pipe type."
-        },
-        {
-            "author": "baldsam",
-            "title": "ComfyUI_baldsam",
-            "reference": "https://github.com/baldsam/ComfyUI_baldsam",
-            "files": [
-                "https://github.com/baldsam/ComfyUI_baldsam"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:Universal Aspect Ratio."
         },
         {
             "author": "wormley",

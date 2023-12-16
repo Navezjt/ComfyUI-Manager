@@ -17,11 +17,16 @@ import http.client
 import re
 import signal
 import nodes
+import torch
 
-version = "V1.11.1"
-print(f"### Loading: ComfyUI-Manager ({version})")
+
+version = [1, 14]
+version_str = f"V{version[0]}.{version[1]}" + (f'.{version[2]}' if len(version) > 2 else '')
+print(f"### Loading: ComfyUI-Manager ({version_str})")
+
 
 required_comfyui_revision = 1793
+comfy_ui_hash = "-"
 
 
 cache_lock = threading.Lock()
@@ -297,6 +302,25 @@ def __win_check_git_update(path, do_fetch=False, do_update=False):
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     output, _ = process.communicate()
     output = output.decode('utf-8').strip()
+
+    if 'detected dubious' in output:
+        try:
+            # fix and try again
+            print(f"[ComfyUI-Manager] Try fixing 'dubious repository' error on '{path}' repo")
+            process = subprocess.Popen(['git', 'config', '--global', '--add', 'safe.directory', path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            output, _ = process.communicate()
+
+            process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            output, _ = process.communicate()
+            output = output.decode('utf-8').strip()
+        except Exception as e:
+            print(f'[ComfyUI-Manager] failed to fixing')
+
+        if 'detected dubious' in output:
+            print(f'\n[ComfyUI-Manager] Failed to fixing repository setup. Please execute this command on cmd: \n'
+                  f'-----------------------------------------------------------------------------------------\n'
+                  f'git config --global --add safe.directory "{path}"\n'
+                  f'-----------------------------------------------------------------------------------------\n')
 
     if do_update:
         if "CUSTOM NODE PULL: True" in output:
@@ -732,7 +756,7 @@ def convert_markdown_to_html(input_text):
     pattern_white = re.compile(r'%%([^*]+)%%')
 
     def replace_a(match):
-        return f"<a href='{match.group(2)}'>{match.group(1)}</a>"
+        return f"<a href='{match.group(2)}' target='blank'>{match.group(1)}</a>"
 
     def replace_w(match):
         return f"<p class='cm-warn-note'>{match.group(1)}</p>"
@@ -761,6 +785,9 @@ def populate_markdown(x):
     if 'description' in x:
         x['description'] = convert_markdown_to_html(x['description'])
 
+    if 'name' in x:
+        x['name'] = x['name'].replace('<', '&lt;').replace('>', '&gt;')
+
     if 'title' in x:
         x['title'] = x['title'].replace('<', '&lt;').replace('>', '&gt;')
 
@@ -778,6 +805,21 @@ async def fetch_customnode_list(request):
         channel = get_config()['channel_url']
 
     json_obj = await get_data_by_mode(request.rel_url.query["mode"], 'custom-node-list.json')
+
+    def is_ignored_notice(code):
+        global version
+
+        if code is not None and code.startswith('#NOTICE_'):
+            try:
+                notice_version = [int(x) for x in code[8:].split('.')]
+                return notice_version[0] < version[0] or (notice_version[0] == version[0] and notice_version[1] <= version[1])
+            except Exception:
+                return False
+        else:
+            False
+
+
+    json_obj['custom_nodes'] = [record for record in json_obj['custom_nodes'] if not is_ignored_notice(record.get('author'))]
 
     check_custom_nodes_installed(json_obj, False, not skip_update)
 
@@ -851,6 +893,9 @@ async def fetch_externalmodel_list(request):
     json_obj = await get_data_by_mode(request.rel_url.query["mode"], 'model-list.json')
 
     check_model_installed(json_obj)
+
+    for x in json_obj['models']:
+        populate_markdown(x)
 
     return web.json_response(json_obj, content_type='application/json')
 
@@ -1442,7 +1487,20 @@ async def update_comfyui(request):
 
         remote_name = 'origin'
         remote = repo.remote(name=remote_name)
-        remote.fetch()
+
+        try:
+            remote.fetch()
+        except Exception as e:
+            if 'detected dubious' in e:
+                print(f"[ComfyUI-Manager] Try fixing 'dubious repository' error on 'ComfyUI' repository")
+                subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', comfy_path])
+                try:
+                    remote.fetch()
+                except Exception:
+                    print(f"\n[ComfyUI-Manager] Failed to fixing repository setup. Please execute this command on cmd: \n"
+                          f"-----------------------------------------------------------------------------------------\n"
+                          f'git config --global --add safe.directory "{comfy_path}"\n'
+                          f"-----------------------------------------------------------------------------------------\n")
 
         commit_hash = repo.head.commit.hexsha
         remote_commit_hash = repo.refs[f'{remote_name}/{branch_name}'].object.hexsha
@@ -1511,6 +1569,28 @@ async def install_model(request):
         pass
 
     return web.Response(status=400)
+
+
+class ManagerTerminalHook:
+    def write_stderr(self, msg):
+        server.PromptServer.instance.send_sync("manager-terminal-feedback", {"data": msg})
+
+    def write_stdout(self, msg):
+        server.PromptServer.instance.send_sync("manager-terminal-feedback", {"data": msg})
+
+
+manager_terminal_hook = ManagerTerminalHook()
+
+
+@server.PromptServer.instance.routes.get("/manager/terminal")
+async def terminal_mode(request):
+    if "mode" in request.rel_url.query:
+        if request.rel_url.query['mode'] == 'true':
+            sys.__comfyui_manager_terminal_hook.add_hook('cm', manager_terminal_hook)
+        else:
+            sys.__comfyui_manager_terminal_hook.remove_hook('cm')
+
+    return web.Response(status=200)
 
 
 @server.PromptServer.instance.routes.get("/manager/preview_method")
@@ -1583,7 +1663,7 @@ async def get_notice(request):
                 markdown_content = match.group(1)
                 markdown_content += f"<HR>ComfyUI: {comfy_ui_revision}[{comfy_ui_hash[:6]}]({comfy_ui_commit_date})"
                 # markdown_content += f"<BR>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;()"
-                markdown_content += f"<BR>Manager: {version}"
+                markdown_content += f"<BR>Manager: {version_str}"
 
                 try:
                     if required_comfyui_revision > int(comfy_ui_revision):
