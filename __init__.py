@@ -1,26 +1,33 @@
 import configparser
 import mimetypes
 import shutil
+import traceback
+
 import folder_paths
 import os
 import sys
 import threading
 import datetime
-import re
 import locale
 import subprocess  # don't remove this
 from tqdm.auto import tqdm
 import concurrent
-import ssl
 from urllib.parse import urlparse
 import http.client
 import re
-import signal
 import nodes
-import torch
+
+try:
+    import cm_global
+except:
+    glob_path = os.path.join(os.path.dirname(__file__), "glob")
+    sys.path.append(glob_path)
+    import cm_global
+
+    print(f"[WARN] ComfyUI-Manager: Your ComfyUI version is outdated. Please update to the latest version.")
 
 
-version = [1, 14]
+version = [1, 19, 2]
 version_str = f"V{version[0]}.{version[1]}" + (f'.{version[2]}' if len(version) > 2 else '')
 print(f"### Loading: ComfyUI-Manager ({version_str})")
 
@@ -115,15 +122,42 @@ startup_script_path = os.path.join(comfyui_manager_path, "startup-scripts")
 config_path = os.path.join(os.path.dirname(__file__), "config.ini")
 cached_config = None
 
-
-default_channels = 'default::https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main,recent::https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main/node_db/new,'
-with open(os.path.join(comfyui_manager_path, 'channels.list'), 'r') as file:
-    channels = file.read()
-    default_channels = channels.replace('\n', ',')
-
+channel_list_path = os.path.join(comfyui_manager_path, 'channels.list')
+channel_dict = None
+channel_list = None
 
 from comfy.cli_args import args
 import latent_preview
+
+
+def get_channel_dict():
+    global channel_dict
+
+    if channel_dict is None:
+        channel_dict = {}
+
+        if not os.path.exists(channel_list_path):
+            shutil.copy(channel_list_path+'.template', channel_list_path)
+
+        with open(os.path.join(comfyui_manager_path, 'channels.list'), 'r') as file:
+            channels = file.read()
+            for x in channels.split('\n'):
+                channel_info = x.split("::")
+                if len(channel_info) == 2:
+                    channel_dict[channel_info[0]] = channel_info[1]
+
+    return channel_dict
+
+
+def get_channel_list():
+    global channel_list
+
+    if channel_list is None:
+        channel_list = []
+        for k, v in get_channel_dict().items():
+            channel_list.append(f"{k}::{v}")
+
+    return channel_list
 
 
 def write_config():
@@ -133,7 +167,6 @@ def write_config():
         'badge_mode': get_config()['badge_mode'],
         'git_exe':  get_config()['git_exe'],
         'channel_url': get_config()['channel_url'],
-        'channel_url_list': get_config()['channel_url_list'],
         'share_option': get_config()['share_option'],
         'bypass_ssl': get_config()['bypass_ssl']
     }
@@ -147,25 +180,11 @@ def read_config():
         config.read(config_path)
         default_conf = config['default']
 
-        channel_url_list_is_valid = True
-        if 'channel_url_list' in default_conf and default_conf['channel_url_list'] != '':
-            for item in default_conf['channel_url_list'].split(","):
-                if len(item.split("::")) != 2:
-                    channel_url_list_is_valid = False
-                    break
-
-        if channel_url_list_is_valid:
-            ch_url_list = default_conf['channel_url_list']
-        else:
-            print(f"[WARN] ComfyUI-Manager: channel_url_list is invalid format")
-            ch_url_list = ''
-
         return {
                     'preview_method': default_conf['preview_method'] if 'preview_method' in default_conf else get_current_preview_method(),
                     'badge_mode': default_conf['badge_mode'] if 'badge_mode' in default_conf else 'none',
                     'git_exe': default_conf['git_exe'] if 'git_exe' in default_conf else '',
                     'channel_url': default_conf['channel_url'] if 'channel_url' in default_conf else 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main',
-                    'channel_url_list': ch_url_list,
                     'share_option': default_conf['share_option'] if 'share_option' in default_conf else 'all',
                     'bypass_ssl': default_conf['bypass_ssl'] if 'bypass_ssl' in default_conf else False,
                }
@@ -176,7 +195,6 @@ def read_config():
             'badge_mode': 'none',
             'git_exe': '',
             'channel_url': 'https://raw.githubusercontent.com/ltdrdata/ComfyUI-Manager/main',
-            'channel_url_list': '',
             'share_option': 'all',
             'bypass_ssl': False
         }
@@ -272,6 +290,8 @@ def print_comfyui_version():
         current_branch = repo.active_branch.name
         comfy_ui_hash = repo.head.commit.hexsha
 
+        cm_global.variables['comfyui.revision'] = comfy_ui_revision
+
         try:
             if int(comfy_ui_revision) < comfy_ui_required_revision:
                 print(f"\n\n## [WARN] ComfyUI-Manager: Your ComfyUI version ({comfy_ui_revision}) is too old. Please update to the latest version. ##\n\n")
@@ -279,6 +299,21 @@ def print_comfyui_version():
             pass
 
         comfy_ui_commit_date = repo.head.commit.committed_datetime.date()
+
+        # process on_revision_detected -->
+        if 'cm.on_revision_detected_handler' in cm_global.variables:
+            for k, f in cm_global.variables['cm.on_revision_detected_handler']:
+                try:
+                    f(comfy_ui_revision)
+                except Exception:
+                    print(f"[ERROR] '{k}' on_revision_detected_handler")
+                    traceback.print_exc()
+
+            del cm_global.variables['cm.on_revision_detected_handler']
+        else:
+            print(f"[ComfyUI-Manager] Some features are restricted due to your ComfyUI being outdated.")
+        # <--
+
         if current_branch == "master":
             print(f"### ComfyUI Revision: {comfy_ui_revision} [{comfy_ui_hash[:8]}] | Released on '{comfy_ui_commit_date}'")
         else:
@@ -306,8 +341,9 @@ def __win_check_git_update(path, do_fetch=False, do_update=False):
     if 'detected dubious' in output:
         try:
             # fix and try again
-            print(f"[ComfyUI-Manager] Try fixing 'dubious repository' error on '{path}' repo")
-            process = subprocess.Popen(['git', 'config', '--global', '--add', 'safe.directory', path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            safedir_path = path.replace('\\', '/')
+            print(f"[ComfyUI-Manager] Try fixing 'dubious repository' error on '{safedir_path}' repo")
+            process = subprocess.Popen(['git', 'config', '--global', '--add', 'safe.directory', safedir_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             output, _ = process.communicate()
 
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -319,7 +355,7 @@ def __win_check_git_update(path, do_fetch=False, do_update=False):
         if 'detected dubious' in output:
             print(f'\n[ComfyUI-Manager] Failed to fixing repository setup. Please execute this command on cmd: \n'
                   f'-----------------------------------------------------------------------------------------\n'
-                  f'git config --global --add safe.directory "{path}"\n'
+                  f'git config --global --add safe.directory "{safedir_path}"\n'
                   f'-----------------------------------------------------------------------------------------\n')
 
     if do_update:
@@ -827,14 +863,12 @@ async def fetch_customnode_list(request):
         populate_markdown(x)
 
     if channel != 'local':
-        channels = default_channels+","+get_config()['channel_url_list']
-        channels = channels.split(',')
-
         found = 'custom'
-        for item in channels:
-            item_info = item.split('::')
-            if len(item_info) == 2 and item_info[1] == channel:
-                found = item_info[0]
+
+        for name, url in get_channel_dict().items():
+            if url == channel:
+                found = name
+                break
 
         channel = found
 
@@ -1189,12 +1223,14 @@ class GitProgress(RemoteProgress):
         self.pbar.pos = 0
         self.pbar.refresh()
 
+
 def is_valid_url(url):
     try:
         result = urlparse(url)
         return all([result.scheme, result.netloc])
     except ValueError:
         return False
+
 
 def gitclone_install(files):
     print(f"install: {files}")
@@ -1229,6 +1265,11 @@ def gitclone_install(files):
 
     print("Installation was successful.")
     return True
+
+
+def pip_install(packages):
+    install_cmd = ['#FORCE', sys.executable, "-m", "pip", "install", '-U'] + packages
+    try_install_script('pip install via manager', '.', install_cmd)
 
 
 import platform
@@ -1421,6 +1462,16 @@ async def install_custom_node_git_url(request):
     return web.Response(status=400)
 
 
+@server.PromptServer.instance.routes.get("/customnode/install/pip")
+async def install_custom_node_git_url(request):
+    res = False
+    if "packages" in request.rel_url.query:
+        packages = request.rel_url.query['packages']
+        pip_install(packages.split(' '))
+
+    return web.Response(status=200)
+
+
 @server.PromptServer.instance.routes.post("/customnode/uninstall")
 async def uninstall_custom_node(request):
     json_data = await request.json()
@@ -1491,15 +1542,16 @@ async def update_comfyui(request):
         try:
             remote.fetch()
         except Exception as e:
-            if 'detected dubious' in e:
+            if 'detected dubious' in str(e):
                 print(f"[ComfyUI-Manager] Try fixing 'dubious repository' error on 'ComfyUI' repository")
-                subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', comfy_path])
+                safedir_path = comfy_path.replace('\\', '/')
+                subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', safedir_path])
                 try:
                     remote.fetch()
                 except Exception:
                     print(f"\n[ComfyUI-Manager] Failed to fixing repository setup. Please execute this command on cmd: \n"
                           f"-----------------------------------------------------------------------------------------\n"
-                          f'git config --global --add safe.directory "{comfy_path}"\n'
+                          f'git config --global --add safe.directory "{safedir_path}"\n'
                           f"-----------------------------------------------------------------------------------------\n")
 
         commit_hash = repo.head.commit.hexsha
@@ -1552,13 +1604,15 @@ async def install_model(request):
         if model_path is not None:
             print(f"Install model '{json_data['name']}' into '{model_path}'")
 
-            if json_data['url'].startswith('https://github.com') or json_data['url'].startswith('https://huggingface.co'):
+            model_url = json_data['url']
+
+            if model_url.startswith('https://github.com') or model_url.startswith('https://huggingface.co') or model_url.startswith('https://heibox.uni-heidelberg.de'):
                 model_dir = get_model_dir(json_data)
-                download_url(json_data['url'], model_dir)
+                download_url(model_url, model_dir, filename=json_data['filename'])
                 
                 return web.json_response({}, content_type='application/json')
             else:
-                res = download_url_with_agent(json_data['url'], model_path)
+                res = download_url_with_agent(model_url, model_path)
         else:
             print(f"Model installation error: invalid model type - {json_data['type']}")
 
@@ -1617,26 +1671,23 @@ async def badge_mode(request):
 
 @server.PromptServer.instance.routes.get("/manager/channel_url_list")
 async def channel_url_list(request):
-    channels = default_channels+","+get_config()['channel_url_list']
-    channels = channels.split(',')
-
+    channels = get_channel_dict()
     if "value" in request.rel_url.query:
-        for item in channels:
-            name_url = item.split("::")
-            if len(name_url) == 2 and name_url[0] == request.rel_url.query['value']:
-                get_config()['channel_url'] = name_url[1]
-                write_config()
-                break
+        channel_url = channels.get(request.rel_url.query['value'])
+        if channel_url is not None:
+            get_config()['channel_url'] = channel_url
+            write_config()
     else:
         selected = 'custom'
         selected_url = get_config()['channel_url']
-        for item in channels:
-            item_info = item.split('::')
-            if len(item_info) == 2 and item_info[1] == selected_url:
-                selected = item_info[0]
+
+        for name, url in channels.items():
+            if url == selected_url:
+                selected = name
+                break
 
         res = {'selected': selected,
-               'list': channels}
+               'list': get_channel_list()}
         return web.json_response(res, status=200)
 
     return web.Response(status=200)
@@ -1950,16 +2001,55 @@ async def share_art(request):
         except:
             import traceback
             traceback.print_exc()
-            return web.json_response({"error" : "An error occurred when sharing your art to Matrix."}, content_type='application/json', status=500)
+            return web.json_response({"error": "An error occurred when sharing your art to Matrix."}, content_type='application/json', status=500)
     
     return web.json_response({
-        "comfyworkflows" : {
-            "url" : None if "comfyworkflows" not in share_destinations else f"{share_website_host}/workflows/{workflowId}",
+        "comfyworkflows": {
+            "url": None if "comfyworkflows" not in share_destinations else f"{share_website_host}/workflows/{workflowId}",
         },
-        "matrix" : {
-            "success" : None if "matrix" not in share_destinations else True
+        "matrix": {
+            "success": None if "matrix" not in share_destinations else True
         }
     }, content_type='application/json', status=200)
+
+
+def sanitize(data):
+    return data.replace("<", "&lt;").replace(">", "&gt;")
+
+
+def lookup_customnode_by_url(data, target):
+    for x in data['custom_nodes']:
+        if target in x['files']:
+            dir_name = os.path.splitext(os.path.basename(target))[0].replace(".git", "")
+            dir_path = os.path.join(custom_nodes_path, dir_name)
+            if os.path.exists(dir_path):
+                x['installed'] = 'True'
+            elif os.path.exists(dir_path + ".disabled"):
+                x['installed'] = 'Disabled'
+            return x
+
+    return None
+
+
+async def _confirm_try_install(sender, custom_node_url, msg):
+    json_obj = await get_data_by_mode('default', 'custom-node-list.json')
+
+    sender = sanitize(sender)
+    msg = sanitize(msg)
+    target = lookup_customnode_by_url(json_obj, custom_node_url)
+
+    if target is not None:
+        server.PromptServer.instance.send_sync("cm-api-try-install-customnode",
+                                               {"sender": sender, "target": target, "msg": msg})
+    else:
+        print(f"[ComfyUI Manager API] Failed to try install - Unknown custom node url '{custom_node_url}'")
+
+
+def confirm_try_install(sender, custom_node_url, msg):
+    asyncio.run(_confirm_try_install(sender, custom_node_url, msg))
+
+
+cm_global.register_api('cm.try-install-custom-node', confirm_try_install)
 
 
 import asyncio
@@ -1989,4 +2079,10 @@ threading.Thread(target=lambda: asyncio.run(default_cache_update())).start()
 WEB_DIRECTORY = "js"
 NODE_CLASS_MAPPINGS = {}
 __all__ = ['NODE_CLASS_MAPPINGS']
+
+cm_global.register_extension('ComfyUI-Manager',
+                             {'version': version,
+                              'name': 'ComfyUI Manager',
+                              'nodes': {'Terminal Log //CM'},
+                              'description': 'It provides the ability to manage custom nodes in ComfyUI.', })
 

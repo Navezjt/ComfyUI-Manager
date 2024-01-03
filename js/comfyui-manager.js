@@ -7,13 +7,13 @@ import { CustomNodesInstaller } from "./custom-nodes-downloader.js";
 import { AlternativesInstaller } from "./a1111-alter-downloader.js";
 import { SnapshotManager } from "./snapshot.js";
 import { ModelInstaller } from "./model-downloader.js";
-import { manager_instance, setManagerInstance, install_via_git_url, rebootAPI } from  "./common.js";
+import { manager_instance, setManagerInstance, install_via_git_url, install_pip, rebootAPI } from  "./common.js";
 
 var docStyle = document.createElement('style');
 docStyle.innerHTML = `
 #cm-manager-dialog {
 	width: 1000px;
-	height: 420px;
+	height: 450px;
 	box-sizing: content-box;
 	z-index: 10000;
 }
@@ -113,7 +113,7 @@ let share_option = 'all';
 
 // copied style from https://github.com/pythongosssss/ComfyUI-Custom-Scripts
 const style = `
-#comfyworkflows-button {
+#workflowgallery-button {
 	width: 310px;
 	height: 27px;
 	padding: 0px !important;
@@ -165,14 +165,16 @@ const style = `
 
 .cm-experimental-legend {
 	margin-top: -20px;
-	margin-left: 95px;
-	width:100px;
+	margin-left: 50%;
+	width:auto;
 	height:20px;
 	font-size: 13px;
 	font-weight: bold;
 	background-color: #990000;
 	color: #CCFFFF;
 	border-radius: 5px;
+	text-align: center;
+	transform: translateX(-50%);
 }
 
 .cm-menu-combo {
@@ -237,7 +239,7 @@ const style = `
 .pysssss-workflow-popup-2 ~ .litecontextmenu {
 	transform: scale(1.3);
 }
-#comfyworkflows-button-menu {
+#workflowgallery-button-menu {
 	z-index: 10000000000 !important;
 }
 #cm-manual-button-menu {
@@ -753,9 +755,9 @@ class ManagerMenuDialog extends ComfyDialog {
 			$el("div", {}, [this.update_check_checkbox, uc_checkbox_text]),
 			$el("br", {}, []),
 			this.datasrc_combo,
+			channel_combo,
 			preview_combo,
 			badge_combo,
-			channel_combo,
 			share_combo,
 			$el("br", {}, []),
 			$el("button.cm-button", {
@@ -781,6 +783,18 @@ class ManagerMenuDialog extends ComfyDialog {
 								if(!SnapshotManager.instance)
 								SnapshotManager.instance = new SnapshotManager(app, self);
 								SnapshotManager.instance.show();
+							}
+					}),
+					$el("button.cm-experimental-button", {
+						type: "button",
+						textContent: "Install PIP packages",
+						onclick:
+							() => {
+								var url = prompt("Please enumerate the pip packages to be installed.\n\nExample: insightface opencv-python-headless>=4.1.1\n", "");
+
+								if (url !== null) {
+									install_pip(url, self);
+								}
 							}
 					})
 				]),
@@ -819,7 +833,7 @@ class ManagerMenuDialog extends ComfyDialog {
 									{
 										title: "Close",
 										callback: () => {
-											this.close();
+											LiteGraph.closeAllContextMenus();
 										},
 									}
 								],
@@ -837,68 +851,46 @@ class ManagerMenuDialog extends ComfyDialog {
 				]),
 
 				$el("button", {
-					id: 'comfyworkflows-button',
-					type: "button",
-					textContent: "Workflow Gallery",
-					onclick: () => { window.open("https://comfyworkflows.com/", "comfyui-workflow-gallery"); }
+          id: 'workflowgallery-button',
+          type: "button",
+					style: {
+            ...(localStorage.getItem("wg_last_visited") ? {height: '50px'} : {})
+					},
+          onclick: (e) => {
+						const last_visited_site = localStorage.getItem("wg_last_visited")
+						if (!!last_visited_site) {
+							window.open(last_visited_site, "comfyui-workflow-gallery");
+						} else {
+							this.handleWorkflowGalleryButtonClick(e)
+						}
+					},
 				}, [
-					$el("div.pysssss-workflow-arrow-2", {
-						id: `comfyworkflows-button-arrow`,
-						onclick: (e) => {
-							e.preventDefault();
-							e.stopPropagation();
-
-							LiteGraph.closeAllContextMenus();
-							const menu = new LiteGraph.ContextMenu(
-								[
-									{
-										title: "Share your art",
-										callback: () => {
-											this.close();
-											if (!ShareDialog.instance) {
-												ShareDialog.instance = new ShareDialog();
-											}
-
-											app.graphToPrompt().then(prompt => {
-												// console.log({ prompt })
-												return app.graph._nodes;
-											}).then(nodes => {
-												// console.log({ nodes });
-												const { potential_outputs, potential_output_nodes } = getPotentialOutputsAndOutputNodes(nodes);
-
-												if (potential_outputs.length === 0) {
-													if (potential_output_nodes.length === 0) {
-														// todo: add support for other output node types (animatediff combine, etc.)
-														const supported_nodes_string = SUPPORTED_OUTPUT_NODE_TYPES.join(", ");
-														alert(`No supported output node found (${supported_nodes_string}). To share this workflow, please add an output node to your graph and re-run your prompt.`);
-													} else {
-														alert("To share this, first run a prompt. Once it's done, click 'Share'.");
-													}
-													return;
-												}
-
-												ShareDialog.instance.show({ potential_outputs, potential_output_nodes });
-											});
-										},
-									},
-									{
-										title: "Close",
-										callback: () => {
-											this.close();
-										},
-									}
-								],
-								{
-									event: e,
-									scale: 1.3,
-								},
-								window
-							);
-							// set the id so that we can override the context menu's z-index to be above the comfyui manager menu
-							menu.root.id = "comfyworkflows-button-menu";
-							menu.root.classList.add("pysssss-workflow-popup-2");
-						},
-					})
+					$el("p", {
+            textContent: 'Workflow Gallery',
+            style: {
+              'text-align': 'center',
+              'color': 'white',
+              'font-size': '18px',
+              'margin': 0,
+              'padding': 0,
+            }
+          }, [
+						$el("p", {
+							id: 'workflowgallery-button-last-visited-label',
+							textContent: `(${localStorage.getItem("wg_last_visited") ? localStorage.getItem("wg_last_visited").split('/')[2] : ''})`,
+							style: {
+								'text-align': 'center',
+								'color': 'white',
+								'font-size': '12px',
+								'margin': 0,
+								'padding': 0,
+							}
+						})
+					]),
+          $el("div.pysssss-workflow-arrow-2", {
+            id: `comfyworkflows-button-arrow`,
+            onclick: this.handleWorkflowGalleryButtonClick
+          })
 				]),
 
 				$el("button.cm-button", {
@@ -937,7 +929,7 @@ class ManagerMenuDialog extends ComfyDialog {
 								$el("div.cm-menu-column", [...this.createControlsMid()]),
 								$el("div.cm-menu-column", [...this.createControlsRight()])
 							]),
-				
+
 						$el("br", {}, []),
 						close_button,
 					]
@@ -952,6 +944,75 @@ class ManagerMenuDialog extends ComfyDialog {
 	show() {
 		this.element.style.display = "block";
 	}
+
+  handleWorkflowGalleryButtonClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    LiteGraph.closeAllContextMenus();
+
+		// Modify the style of the button so that the UI can indicate the last
+		// visited site right away.
+		const modifyButtonStyle = (url) => {
+			const workflowGalleryButton = document.getElementById('workflowgallery-button');
+			workflowGalleryButton.style.height = '50px';
+			const lastVisitedLabel = document.getElementById('workflowgallery-button-last-visited-label');
+			lastVisitedLabel.textContent = `(${url.split('/')[2]})`;
+		}
+
+    const menu = new LiteGraph.ContextMenu(
+      [
+        {
+          title: "Share your art",
+          callback: () => {
+            if (share_option === 'openart') {
+              showOpenArtShareDialog();
+              return;
+            } else if (share_option === 'matrix' || share_option === 'comfyworkflows') {
+              showShareDialog(share_option);
+              return;
+            }
+
+            if (!ShareDialogChooser.instance) {
+              ShareDialogChooser.instance = new ShareDialogChooser();
+            }
+            ShareDialogChooser.instance.show();
+          },
+        },
+        {
+          title: "Open 'openart.ai'",
+					callback: () => {
+						const url = "https://openart.ai/workflows/dev";
+						localStorage.setItem("wg_last_visited", url);
+						window.open(url, "comfyui-workflow-gallery");
+						modifyButtonStyle(url);
+					},
+        },
+        {
+          title: "Open 'comfyworkflows.com'",
+          callback: () => {
+						const url = "https://comfyworkflows.com/";
+						localStorage.setItem("wg_last_visited", url);
+            window.open(url, "comfyui-workflow-gallery");
+						modifyButtonStyle(url);
+          },
+        },
+        {
+          title: "Close",
+          callback: () => {
+            LiteGraph.closeAllContextMenus();
+          },
+        }
+      ],
+      {
+        event: e,
+        scale: 1.3,
+      },
+      window
+    );
+    // set the id so that we can override the context menu's z-index to be above the comfyui manager menu
+    menu.root.id = "workflowgallery-button-menu";
+    menu.root.classList.add("pysssss-workflow-popup-2");
+  }
 }
 
 

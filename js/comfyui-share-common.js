@@ -1,5 +1,5 @@
 import { app } from "../../scripts/app.js";
-import { api } from "../../scripts/api.js"
+import { api } from "../../scripts/api.js";
 import { ComfyDialog, $el } from "../../scripts/ui.js";
 import { OpenArtShareDialog } from "./comfyui-share-openart.js";
 
@@ -87,7 +87,7 @@ export function getPotentialOutputsAndOutputNodes(nodes) {
 						const widgetValue = node.widgets[j].value;
 						const parsedURLVals = widgetValue.params;
 
-						if(!parsedURLVals.format.startsWith('image')) {
+						if(!parsedURLVals.format?.startsWith('image')) {
 							// video isn't supported format
 							continue;
 						}
@@ -387,6 +387,7 @@ export class ShareDialogChooser extends ComfyDialog {
 	}
 	show() {
 		this.element.style.display = "block";
+		this.element.style.zIndex = 10001;
 	}
 }
 export class ShareDialog extends ComfyDialog {

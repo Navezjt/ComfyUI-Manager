@@ -11,6 +11,26 @@
         
 
         {
+            "author": "kadirnar",
+            "title": "comfyui_helpers",
+            "reference": "https://github.com/kadirnar/comfyui_helpers",
+            "files": [
+                "https://github.com/kadirnar/comfyui_helpers"
+            ],
+            "install_type": "git-clone",
+            "description": "A collection of nodes randomly selected and gathered, related to noise. NOTE: SD-Advanced-Noise, noise_latent_perlinpinpin, comfy-plasma"
+        },
+        {
+            "author": "ZHO-ZHO-ZHO",
+            "title": "ComfyUI ArtGallery（WIP)",
+            "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-ArtGallery",
+            "files": [
+                "https://github.com/ZHO-ZHO-ZHO/ComfyUI-ArtGallery"
+            ],
+            "install_type": "git-clone",
+            "description": "Visualize the selection of prompts:Choosing prompts has never really been suitable for humans, especially when there are a lot of prompts to choose from. Selecting corresponding visual references is a more suitable way."
+        },
+        {
             "author": "foglerek",
             "title": "comfyui-cem-tools",
             "reference": "https://github.com/foglerek/comfyui-cem-tools",
@@ -59,26 +79,6 @@
             ],
             "install_type": "git-clone",
             "description": "generative audio tools for ComfyUI. highly experimental-expect things to break."
-        },
-        {
-            "author": "dmarx",
-            "title": "ComfyUI-Keyframed [WIP]",
-            "reference": "https://github.com/dmarx/ComfyUI-Keyframed",
-            "files": [
-                "https://github.com/dmarx/ComfyUI-Keyframed"
-            ],
-            "install_type": "git-clone",
-            "description": " ComfyUI nodes to facilitate value keyframing by providing an interface for using [a/keyframed](https://github.com/dmarx/keyframed) in ComfyUI workflows."
-        },
-        {
-            "author": "crystian",
-            "title": "Crystian Node Suite [WIP]",
-            "reference": "https://github.com/crystian/ComfyUI-Crys-Plugins",
-            "files": [
-                "https://github.com/crystian/ComfyUI-Crys-Plugins"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: Debugger, CryConvert, Util, ..."
         },
         {
             "author": "Jaxkr",
@@ -165,7 +165,7 @@
             "title": "comfyui-wormley-nodes",
             "reference": "https://github.com/wormley/comfyui-wormley-nodes",
             "files": [
-                "hhttps://github.com/wormley/comfyui-wormley-nodes"
+                "https://github.com/wormley/comfyui-wormley-nodes"
             ],
             "install_type": "git-clone",
             "description": "Nodes: CheckpointVAELoaderSimpleText, CheckpointVAESelectorText, LoRA_Tag_To_Stack"
@@ -271,16 +271,6 @@
             "description": "Nodes: MergeStrings, ExecStrAsCode, RandnLatentImage. [w/NOTE: This extension includes the ability to execute code as a string in nodes. Be cautious during installation, as it can pose a security risk.]"
         },
         {
-            "author": "AbyssYuan0",
-            "title": "ComfyUI_BadgerTools",
-            "reference": "https://github.com/AbyssYuan0/ComfyUI_BadgerTools",
-            "files": [
-                "https://github.com/AbyssYuan0/ComfyUI_BadgerTools"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes: ImageOverlap-badger, FloatToInt-badger, IntToString-badger, FloatToString-badger."
-        },
-        {
             "author": "WSJUSA",
             "title": "pre-comfyui-stablsr",
             "reference": "https://github.com/WSJUSA/Comfyui-StableSR",
@@ -289,16 +279,6 @@
             ],
             "install_type": "git-clone",
             "description": "This is a development respository for debugging migration of StableSR to Comfyui"
-        },
-        {
-            "author": "Fannovel16",
-            "title": "ComfyUI MotionDiff",
-            "reference": "https://github.com/Fannovel16/ComfyUI-MotionDiff",
-            "files": [
-                "https://github.com/Fannovel16/ComfyUI-MotionDiff"
-            ],
-            "install_type": "git-clone",
-            "description": "N/A"
         },
         {
             "author": "Dr.Lt.Data",

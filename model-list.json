@@ -121,6 +121,16 @@
       "url": "https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/8x_NMKD-Superscale_150000_G.pth"
     },
     {
+      "name": "LDSR",
+      "type": "upscale",
+      "base": "upscale",
+      "save_path": "upscale_models/ldsr",
+      "description": "LDSR upscale model. Through the [a/ComfyUI-Flowty-LDSR](https://github.com/flowtyone/ComfyUI-Flowty-LDSR) extension, the upscale model can be utilized.",
+      "reference": "https://github.com/CompVis/latent-diffusion",
+      "filename": "last.ckpt",
+      "url": "https://heibox.uni-heidelberg.de/f/578df07c8fc04ffbadf3/?dl=1"
+    },
+    {
       "name": "Inswapper-fp16 (face swap)",
       "type": "insightface",
       "base" : "inswapper",
@@ -189,6 +199,16 @@
       "reference": "https://huggingface.co/stabilityai/stable-video-diffusion-img2vid",
       "filename": "svd.safetensors",
       "url": "https://huggingface.co/stabilityai/stable-video-diffusion-img2vid/resolve/main/svd.safetensors"
+    },
+    {
+      "name": "stabilityai/Stable Zero123",
+      "type": "zero123",
+      "base": "zero123",
+      "save_path": "checkpoints/zero123",
+      "description": "Stable Zero123 is a model for view-conditioned image generation based on [a/Zero123](https://github.com/cvlab-columbia/zero123).",
+      "reference": "https://huggingface.co/stabilityai/stable-zero123",
+      "filename": "stable_zero123.ckpt",
+      "url": "https://huggingface.co/stabilityai/stable-zero123/resolve/main/stable_zero123.ckpt"
     },
     {
       "name": "Stable Video Diffusion Image-to-Video (XT)",
@@ -499,6 +519,26 @@
       "reference": "https://huggingface.co/latent-consistency/lcm-lora-sdxl",
       "filename": "pytorch_lora_weights.safetensors",
       "url": "https://huggingface.co/latent-consistency/lcm-lora-sdxl/resolve/main/pytorch_lora_weights.safetensors"
+    },
+    {
+      "name": "Segmind-Vega",
+      "type": "checkpoint",
+      "base": "segmind-vega",
+      "save_path": "checkpoints/segmind-vega",
+      "description": "The Segmind-Vega Model is a distilled version of the Stable Diffusion XL (SDXL), offering a remarkable 70% reduction in size and an impressive 100% speedup while retaining high-quality text-to-image generation capabilities.",
+      "reference": "https://huggingface.co/segmind/Segmind-Vega",
+      "filename": "segmind-vega.safetensors",
+      "url": "https://huggingface.co/segmind/Segmind-Vega/resolve/main/segmind-vega.safetensors"
+    },
+    {
+      "name": "Segmind-VegaRT - Latent Consistency Model (LCM) LoRA of Segmind-Vega",
+      "type": "lora",
+      "base": "segmind-vega",
+      "save_path": "loras/segmind-vega",
+      "description": "Segmind-VegaRT a distilled consistency adapter for Segmind-Vega that allows to reduce the number of inference steps to only between 2 - 8 steps.",
+      "reference": "https://huggingface.co/segmind/Segmind-VegaRT",
+      "filename": "pytorch_lora_weights.safetensors",
+      "url": "https://huggingface.co/segmind/Segmind-VegaRT/resolve/main/pytorch_lora_weights.safetensors"
     },
     {
       "name": "Theovercomer8's Contrast Fix (SD2.1)",
@@ -934,6 +974,26 @@
       "url": "https://huggingface.co/comfyanonymous/ControlNet-v1-1_fp16_safetensors/resolve/main/control_v11f1e_sd15_tile_fp16.safetensors"
     },
     {
+      "name": "ControlNet-HandRefiner-pruned (inpaint-depth-hand; fp16)",
+      "type": "controlnet",
+      "base": "SD1.5",
+      "save_path": "default",
+      "description": "This inpaint-depth controlnet model is specialized for the hand refiner.",
+      "reference": "https://huggingface.co/hr16/ControlNet-HandRefiner-pruned",
+      "filename": "control_sd15_inpaint_depth_hand_fp16.safetensors",
+      "url": "https://huggingface.co/hr16/ControlNet-HandRefiner-pruned/resolve/main/control_sd15_inpaint_depth_hand_fp16.safetensors"
+    },
+    {
+      "name": "control_boxdepth_LooseControlfp16 (fp16)",
+      "type": "controlnet",
+      "base": "SD1.5",
+      "save_path": "default",
+      "description": "Loose ControlNet model",
+      "reference": "https://huggingface.co/ioclab/LooseControl_WebUICombine",
+      "filename": "control_boxdepth_LooseControlfp16.safetensors",
+      "url": "https://huggingface.co/ioclab/LooseControl_WebUICombine/resolve/main/control_boxdepth_LooseControlfp16.safetensors"
+    },
+    {
       "name": "GLIGEN textbox (fp16; pruned)",
       "type": "gligen",
       "base": "SD1.5",
@@ -1217,6 +1277,47 @@
       "url": "https://huggingface.co/guoyww/animatediff/resolve/main/mm_sd_v15_v2.ckpt"
     },
     {
+      "name": "animatediff/v3_sd15_sparsectrl_rgb.ckpt (ComfyUI-AnimateDiff-Evolved)",
+      "type": "controlnet",
+      "base": "SD1.x",
+      "save_path": "controlnet/SD1.5/animatediff",
+      "description": "AnimateDiff SparseCtrl RGB ControlNet model",
+      "reference": "https://huggingface.co/guoyww/animatediff",
+      "filename": "v3_sd15_sparsectrl_rgb.ckpt",
+      "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_sparsectrl_rgb.ckpt"
+    },
+    {
+      "name": "animatediff/v3_sd15_sparsectrl_scribble.ckpt",
+      "type": "controlnet",
+      "base": "SD1.x",
+      "save_path": "controlnet/SD1.5/animatediff",
+      "description": "AnimateDiff SparseCtrl Scribble ControlNet model",
+      "reference": "https://huggingface.co/guoyww/animatediff",
+      "filename": "v3_sd15_sparsectrl_scribble.ckpt",
+      "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_sparsectrl_scribble.ckpt"
+    },
+    {
+      "name": "animatediff/v3_sd15_mm.ckpt (ComfyUI-AnimateDiff-Evolved)",
+      "type": "animatediff",
+      "base": "SD1.x",
+      "save_path": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+      "description": "Pressing 'install' directly downloads the model from the Kosinkadink/ComfyUI-AnimateDiff-Evolved extension node. (Note: Requires ComfyUI-Manager V0.24 or above)",
+      "reference": "https://huggingface.co/guoyww/animatediff",
+      "filename": "v3_sd15_mm.ckpt",
+      "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_mm.ckpt"
+    },
+    {
+      "name": "animatediff/v3_sd15_adapter.ckpt",
+      "type": "lora",
+      "base": "SD1.x",
+      "save_path": "loras/SD1.5/animatediff",
+      "description": "AnimateDiff Adapter LoRA (SD1.5)",
+      "reference": "https://huggingface.co/guoyww/animatediff",
+      "filename": "v3_sd15_adapter.ckpt",
+      "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v3_sd15_adapter.ckpt"
+    },
+
+    {
       "name": "animatediff/mm_sdxl_v10_beta.ckpt (ComfyUI-AnimateDiff-Evolved)",
       "type": "animatediff",
       "base": "SDXL",
@@ -1338,6 +1439,36 @@
       "url": "https://huggingface.co/guoyww/animatediff/resolve/main/v2_lora_ZoomOut.ckpt"
     },
     {
+      "name": "LongAnimatediff/lt_long_mm_32_frames.ckpt (ComfyUI-AnimateDiff-Evolved)",
+      "type": "animatediff",
+      "base": "SD1.x",
+      "save_path": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+      "description": "Pressing 'install' directly downloads the model from the Kosinkadink/ComfyUI-AnimateDiff-Evolved extension node. (Note: Requires ComfyUI-Manager V0.24 or above)",
+      "reference": "https://huggingface.co/Lightricks/LongAnimateDiff",
+      "filename": "lt_long_mm_32_frames.ckpt",
+      "url": "https://huggingface.co/Lightricks/LongAnimateDiff/resolve/main/lt_long_mm_32_frames.ckpt"
+    },
+    {
+      "name": "LongAnimatediff/lt_long_mm_16_64_frames.ckpt (ComfyUI-AnimateDiff-Evolved)",
+      "type": "animatediff",
+      "base": "SD1.x",
+      "save_path": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+      "description": "Pressing 'install' directly downloads the model from the Kosinkadink/ComfyUI-AnimateDiff-Evolved extension node. (Note: Requires ComfyUI-Manager V0.24 or above)",
+      "reference": "https://huggingface.co/Lightricks/LongAnimateDiff",
+      "filename": "lt_long_mm_16_64_frames.ckpt",
+      "url": "https://huggingface.co/Lightricks/LongAnimateDiff/resolve/main/lt_long_mm_16_64_frames.ckpt"
+    },
+    {
+      "name": "LongAnimatediff/lt_long_mm_16_64_frames_v1.1.ckpt (ComfyUI-AnimateDiff-Evolved)",
+      "type": "animatediff",
+      "base": "SD1.x",
+      "save_path": "custom_nodes/ComfyUI-AnimateDiff-Evolved/models",
+      "description": "Pressing 'install' directly downloads the model from the Kosinkadink/ComfyUI-AnimateDiff-Evolved extension node. (Note: Requires ComfyUI-Manager V0.24 or above)",
+      "reference": "https://huggingface.co/Lightricks/LongAnimateDiff",
+      "filename": "lt_long_mm_16_64_frames_v1.1.ckpt",
+      "url": "https://huggingface.co/Lightricks/LongAnimateDiff/resolve/main/lt_long_mm_16_64_frames_v1.1.ckpt"
+    },
+    {
       "name": "ip-adapter_sd15.safetensors",
       "type": "IP-Adapter",
       "base": "SD1.5",
@@ -1398,6 +1529,26 @@
       "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-full-face_sd15.safetensors"
     },
     {
+      "name": "ip-adapter-faceid_sd15.bin",
+      "type": "IP-Adapter",
+      "base": "SD1.5",
+      "save_path": "ipadapter",
+      "description": "IP-Adapter-FaceID Model (SD1.5)",
+      "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+      "filename": "ip-adapter-faceid_sd15.bin",
+      "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid_sd15.bin"
+    },
+    {
+      "name": "ip-adapter-faceid_sd15_lora.safetensors",
+      "type": "lora",
+      "base": "SD1.5",
+      "save_path": "loras/ipadapter",
+      "description": "IP-Adapter-FaceID LoRA Model (SD1.5)",
+      "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+      "filename": "ip-adapter-faceid_sd15_lora.safetensors",
+      "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid_sd15_lora.safetensors"
+    },
+    {
       "name": "ip-adapter_sdxl.safetensors",
       "type": "IP-Adapter",
       "base": "SDXL",
@@ -1437,6 +1588,7 @@
       "filename": "ip-adapter-plus-face_sdxl_vit-h.safetensors",
       "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/ip-adapter-plus-face_sdxl_vit-h.safetensors"
     },
+
     {
       "name": "pfg-novel-n10.pt",
       "type": "PFG",
