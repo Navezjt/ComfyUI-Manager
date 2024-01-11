@@ -16,6 +16,7 @@ from urllib.parse import urlparse
 import http.client
 import re
 import nodes
+import hashlib
 
 try:
     import cm_global
@@ -27,7 +28,7 @@ except:
     print(f"[WARN] ComfyUI-Manager: Your ComfyUI version is outdated. Please update to the latest version.")
 
 
-version = [1, 19, 2]
+version = [1, 25, 4]
 version_str = f"V{version[0]}.{version[1]}" + (f'.{version[2]}' if len(version) > 2 else '')
 print(f"### Loading: ComfyUI-Manager ({version_str})")
 
@@ -35,8 +36,8 @@ print(f"### Loading: ComfyUI-Manager ({version_str})")
 required_comfyui_revision = 1793
 comfy_ui_hash = "-"
 
-
 cache_lock = threading.Lock()
+
 
 def handle_stream(stream, prefix):
     stream.reconfigure(encoding=locale.getpreferredencoding(), errors='replace')
@@ -349,7 +350,7 @@ def __win_check_git_update(path, do_fetch=False, do_update=False):
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             output, _ = process.communicate()
             output = output.decode('utf-8').strip()
-        except Exception as e:
+        except Exception:
             print(f'[ComfyUI-Manager] failed to fixing')
 
         if 'detected dubious' in output:
@@ -359,28 +360,29 @@ def __win_check_git_update(path, do_fetch=False, do_update=False):
                   f'-----------------------------------------------------------------------------------------\n')
 
     if do_update:
-        if "CUSTOM NODE PULL: True" in output:
+        if "CUSTOM NODE PULL: Success" in output:
             process.wait()
             print(f"\rUpdated: {path}")
-            return True
+            return True, True    # updated
         elif "CUSTOM NODE PULL: None" in output:
             process.wait()
-            return True
+            return False, True   # there is no update
         else:
             print(f"\rUpdate error: {path}")
             process.wait()
-            return False
+            return False, False  # update failed
     else:
         if "CUSTOM NODE CHECK: True" in output:
             process.wait()
-            return True
+            return True, True
         elif "CUSTOM NODE CHECK: False" in output:
             process.wait()
-            return False
+            return False, True
         else:
             print(f"\rFetch error: {path}")
+            print(f"\n{output}\n")
             process.wait()
-            return False
+            return False, True
 
 
 def __win_check_git_pull(path):
@@ -408,9 +410,10 @@ def git_repo_has_updates(path, do_fetch=False, do_update=False):
         raise ValueError('Not a git repository')
 
     if platform.system() == "Windows":
-        res = __win_check_git_update(path, do_fetch, do_update)
-        execute_install_script(None, path, lazy_mode=True)
-        return res
+        updated, success = __win_check_git_update(path, do_fetch, do_update)
+        if updated and success:
+            execute_install_script(None, path, lazy_mode=True)
+        return updated, success
     else:
         # Fetch the latest commits from the remote repository
         repo = git.Repo(path)
@@ -428,6 +431,14 @@ def git_repo_has_updates(path, do_fetch=False, do_update=False):
             if repo.head.is_detached:
                 switch_to_default_branch(repo)
 
+            current_branch = repo.active_branch
+            branch_name = current_branch.name
+            remote_commit_hash = repo.refs[f'{remote_name}/{branch_name}'].object.hexsha
+
+            if commit_hash == remote_commit_hash:
+                repo.close()
+                return False, True
+
             try:
                 remote.pull()
                 repo.git.submodule('update', '--init', '--recursive')
@@ -436,15 +447,17 @@ def git_repo_has_updates(path, do_fetch=False, do_update=False):
                 if commit_hash != new_commit_hash:
                     execute_install_script(None, path)
                     print(f"\x1b[2K\rUpdated: {path}")
-                    return True
+                    return True, True
                 else:
-                    return False
+                    return False, False
 
             except Exception as e:
                 print(f"\nUpdating failed: {path}\n{e}", file=sys.stderr)
+                return False, False
 
         if repo.head.is_detached:
-            return True
+            repo.close()
+            return True, True
 
         # Get commit hash of the remote branch
         current_branch = repo.active_branch
@@ -460,9 +473,12 @@ def git_repo_has_updates(path, do_fetch=False, do_update=False):
 
             # Compare the commit dates to determine if the local repository is behind the remote repository
             if commit_date < remote_commit_date:
-                return True
+                repo.close()
+                return True, True
 
-    return False
+        repo.close()
+
+    return False, True
 
 
 def git_pull(path):
@@ -658,14 +674,19 @@ def check_a_custom_node_installed(item, do_fetch=False, do_update_check=True, do
         dir_path = os.path.join(custom_nodes_path, dir_name)
         if os.path.exists(dir_path):
             try:
-                if do_update_check and git_repo_has_updates(dir_path, do_fetch, do_update):
-                    item['installed'] = 'Update'
-                elif sys.__comfyui_manager_is_import_failed_extension(dir_name):
+                item['installed'] = 'True'  # default
+
+                if cm_global.try_call(api="cm.is_import_failed_extension", name=dir_name):
                     item['installed'] = 'Fail'
-                else:
-                    item['installed'] = 'True'
+
+                if do_update_check:
+                    update_state, success = git_repo_has_updates(dir_path, do_fetch, do_update)
+                    if (do_update_check or do_update) and update_state:
+                        item['installed'] = 'Update'
+                    elif do_update and not success:
+                        item['installed'] = 'Fail'
             except:
-                if sys.__comfyui_manager_is_import_failed_extension(dir_name):
+                if cm_global.try_call(api="cm.is_import_failed_extension", name=dir_name):
                     item['installed'] = 'Fail'
                 else:
                     item['installed'] = 'True'
@@ -688,7 +709,7 @@ def check_a_custom_node_installed(item, do_fetch=False, do_update_check=True, do
 
         file_path = os.path.join(base_path, dir_name)
         if os.path.exists(file_path):
-            if sys.__comfyui_manager_is_import_failed_extension(dir_name):
+            if cm_global.try_call(api="cm.is_import_failed_extension", name=dir_name):
                 item['installed'] = 'Fail'
             else:
                 item['installed'] = 'True'
@@ -774,12 +795,17 @@ async def update_all(request):
 
         check_custom_nodes_installed(json_obj, do_update=True)
 
-        update_exists = any(item['installed'] == 'Update' for item in json_obj['custom_nodes'])
+        updated = [item['title'] for item in json_obj['custom_nodes'] if item['installed'] == 'Update']
+        failed = [item['title'] for item in json_obj['custom_nodes'] if item['installed'] == 'Fail']
 
-        if update_exists:
-            return web.Response(status=201)
+        res = {'updated': updated, 'failed': failed}
 
-        return web.Response(status=200)
+        if len(updated) == 0 and len(failed) == 0:
+            status = 200
+        else:
+            status = 201
+
+        return web.json_response(res, status=status, content_type='application/json')
     except:
         return web.Response(status=400)
 
@@ -1267,6 +1293,30 @@ def gitclone_install(files):
     return True
 
 
+def gitclone_fix(files):
+    print(f"Try fixing: {files}")
+    for url in files:
+        if not is_valid_url(url):
+            print(f"Invalid git url: '{url}'")
+            return False
+
+        if url.endswith("/"):
+            url = url[:-1]
+        try:
+            repo_name = os.path.splitext(os.path.basename(url))[0]
+            repo_path = os.path.join(custom_nodes_path, repo_name)
+
+            if not execute_install_script(url, repo_path):
+                return False
+
+        except Exception as e:
+            print(f"Install(git-clone) error: {url} / {e}", file=sys.stderr)
+            return False
+
+    print(f"Attempt to fixing '{files}' is done.")
+    return True
+
+
 def pip_install(packages):
     install_cmd = ['#FORCE', sys.executable, "-m", "pip", "install", '-U'] + packages
     try_install_script('pip install via manager', '.', install_cmd)
@@ -1439,6 +1489,36 @@ async def install_custom_node(request):
     if 'pip' in json_data:
         for pname in json_data['pip']:
             install_cmd = [sys.executable, "-m", "pip", "install", pname]
+            try_install_script(json_data['files'][0], ".", install_cmd)
+
+    if res:
+        print(f"After restarting ComfyUI, please refresh the browser.")
+        return web.json_response({}, content_type='application/json')
+
+    return web.Response(status=400)
+
+
+@server.PromptServer.instance.routes.post("/customnode/fix")
+async def fix_custom_node(request):
+    json_data = await request.json()
+
+    install_type = json_data['install_type']
+
+    print(f"Install custom node '{json_data['title']}'")
+
+    res = False
+
+    if len(json_data['files']) == 0:
+        return web.Response(status=400)
+
+    if install_type == "git-clone":
+        res = gitclone_fix(json_data['files'])
+    else:
+        return web.Response(status=400)
+
+    if 'pip' in json_data:
+        for pname in json_data['pip']:
+            install_cmd = [sys.executable, "-m", "pip", "install", '-U', pname]
             try_install_script(json_data['files'][0], ".", install_cmd)
 
     if res:
@@ -1794,6 +1874,22 @@ def get_comfyworkflows_auth():
         return None
 
 
+def get_youml_settings():
+    if not os.path.exists(os.path.join(comfyui_manager_path, ".youml")):
+        return None
+    try:
+        with open(os.path.join(comfyui_manager_path, ".youml"), "r") as f:
+            youml_settings = f.read().strip()
+        return youml_settings if youml_settings else None
+    except:
+        return None
+
+
+def set_youml_settings(settings):
+    with open(os.path.join(comfyui_manager_path, ".youml"), "w") as f:
+        f.write(settings)
+
+
 @server.PromptServer.instance.routes.get("/manager/get_openart_auth")
 async def api_get_openart_auth(request):
     # print("Getting stored Matrix credentials...")
@@ -1819,6 +1915,21 @@ async def api_get_matrix_auth(request):
     if not matrix_auth:
         return web.Response(status=404)
     return web.json_response(matrix_auth)
+
+
+@server.PromptServer.instance.routes.get("/manager/youml/settings")
+async def api_get_youml_settings(request):
+    youml_settings = get_youml_settings()
+    if not youml_settings:
+        return web.Response(status=404)
+    return web.json_response(json.loads(youml_settings))
+
+
+@server.PromptServer.instance.routes.post("/manager/youml/settings")
+async def api_set_youml_settings(request):
+    json_data = await request.json()
+    set_youml_settings(json.dumps(json_data))
+    return web.Response(status=200)
 
 
 @server.PromptServer.instance.routes.get("/manager/get_comfyworkflows_auth")
@@ -1852,6 +1963,47 @@ def has_provided_matrix_auth(matrix_auth):
 def has_provided_comfyworkflows_auth(comfyworkflows_sharekey):
     return comfyworkflows_sharekey.strip()
 
+
+
+def extract_model_file_names(json_data):
+    """Extract unique file names from the input JSON data."""
+    file_names = set()
+    model_filename_extensions = {'.safetensors', '.ckpt', '.pt', '.pth', '.bin'}
+
+    # Recursively search for file names in the JSON data
+    def recursive_search(data):
+        if isinstance(data, dict):
+            for value in data.values():
+                recursive_search(value)
+        elif isinstance(data, list):
+            for item in data:
+                recursive_search(item)
+        elif isinstance(data, str) and '.' in data:
+            file_names.add(os.path.basename(data)) # file_names.add(data)
+
+    recursive_search(json_data)
+    return [f for f in list(file_names) if os.path.splitext(f)[1] in model_filename_extensions]
+
+def find_file_paths(base_dir, file_names):
+    """Find the paths of the files in the base directory."""
+    file_paths = {}
+
+    for root, dirs, files in os.walk(base_dir):
+        # Exclude certain directories
+        dirs[:] = [d for d in dirs if d not in ['.git']]
+
+        for file in files:
+            if file in file_names:
+                file_paths[file] = os.path.join(root, file)
+    return file_paths
+
+def compute_sha256_checksum(filepath):
+    """Compute the SHA256 checksum of a file, in chunks"""
+    sha256 = hashlib.sha256()
+    with open(filepath, 'rb') as f:
+        for chunk in iter(lambda: f.read(4096), b''):
+            sha256.update(chunk)
+    return sha256.hexdigest()
 
 @server.PromptServer.instance.routes.post("/manager/share")
 async def share_art(request):
@@ -1913,7 +2065,6 @@ async def share_art(request):
                     "assetFileType": assetFileType,
                     "workflowJsonFileName" : 'workflow.json',
                     "workflowJsonFileType" : 'application/json',
-
                 },
             ) as resp:
                 assert resp.status == 200
@@ -1933,6 +2084,17 @@ async def share_art(request):
             async with session.put(workflowJsonFilePresignedUrl, data=json.dumps(prompt['workflow']).encode('utf-8')) as resp:
                 assert resp.status == 200
 
+        model_filenames = extract_model_file_names(prompt['workflow'])
+        model_file_paths = find_file_paths(folder_paths.base_path, model_filenames)
+
+        models_info = {}
+        for filename, filepath in model_file_paths.items():
+            models_info[filename] = {
+                "filename": filename,
+                "sha256_checksum": compute_sha256_checksum(filepath),
+                "relative_path": os.path.relpath(filepath, folder_paths.base_path),
+            }
+
         # make a POST request to /api/upload_workflow with form data key values
         async with aiohttp.ClientSession(trust_env=True, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
             form = aiohttp.FormData()
@@ -1948,7 +2110,9 @@ async def share_art(request):
             form.add_field("shareWorkflowTitle", title)
             form.add_field("shareWorkflowDescription", description)
             form.add_field("shareWorkflowIsNSFW", str(is_nsfw).lower())
-
+            form.add_field("currentSnapshot", json.dumps(get_current_snapshot()))
+            form.add_field("modelsInfo", json.dumps(models_info))
+            
             async with session.post(
                 f"{share_endpoint}/upload_workflow",
                 data=form,

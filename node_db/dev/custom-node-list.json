@@ -12,6 +12,76 @@
 
         {
             "author": "kadirnar",
+            "title": "ComfyUI-Transformers",
+            "reference": "https://github.com/kadirnar/ComfyUI-Transformers",
+            "files": [
+                "https://github.com/kadirnar/ComfyUI-Transformers"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:DepthEstimation."
+        },
+        {
+            "author": "MrAdamBlack",
+            "title": "CheckProgress [WIP]",
+            "reference": "https://github.com/MrAdamBlack/CheckProgress",
+            "files": [
+                "https://github.com/MrAdamBlack/CheckProgress"
+            ],
+            "install_type": "git-clone",
+            "description": "I was looking for a node to put in place to ensure my prompt etc where going as expected before the rest of the flow executed. To end the session, I just return the input image as None (see expected error). Recommend using it alongside PreviewImage, then output to the rest of the flow and Save Image."
+        },
+        {
+            "author": "11cafe",
+            "title": "ComfyUI Model Manager [WIP]",
+            "reference": "https://github.com/11cafe/model-manager-comfyui",
+            "files": [
+                "https://github.com/11cafe/model-manager-comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "This answers the itch for being able to easily paste [a/CivitAI.com](CivitAI.com) generated data (or other simple metadata) into Comfy in a way that makes it easy to test with multiple checkpoints."
+        },
+        {
+            "author": "birnam",
+            "title": "Gen Data Tester [WIP]",
+            "reference": "https://github.com/birnam/ComfyUI-GenData-Pack",
+            "files": [
+                "https://github.com/birnam/ComfyUI-GenData-Pack"
+            ],
+            "install_type": "git-clone",
+            "description": "This answers the itch for being able to easily paste [a/CivitAI.com](CivitAI.com) generated data (or other simple metadata) into Comfy in a way that makes it easy to test with multiple checkpoints."
+        },
+        {
+            "author": "ZHO-ZHO-ZHO",
+            "title": "ComfyUI-AnyText（WIP）",
+            "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-AnyText",
+            "files": [
+                "https://github.com/ZHO-ZHO-ZHO/ComfyUI-AnyText"
+            ],
+            "install_type": "git-clone",
+            "description": "Unofficial implementation of [a/AnyText](https://github.com/tyxsspa/AnyText/tree/825bcc54687206b15bd7e28ba1a8b095989d58e3) for ComfyUI（EXP）"
+        },
+        {
+            "author": "nidefawl",
+            "title": "ComfyUI-nidefawl [UNSAFE]",
+            "reference": "https://github.com/nidefawl/ComfyUI-nidefawl",
+            "files": [
+                "https://github.com/nidefawl/ComfyUI-nidefawl"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:PythonScript, BlendImagesWithBoundedMasks, CropImagesWithMasks, VAELoaderDataType, ModelSamplerTonemapNoiseTest, gcLatentTunnel, ReferenceOnlySimple, EmptyImageWithColor, MaskFromColor, SetLatentCustomNoise, LatentToImage, ImageToLatent, LatentScaledNoise, DisplayAnyType, SamplerCustomCallback, CustomCallback, SplitCustomSigmas, SamplerDPMPP_2M_SDE_nidefawl, LatentPerlinNoise.<BR>[w/This node is an unsafe node that includes the capability to execute arbitrary python script.]"
+        },
+        {
+            "author": "solarpush",
+            "title": "comfyui_sendimage_node",
+            "reference": "https://github.com/solarpush/comfyui_sendimage_node",
+            "files": [
+                "https://github.com/solarpush/comfyui_sendimage_node"
+            ],
+            "install_type": "git-clone",
+            "description": "Send images to the pod."
+        },
+        {
+            "author": "kadirnar",
             "title": "comfyui_helpers",
             "reference": "https://github.com/kadirnar/comfyui_helpers",
             "files": [
@@ -19,16 +89,6 @@
             ],
             "install_type": "git-clone",
             "description": "A collection of nodes randomly selected and gathered, related to noise. NOTE: SD-Advanced-Noise, noise_latent_perlinpinpin, comfy-plasma"
-        },
-        {
-            "author": "ZHO-ZHO-ZHO",
-            "title": "ComfyUI ArtGallery（WIP)",
-            "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-ArtGallery",
-            "files": [
-                "https://github.com/ZHO-ZHO-ZHO/ComfyUI-ArtGallery"
-            ],
-            "install_type": "git-clone",
-            "description": "Visualize the selection of prompts:Choosing prompts has never really been suitable for humans, especially when there are a lot of prompts to choose from. Selecting corresponding visual references is a more suitable way."
         },
         {
             "author": "foglerek",
@@ -119,16 +179,6 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes:Image Inverter"
-        },
-        {
-            "author": "hinablue",
-            "title": "ComfyUI 3D Pose Editor",
-            "reference": "https://github.com/hinablue/ComfyUI_3dPoseEditor",
-            "files": [
-                "https://github.com/hinablue/ComfyUI_3dPoseEditor"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:3D Pose Editor"
         },
         {
             "author": "alt-key-project",

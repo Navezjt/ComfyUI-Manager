@@ -2,6 +2,7 @@ import { app } from "../../scripts/app.js";
 import { api } from "../../scripts/api.js";
 import { ComfyDialog, $el } from "../../scripts/ui.js";
 import { OpenArtShareDialog } from "./comfyui-share-openart.js";
+import { YouMLShareDialog } from "./comfyui-share-youml.js";
 
 export const SUPPORTED_OUTPUT_NODE_TYPES = [
 	"PreviewImage",
@@ -9,6 +10,7 @@ export const SUPPORTED_OUTPUT_NODE_TYPES = [
 	"VHS_VideoCombine",
 	"ADE_AnimateDiffCombine",
 	"SaveAnimatedWEBP",
+	"CR Image Output"
 ]
 
 var docStyle = document.createElement('style');
@@ -46,7 +48,7 @@ export function getPotentialOutputsAndOutputNodes(nodes) {
 			continue;
 		}
 
-		if (node.type === "SaveImage") {
+		if (node.type === "SaveImage" || node.type === "CR Image Output") {
 			// check if node has an 'images' array property
 			if (node.hasOwnProperty("images") && Array.isArray(node.images)) {
 				// iterate over the images array and add each image to the potential_outputs array
@@ -178,6 +180,23 @@ export const showOpenArtShareDialog = () => {
     })
 }
 
+
+export const showYouMLShareDialog = () => {
+  if (!YouMLShareDialog.instance) {
+    YouMLShareDialog.instance = new YouMLShareDialog();
+  }
+
+  return app.graphToPrompt()
+    .then(prompt => {
+      return app.graph._nodes;
+    })
+    .then(nodes => {
+        const { potential_outputs, potential_output_nodes } = getPotentialOutputsAndOutputNodes(nodes);
+        YouMLShareDialog.instance.show(potential_outputs, potential_output_nodes);
+    })
+}
+
+
 export const showShareDialog = async (share_option) => {
   if (!ShareDialog.instance) {
     ShareDialog.instance = new ShareDialog(share_option);
@@ -233,6 +252,16 @@ export class ShareDialogChooser extends ComfyDialog {
 				}
 			},
 			{
+				key: "youml",
+				textContent: "YouML",
+				website: "https://youml.com",
+				description: "Share your workflow or transform it into an interactive app on YouML.com",
+				onclick: () => {
+					showYouMLShareDialog();
+				  this.close();
+				}
+			},
+			{
 				key: "matrix",
 				textContent: "Matrix Server",
 				website: "https://app.element.io/#/room/%23comfyui_space%3Amatrix.org",
@@ -247,7 +276,7 @@ export class ShareDialogChooser extends ComfyDialog {
 				key: "comfyworkflows",
 				textContent: "ComfyWorkflows",
 				website: "https://comfyworkflows.com",
-				description: "Share ComfyUI art on comfyworkflows.com",
+				description: "Share & browse thousands of ComfyUI workflows and art 🎨<br/><br/><a style='color:white;' href='https://comfyworkflows.com' target='_blank'>ComfyWorkflows.com</a>",
 				onclick: () => {
 				  showShareDialog('comfyworkflows').then((suc) => {
 				    suc && this.close();
@@ -263,7 +292,7 @@ export class ShareDialogChooser extends ComfyDialog {
 					display: "flex",
 					'flex-wrap': 'wrap',
 					'justify-content': 'space-around',
-					'padding': '20px',
+					'padding': '10px',
 				}
 			});
 
@@ -291,12 +320,12 @@ export class ShareDialogChooser extends ComfyDialog {
 				});
 
 				const description = $el("p", {
-					textContent: b.description,
+					innerHTML: b.description,
 					style: {
 						'text-align': 'left',
 						color: 'white',
 						'font-size': '14px',
-						'margin-bottom': '10px',
+						'margin-bottom': '0',
 					},
 				});
 
@@ -334,7 +363,7 @@ export class ShareDialogChooser extends ComfyDialog {
 					style: {
 						'flex-basis': '100%',
 						'margin': '10px',
-						'padding': '20px',
+						'padding': '10px 20px',
 						'border': '1px solid #ddd',
 						'border-radius': '5px',
 						'box-shadow': '0 2px 4px rgba(0, 0, 0, 0.1)',
@@ -580,7 +609,7 @@ export class ShareDialog extends ComfyDialog {
 						padding: "5px",
 						borderRadius: "5px",
 						backgroundColor: "#222"
-					}
+					},
 				}, [
 					$el("summary", {
 						style: {
@@ -591,7 +620,7 @@ export class ShareDialog extends ComfyDialog {
 					$el("h4", {
 						textContent: "Share key (found on your profile page)",
 					}, []),
-					$el("p", { size: 3, color: "white" }, ["When provided, your art will be saved to your account."]),
+					$el("p", { size: 3, color: "white" }, ["If provided, your art will be saved to your account. Otherwise, it will be shared anonymously."]),
 					this.cw_sharekey_input,
 				]),
 
@@ -741,7 +770,7 @@ export class ShareDialog extends ComfyDialog {
 				}
 			}
 
-			if (destinations.includes("comfyworkflows") && !this.cw_sharekey_input.value && !confirm("You have NOT set your ComfyWorkflows.com share key. Your art will NOT be connected to your account (it will be shared anonymously). Continue?")) {
+			if (destinations.includes("comfyworkflows") && !this.cw_sharekey_input.value && false) { //!confirm("You have NOT set your ComfyWorkflows.com share key. Your art will NOT be connected to your account (it will be shared anonymously). Continue?")) {
 				return;
 			}
 

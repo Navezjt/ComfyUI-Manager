@@ -61,6 +61,14 @@
             "title_aux": "comfy-consistency-vae"
         }
     ],
+    "https://github.com/MrAdamBlack/CheckProgress": [
+        [
+            "CHECK_PROGRESS"
+        ],
+        {
+            "title_aux": "CheckProgress [WIP]"
+        }
+    ],
     "https://github.com/PluMaZero/ComfyUI-SpaceFlower": [
         [
             "SpaceFlower_HangulPrompt",
@@ -98,17 +106,12 @@
             "title_aux": "pre-comfyui-stablsr"
         }
     ],
-    "https://github.com/ZHO-ZHO-ZHO/ComfyUI-ArtGallery": [
+    "https://github.com/ZHO-ZHO-ZHO/ComfyUI-AnyText": [
         [
-            "ArtGallery_Zho",
-            "ArtistsImage_Zho",
-            "CamerasImage_Zho",
-            "FilmsImage_Zho",
-            "MovementsImage_Zho",
-            "StylesImage_Zho"
+            "AnyTextNode_Zho"
         ],
         {
-            "title_aux": "ComfyUI ArtGallery\uff08WIP)"
+            "title_aux": "ComfyUI-AnyText\uff08WIP\uff09"
         }
     ],
     "https://github.com/alt-key-project/comfyui-dream-video-batches": [
@@ -149,6 +152,30 @@
         ],
         {
             "title_aux": "Dream Project Video Batches [WIP]"
+        }
+    ],
+    "https://github.com/birnam/ComfyUI-GenData-Pack": [
+        [
+            "Checkpoint From String \ud83d\udc69\u200d\ud83d\udcbb",
+            "Checkpoint Rerouter \ud83d\udc69\u200d\ud83d\udcbb",
+            "Checkpoint Selector Stacker \ud83d\udc69\u200d\ud83d\udcbb",
+            "Checkpoint Selector \ud83d\udc69\u200d\ud83d\udcbb",
+            "Checkpoint to String \ud83d\udc69\u200d\ud83d\udcbb",
+            "Decode GenData \ud83d\udc69\u200d\ud83d\udcbb",
+            "Encode GenData \ud83d\udc69\u200d\ud83d\udcbb",
+            "GenData Stacker \ud83d\udc69\u200d\ud83d\udcbb",
+            "LoRA Stack to String \ud83d\udc69\u200d\ud83d\udcbb",
+            "LoRA Stacker From Prompt \ud83d\udc69\u200d\ud83d\udcbb",
+            "Load Checkpoints From File \ud83d\udc69\u200d\ud83d\udcbb",
+            "Load GenData From Dir \ud83d\udc69\u200d\ud83d\udcbb",
+            "Parse GenData \ud83d\udc69\u200d\ud83d\udcbb",
+            "Save Image From GenData \ud83d\udc69\u200d\ud83d\udcbb",
+            "VAE From String \ud83d\udc69\u200d\ud83d\udcbb",
+            "VAE to String \ud83d\udc69\u200d\ud83d\udcbb",
+            "\u00d7 Product CheckpointXGenDatas \ud83d\udc69\u200d\ud83d\udcbb"
+        ],
+        {
+            "title_aux": "Gen Data Tester [WIP]"
         }
     ],
     "https://github.com/comfyanonymous/ComfyUI": [
@@ -210,6 +237,7 @@
             "ImageSharpen",
             "ImageToMask",
             "ImageUpscaleWithModel",
+            "InpaintModelConditioning",
             "InvertMask",
             "JoinImageWithAlpha",
             "KSampler",
@@ -254,6 +282,7 @@
             "RepeatLatentBatch",
             "RescaleCFG",
             "SDTurboScheduler",
+            "SD_4XUpscale_Conditioning",
             "SVD_img2vid_Conditioning",
             "SamplerCustom",
             "SamplerDPMPP_2M_SDE",
@@ -268,6 +297,7 @@
             "SplitImageWithAlpha",
             "SplitSigmas",
             "StableZero123_Conditioning",
+            "StableZero123_Conditioning_Batched",
             "StyleModelApply",
             "StyleModelLoader",
             "TomePatchModel",
@@ -305,11 +335,11 @@
     ],
     "https://github.com/doucx/ComfyUI_WcpD_Utility_Kit": [
         [
+            "BlackImage",
+            "CopyImage(Wayland)",
             "ExecStrAsCode",
-            "KSamplerAdvancedWithDenoise",
             "MergeStrings",
-            "RandnLatentImage",
-            "StrTuple"
+            "YamlToPrompt"
         ],
         {
             "title_aux": "ComfyUI_WcpD_Utility_Kit"
@@ -370,14 +400,6 @@
             "title_aux": "ComfyUI_stable_fast"
         }
     ],
-    "https://github.com/hinablue/ComfyUI_3dPoseEditor": [
-        [
-            "Hina.PoseEditor3D"
-        ],
-        {
-            "title_aux": "ComfyUI 3D Pose Editor"
-        }
-    ],
     "https://github.com/ilovejohnwhite/UncleBillyGoncho": [
         [
             "CannyEdgePreprocessor",
@@ -385,6 +407,7 @@
             "ImageGenResolutionFromImage",
             "ImageGenResolutionFromLatent",
             "LineArtPreprocessor",
+            "LinkMasterNode",
             "PiDiNetPreprocessor",
             "PixelPerfectResolution",
             "SuckerPunch",
@@ -430,6 +453,7 @@
             "JN_KSamplerAdvancedParams",
             "JN_KSamplerFaceRestoreParams",
             "JN_KSamplerResizeInputParams",
+            "JN_KSamplerResizeMaskAreaParams",
             "JN_KSamplerResizeOutputParams",
             "JN_KSamplerSeamlessParams",
             "JN_KSamplerTileParams",
@@ -472,6 +496,47 @@
             "title_aux": "jn_node_suite_comfyui [WIP]"
         }
     ],
+    "https://github.com/kadirnar/ComfyUI-Transformers": [
+        [
+            "DepthEstimationPipeline"
+        ],
+        {
+            "title_aux": "ComfyUI-Transformers"
+        }
+    ],
+    "https://github.com/kadirnar/comfyui_helpers": [
+        [
+            "CLIPSeg",
+            "CircularVAEDecode",
+            "CombineMasks",
+            "CustomKSamplerAdvancedTile",
+            "ImageLoaderAndProcessor",
+            "ImageToContrastMask",
+            "JDC_AutoContrast",
+            "JDC_BlendImages",
+            "JDC_BrownNoise",
+            "JDC_Contrast",
+            "JDC_EqualizeGrey",
+            "JDC_GaussianBlur",
+            "JDC_GreyNoise",
+            "JDC_Greyscale",
+            "JDC_ImageLoader",
+            "JDC_ImageLoaderMeta",
+            "JDC_PinkNoise",
+            "JDC_Plasma",
+            "JDC_PlasmaSampler",
+            "JDC_PowerImage",
+            "JDC_RandNoise",
+            "JDC_ResizeFactor",
+            "LatentGaussianNoise",
+            "LatentToRGB",
+            "MathEncode",
+            "NoisyLatentPerlin"
+        ],
+        {
+            "title_aux": "comfyui_helpers"
+        }
+    ],
     "https://github.com/komojini/ComfyUI_Prompt_Template_CustomNodes/raw/main/prompt_with_template.py": [
         [
             "ObjectPromptWithTemplate",
@@ -507,6 +572,32 @@
             "title_aux": "ComfyUI-Workflow-Component [WIP]"
         }
     ],
+    "https://github.com/nidefawl/ComfyUI-nidefawl": [
+        [
+            "BlendImagesWithBoundedMasks",
+            "CropImagesWithMasks",
+            "CustomCallback",
+            "DisplayAnyType",
+            "EmptyImageWithColor",
+            "ImageToLatent",
+            "LatentPerlinNoise",
+            "LatentScaledNoise",
+            "LatentToImage",
+            "MaskFromColor",
+            "ModelSamplerTonemapNoiseTest",
+            "PythonScript",
+            "ReferenceOnlySimple",
+            "SamplerCustomCallback",
+            "SamplerDPMPP_2M_SDE_nidefawl",
+            "SetLatentCustomNoise",
+            "SplitCustomSigmas",
+            "VAELoaderDataType",
+            "gcLatentTunnel"
+        ],
+        {
+            "title_aux": "ComfyUI-nidefawl [UNSAFE]"
+        }
+    ],
     "https://github.com/oyvindg/ComfyUI-TrollSuite": [
         [
             "BinaryImageMask",
@@ -531,6 +622,18 @@
             "nickname": "comfy trt test",
             "title": "TensorRT with ComfyUI (work-in-progress)",
             "title_aux": "comfy-trt-test [WIP]"
+        }
+    ],
+    "https://github.com/solarpush/comfyui_sendimage_node": [
+        [
+            "Send_To_Pod"
+        ],
+        {
+            "author": "Enlumis",
+            "description": "This one to send images to the pod.",
+            "nickname": "go2flat",
+            "title": "go2flat",
+            "title_aux": "comfyui_sendimage_node"
         }
     ],
     "https://github.com/wormley/comfyui-wormley-nodes": [

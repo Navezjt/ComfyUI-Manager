@@ -854,6 +854,16 @@
             "description": "NODES: CLIP Text Encode++. Achieve identical embeddings from stable-diffusion-webui for ComfyUI."
         },
         {
+            "author": "shiimizu",
+            "title": "Tiled Diffusion & VAE for ComfyUI",
+            "reference": "https://github.com/shiimizu/ComfyUI-TiledDiffusion",
+            "files": [
+                "https://github.com/shiimizu/ComfyUI-TiledDiffusion"
+            ],
+            "install_type": "git-clone",
+            "description": "The extension enables large image drawing & upscaling with limited VRAM via the following techniques:\n1.Two SOTA diffusion tiling algorithms: [a/Mixture of Diffusers](https://github.com/albarji/mixture-of-diffusers) and [a/MultiDiffusion](https://github.com/omerbt/MultiDiffusion)\n2.pkuliyi2015's Tiled VAE algorithm."
+        },
+        {
             "author": "ZaneA",
             "title": "ImageReward",
             "reference": "https://github.com/ZaneA/ComfyUI-ImageReward",
@@ -2385,7 +2395,7 @@
                 "https://github.com/THtianhao/ComfyUI-FaceChain"
             ],
             "install_type": "git-clone",
-            "description": "Nodes:FC_LoraMerge."
+            "description": "Nodes:FC FaceFusion, FC StyleLoraLoad, FC FaceDetection, FC CropMask, FC ReplaceImage, FC CropBottom, FC CropAndPaste, FC MaskOP"
         },
         {
             "author": "zer0TF",
@@ -2406,6 +2416,16 @@
             ],
             "install_type": "git-clone",
             "description": "A text-to-speech plugin used under ComfyUI. It utilizes the Microsoft Speech TTS interface to convert text content into MP3 format audio files."
+        },
+        {
+            "author": "chflame163",
+            "title": "ComfyUI_WordCloud",
+            "reference": "https://github.com/chflame163/ComfyUI_WordCloud",
+            "files": [
+                "https://github.com/chflame163/ComfyUI_WordCloud"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Word Cloud, Load Text File"
         },
         {
             "author": "drustan-hawk",
@@ -2527,6 +2547,16 @@
             ],
             "install_type": "git-clone",
             "description": "Proof of concent on how to use IPAdapter to control tiled upscaling. NOTE: You need to have 'ComfyUI_IPAdapter_plus' installed."
+        },
+        {
+            "author": "kinfolk0117",
+            "title": "ComfyUI_Pilgram",
+            "reference": "https://github.com/kinfolk0117/ComfyUI_Pilgram",
+            "files": [
+                "https://github.com/kinfolk0117/ComfyUI_Pilgram"
+            ],
+            "install_type": "git-clone",
+            "description": "Use [a/Pilgram2](https://github.com/mgineer85/pilgram2) filters in ComfyUI"
         },
         {
             "author": "Fictiverse",
@@ -3821,7 +3851,7 @@
                 "https://github.com/crystian/ComfyUI-Crystools"
             ],
             "install_type": "git-clone",
-            "description": "You can see the metadata and compare between two images, compare between two JSONs, show any value to console/display, pipes, and more!\nThis provides a better nodes to load images, previews, etc, and see \"hidden\" data, but without load a new workflow."
+            "description": "With this suit, you can see the resources monitor, progress bar & time elapsed, metadata and compare between two images, compare between two JSONs, show any value to console/display, pipes, and more!\nThis provides better nodes to load/save images, previews, etc, and see \"hidden\" data without loading a new workflow."
         },
         {
             "author": "Crystian",
@@ -3974,9 +4004,156 @@
             "install_type": "git-clone",
             "description": "Aspect ratio selector for ComfyUI based on [a/sd-webui-ar](https://github.com/alemelis/sd-webui-ar?tab=readme-ov-file)."
         },
-
-
-
+        {
+            "author": "SiliconFlow",
+            "title": "OneDiff Nodes",
+            "reference": "https://github.com/siliconflow/onediff_comfy_nodes",
+            "files": [
+                "https://github.com/siliconflow/onediff_comfy_nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "[a/Onediff](https://github.com/siliconflow/onediff) ComfyUI Nodes."
+        },
+        {
+            "author": "ZHO-ZHO-ZHO",
+            "title": "ComfyUI-ArtGallery",
+            "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-ArtGallery",
+            "files": [
+                "https://github.com/ZHO-ZHO-ZHO/ComfyUI-ArtGallery"
+            ],
+            "install_type": "git-clone",
+            "description": "Prompt Visualization | Art Gallery\n[w/WARN: Installation requires 2GB of space, and it will involve a long download time.]"
+        },
+        {
+            "author": "hinablue",
+            "title": "ComfyUI 3D Pose Editor",
+            "reference": "https://github.com/hinablue/ComfyUI_3dPoseEditor",
+            "files": [
+                "https://github.com/hinablue/ComfyUI_3dPoseEditor"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:3D Pose Editor"
+        },
+        {
+            "author": "chaojie",
+            "title": "ComfyUI-MotionCtrl",
+            "reference": "https://github.com/chaojie/ComfyUI-MotionCtrl",
+            "files": [
+                "https://github.com/chaojie/ComfyUI-MotionCtrl"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Download the weights of MotionCtrl [a/motionctrl.pth](https://huggingface.co/TencentARC/MotionCtrl/blob/main/motionctrl.pth) and put it to ComfyUI/models/checkpoints"
+        },
+        {
+            "author": "alexopus",
+            "title": "ComfyUI Image Saver",
+            "reference": "https://github.com/alexopus/ComfyUI-Image-Saver",
+            "files": [
+                "https://github.com/alexopus/ComfyUI-Image-Saver"
+            ],
+            "install_type": "git-clone",
+            "description": "Allows you to save images with their generation metadata compatible with Civitai. Works with png, jpeg and webp. Stores LoRAs, models and embeddings hashes for resource recognition."
+        },
+        {
+            "author": "kft334",
+            "title": "Knodes",
+            "reference": "https://github.com/kft334/Knodes",
+            "files": [
+                "https://github.com/kft334/Knodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: Image(s) To Websocket (Base64), Load Image (Base64),Load Images (Base64)"
+        },
+        {
+            "author": "MrForExample",
+            "title": "ComfyUI-3D-Pack",
+            "reference": "https://github.com/MrForExample/ComfyUI-3D-Pack",
+            "files": [
+                "https://github.com/MrForExample/ComfyUI-3D-Pack"
+            ],
+            "install_type": "git-clone",
+            "description": "An extensive node suite that enables ComfyUI to process 3D inputs (Mesh & UV Texture, etc) using cutting edge algorithms (3DGS, NeRF, etc.)"
+        },
+        {
+            "author": "Hangover3832",
+            "title": "ComfyUI-Hangover-Nodes",
+            "reference": "https://github.com/Hangover3832/ComfyUI-Hangover-Nodes",
+            "files": [
+                "https://github.com/Hangover3832/ComfyUI-Hangover-Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: MS kosmos-2 Interrogator, Save Image w/o Metadata, Image Scale Bounding Box. An implementation of Microsoft [a/kosmos-2](https://huggingface.co/microsoft/kosmos-2-patch14-224) image to text transformer."
+        },
+        {
+            "author": "tzwm",
+            "title": "ComfyUI Profiler",
+            "reference": "https://github.com/tzwm/comfyui-profiler",
+            "files": [
+                "https://github.com/tzwm/comfyui-profiler"
+            ],
+            "install_type": "git-clone",
+            "description": "Calculate the execution time of all nodes."
+        },
+        {
+            "author": "Daniel Lewis",
+            "title": "ComfyUI-Llama",
+            "reference": "https://github.com/daniel-lewis-ab/ComfyUI-Llama",
+            "files": [
+                "https://github.com/daniel-lewis-ab/ComfyUI-Llama"
+            ],
+            "install_type": "git-clone",
+            "description": "This is a set of nodes to interact with llama-cpp-python"
+        },
+        {
+            "author": "djbielejeski",
+            "title": "a-person-mask-generator",
+            "reference": "https://github.com/djbielejeski/a-person-mask-generator",
+            "files": [
+                "https://github.com/djbielejeski/a-person-mask-generator"
+            ],
+            "install_type": "git-clone",
+            "description": "Extension for Automatic1111 and ComfyUI to automatically create masks for Background/Hair/Body/Face/Clothes in Img2Img"
+        },
+        {
+            "author": "smagnetize",
+            "title": "kb-comfyui-nodes",
+            "reference": "https://github.com/smagnetize/kb-comfyui-nodes",
+            "files": [
+                "https://github.com/smagnetize/kb-comfyui-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:SingleImageDataUrlLoader"
+        },
+        {
+            "author": "ginlov",
+            "title": "segment_to_mask_comfyui",
+            "reference": "https://github.com/ginlov/segment_to_mask_comfyui",
+            "files": [
+                "https://github.com/ginlov/segment_to_mask_comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:SegToMask"
+        },
+        {
+            "author": "glowcone",
+            "title": "Load Image From Base64 URI",
+            "reference": "https://github.com/glowcone/comfyui-base64-to-image",
+            "files": [
+                "https://github.com/glowcone/comfyui-base64-to-image"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: LoadImageFromBase64. Loads an image and its transparency mask from a base64-encoded data URI for easy API connection."
+        },
+        {
+            "author": "AInseven",
+            "title": "ComfyUI-fastblend",
+            "reference": "https://github.com/AInseven/ComfyUI-fastblend",
+            "files": [
+                "https://github.com/AInseven/ComfyUI-fastblend"
+            ],
+            "install_type": "git-clone",
+            "description": "fastblend for comfyui, and other nodes that I write for video2video. rebatch image, my openpose"
+        },
 
 
         {
@@ -4072,7 +4249,8 @@
             "reference": "https://github.com/lrzjason/ComfyUIJasonNode",
             "files": [
                 "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/SDXLMixSampler.py",
-                "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/LatentByRatio.py"
+                "https://github.com/lrzjason/ComfyUIJasonNode/raw/main/LatentByRatio.py",
+                ""
             ],
             "install_type": "copy",
             "description": "Nodes:SDXLMixSampler, LatentByRatio"
@@ -4227,6 +4405,29 @@
             "install_type": "copy",
             "description": "Nodes:tensor_trans_pil, Make Transparent mask, MergeImages, words_generatee, load_PIL image"
         },
+        {
+            "author": "celsojr2013",
+            "title": "ComfyUI SimpleTools Suit",
+            "reference": "https://github.com/celsojr2013/comfyui_simpletools",
+            "files": [
+                "https://github.com/celsojr2013/comfyui_simpletools/raw/main/google_translator.py",
+                "https://github.com/celsojr2013/comfyui_simpletools/raw/main/parameters.py",
+                "https://github.com/celsojr2013/comfyui_simpletools/raw/main/resolution_solver.py"
+            ],
+            "install_type": "copy",
+            "description": "Nodes:Simple Gooogle Translator Client, Simple Mustache Parameter Switcher, Simple Latent Resolution Solver."
+        },
+        {
+            "author": "underclockeddev",
+            "title": "Preview Subselection Node for ComfyUI",
+            "reference": "https://github.com/underclockeddev/ComfyUI-PreviewSubselection-Node",
+            "files": [
+                "https://github.com/underclockeddev/ComfyUI-PreviewSubselection-Node/raw/master/preview_subselection.py"
+            ],
+            "install_type": "copy",
+            "description": "A node which takes in x, y, width, height, total width, and total height, in order to accurately represent the area of an image which is covered by area-based conditioning."
+        },
+
 
         {
             "author": "theally",

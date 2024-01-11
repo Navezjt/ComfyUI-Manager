@@ -121,7 +121,7 @@
       "url": "https://huggingface.co/uwg/upscaler/resolve/main/ESRGAN/8x_NMKD-Superscale_150000_G.pth"
     },
     {
-      "name": "LDSR",
+      "name": "LDSR(Latent Diffusion Super Resolution)",
       "type": "upscale",
       "base": "upscale",
       "save_path": "upscale_models/ldsr",
@@ -129,6 +129,16 @@
       "reference": "https://github.com/CompVis/latent-diffusion",
       "filename": "last.ckpt",
       "url": "https://heibox.uni-heidelberg.de/f/578df07c8fc04ffbadf3/?dl=1"
+    },
+    {
+      "name": "stabilityai/stable-diffusion-x4-upscaler",
+      "type": "checkpoints",
+      "base": "upscale",
+      "save_path": "checkpoints/upscale",
+      "description": "[3.53GB] This upscaling model is a latent text-guided diffusion model and should be used with SD_4XUpscale_Conditioning and KSampler.",
+      "reference": "https://huggingface.co/stabilityai/stable-diffusion-x4-upscaler",
+      "filename": "x4-upscaler-ema.safetensors",
+      "url": "https://huggingface.co/stabilityai/stable-diffusion-x4-upscaler/resolve/main/x4-upscaler-ema.safetensors"
     },
     {
       "name": "Inswapper-fp16 (face swap)",
@@ -522,7 +532,7 @@
     },
     {
       "name": "Segmind-Vega",
-      "type": "checkpoint",
+      "type": "checkpoints",
       "base": "segmind-vega",
       "save_path": "checkpoints/segmind-vega",
       "description": "The Segmind-Vega Model is a distilled version of the Stable Diffusion XL (SDXL), offering a remarkable 70% reduction in size and an impressive 100% speedup while retaining high-quality text-to-image generation capabilities.",
@@ -681,7 +691,7 @@
       "url": "https://huggingface.co/openai/clip-vit-large-patch14/resolve/main/pytorch_model.bin"
     },
     {
-      "name": "CLIPVision model (IP-Adapter)",
+      "name": "CLIPVision model (IP-Adapter) 1.5",
       "type": "clip_vision",
       "base": "SD1.5",
       "save_path": "clip_vision/SD1.5",
@@ -691,7 +701,7 @@
       "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/pytorch_model.bin"
     },
     {
-      "name": "CLIPVision model (IP-Adapter)",
+      "name": "CLIPVision model (IP-Adapter) XL",
       "type": "clip_vision",
       "base": "SDXL",
       "save_path": "clip_vision/SDXL",
@@ -699,6 +709,26 @@
       "reference": "https://huggingface.co/h94/IP-Adapter",
       "filename": "pytorch_model.bin",
       "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/pytorch_model.bin"
+    },
+    {
+      "name": "CLIPVision model (IP-Adapter) CLIP-ViT-H-14-laion2B-s32B-b79K",
+      "type": "clip_vision",
+      "base": "SD1.5",
+      "save_path": "clip_vision/SD1.5",
+      "description": "[2.5GB] CLIPVision model (needed for IP-Adapter)",
+      "reference": "https://huggingface.co/h94/IP-Adapter",
+      "filename": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+      "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/models/image_encoder/model.safetensors"
+    },
+    {
+      "name": "CLIPVision model (IP-Adapter) CLIP-ViT-bigG-14-laion2B-39B-b160k",
+      "type": "clip_vision",
+      "base": "SDXL",
+      "save_path": "clip_vision/SDXL",
+      "description": "[3.69GB] CLIPVision model (needed for IP-Adapter)",
+      "reference": "https://huggingface.co/h94/IP-Adapter",
+      "filename": "CLIP-ViT-bigG-14-laion2B-39B-b160k.safetensors",
+      "url": "https://huggingface.co/h94/IP-Adapter/resolve/main/sdxl_models/image_encoder/model.safetensors"
     },
     {
       "name": "stabilityai/control-lora-canny-rank128.safetensors",
@@ -1468,6 +1498,18 @@
       "filename": "lt_long_mm_16_64_frames_v1.1.ckpt",
       "url": "https://huggingface.co/Lightricks/LongAnimateDiff/resolve/main/lt_long_mm_16_64_frames_v1.1.ckpt"
     },
+
+    {
+      "name": "TencentARC/motionctrl.pth",
+      "type": "checkpoints",
+      "base": "MotionCtrl",
+      "save_path": "checkpoints/motionctrl",
+      "description": "To use the ComfyUI-MotionCtrl extension, downloading this model is required.",
+      "reference": "https://huggingface.co/TencentARC/MotionCtrl",
+      "filename": "motionctrl.pth",
+      "url": "https://huggingface.co/TencentARC/MotionCtrl/resolve/main/motionctrl.pth"
+    },
+
     {
       "name": "ip-adapter_sd15.safetensors",
       "type": "IP-Adapter",
@@ -1547,6 +1589,26 @@
       "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
       "filename": "ip-adapter-faceid_sd15_lora.safetensors",
       "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid_sd15_lora.safetensors"
+    },
+    {
+      "name": "ip-adapter-faceid-plusv2_sd15.bin",
+      "type": "IP-Adapter",
+      "base": "SD1.5",
+      "save_path": "ipadapter",
+      "description": "IP-Adapter-FaceID-Plus V2 Model (SD1.5)",
+      "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+      "filename": "ip-adapter-faceid-plusv2_sd15.bin",
+      "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sd15.bin"
+    },
+    {
+      "name": "ip-adapter-faceid-plusv2_sd15_lora.safetensors",
+      "type": "lora",
+      "base": "SD1.5",
+      "save_path": "loras/ipadapter",
+      "description": "IP-Adapter-FaceID-Plus V2 LoRA Model (SD1.5)",
+      "reference": "https://huggingface.co/h94/IP-Adapter-FaceID",
+      "filename": "ip-adapter-faceid-plusv2_sd15_lora.safetensors",
+      "url": "https://huggingface.co/h94/IP-Adapter-FaceID/resolve/main/ip-adapter-faceid-plusv2_sd15_lora.safetensors"
     },
     {
       "name": "ip-adapter_sdxl.safetensors",
