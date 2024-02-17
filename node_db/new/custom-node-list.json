@@ -11,6 +11,66 @@
         
 
         {
+            "author": "ccvv804",
+            "title": "ComfyUI StableCascade using diffusers for Low VRAM",
+            "reference": "https://github.com/ccvv804/ComfyUI-DiffusersStableCascade-LowVRAM",
+            "files": [
+                "https://github.com/ccvv804/ComfyUI-DiffusersStableCascade-LowVRAM"
+            ],
+            "install_type": "git-clone",
+            "description": "Works with RTX 4070ti 12GB.\nSimple quick wrapper for [a/https://huggingface.co/stabilityai/stable-cascade](https://huggingface.co/stabilityai/stable-cascade)\nComfy is going to implement this properly soon, this repo is just for quick testing for the impatient!"
+        },
+        {
+            "author": "yuvraj108c",
+            "title": "ComfyUI-Pronodes",
+            "reference": "https://github.com/yuvraj108c/ComfyUI-Pronodes",
+            "files": [
+                "https://github.com/yuvraj108c/ComfyUI-Pronodes"
+            ],
+            "install_type": "git-clone",
+            "description": "A collection of nice utility nodes for ComfyUI"
+        },
+        {
+            "author": "pkpkTech",
+            "title": "ComfyUI-SaveQueues",
+            "reference": "https://github.com/pkpkTech/ComfyUI-SaveQueues",
+            "files": [
+                "https://github.com/pkpkTech/ComfyUI-SaveQueues"
+            ],
+            "install_type": "git-clone",
+            "description": "Add a button to the menu to save and load the running queue and the pending queues.\nThis is intended to be used when you want to exit ComfyUI with queues still remaining."
+        },
+        {
+            "author": "jordoh",
+            "title": "ComfyUI Deepface",
+            "reference": "https://github.com/jordoh/ComfyUI-Deepface",
+            "files": [
+                "https://github.com/jordoh/ComfyUI-Deepface"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI nodes wrapping the [a/deepface](https://github.com/serengil/deepface) library."
+        },
+        {
+            "author": "kijai",
+            "title": "ComfyUI StableCascade using diffusers",
+            "reference": "https://github.com/kijai/ComfyUI-DiffusersStableCascade",
+            "files": [
+                "https://github.com/kijai/ComfyUI-DiffusersStableCascade"
+            ],
+            "install_type": "git-clone",
+            "description": "Simple quick wrapper for [a/https://huggingface.co/stabilityai/stable-cascade](https://huggingface.co/stabilityai/stable-cascade)\nComfy is going to implement this properly soon, this repo is just for quick testing for the impatient!"
+        },
+        {
+            "author": "Extraltodeus",
+            "title": "ComfyUI-AutomaticCFG",
+            "reference": "https://github.com/Extraltodeus/ComfyUI-AutomaticCFG",
+            "files": [
+                "https://github.com/Extraltodeus/ComfyUI-AutomaticCFG"
+            ],
+            "install_type": "git-clone",
+            "description": "My own version 'from scratch' of a self-rescaling CFG. It isn't much but it's honest work.\nTLDR: set your CFG at 8 to try it. No burned images and artifacts anymore. CFG is also a bit more sensitive because it's a proportion around 8. Low scale like 4 also gives really nice results since your CFG is not the CFG anymore. Also in general even with relatively low settings it seems to improve the quality."
+        },
+        {
             "author": "Mamaaaamooooo",
             "title": "Batch Rembg for ComfyUI",
             "reference": "https://github.com/Mamaaaamooooo/batchImg-rembg-ComfyUI-nodes",
@@ -629,136 +689,6 @@
             ],
             "install_type": "git-clone",
             "description": "Unofficial implementation of [a/InstantID](https://github.com/InstantID/InstantID) for ComfyUI"
-        },
-        {
-            "author": "FlyingFireCo",
-            "title": "tiled_ksampler",
-            "reference": "https://github.com/FlyingFireCo/tiled_ksampler",
-            "files": [
-                "https://github.com/FlyingFireCo/tiled_ksampler"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:Tiled KSampler, Asymmetric Tiled KSampler, Circular VAEDecode."
-        },
-        {
-            "author": "abdozmantar",
-            "title": "InstaSwap Face Swap Node for ComfyUI",
-            "reference": "https://github.com/abdozmantar/ComfyUI-InstaSwap",
-            "files": [
-                "https://github.com/abdozmantar/ComfyUI-InstaSwap"
-            ],
-            "install_type": "git-clone",
-            "description": "Fastest Face Swap Extension Node for ComfyUI, Single node and FastTrack: Lightning-Speed Facial Transformation for your projects."
-        },
-        {
-            "author": "pkpkTech",
-            "title": "ComfyUI-ngrok",
-            "reference": "https://github.com/pkpkTech/ComfyUI-ngrok",
-            "files": [
-                "https://github.com/pkpkTech/ComfyUI-ngrok"
-            ],
-            "install_type": "git-clone",
-            "description": "Use ngrok to allow external access to ComfyUI.\nNOTE: Need to manually modify a token inside the __init__.py file."
-        },
-        {
-            "author": "Daniel Lewis",
-            "title": "ComfyUI-TTS",
-            "reference": "https://github.com/daniel-lewis-ab/ComfyUI-TTS",
-            "files": [
-                "https://github.com/daniel-lewis-ab/ComfyUI-TTS"
-            ],
-            "install_type": "git-clone",
-            "description": "Text To Speech (TTS) for ComfyUI"
-        },
-        {
-            "author": "thecooltechguy",
-            "title": "ComfyUI-ComfyWorkflows",
-            "reference": "https://github.com/thecooltechguy/ComfyUI-ComfyWorkflows",
-            "files": [
-                "https://github.com/thecooltechguy/ComfyUI-ComfyWorkflows"
-            ],
-            "install_type": "git-clone",
-            "description": "The best way to run, share, & discover thousands of ComfyUI workflows."
-        },
-        {
-            "author": "Shraknard",
-            "title": "ComfyUI-Remover",
-            "reference": "https://github.com/Shraknard/ComfyUI-Remover",
-            "files": [
-                "https://github.com/Shraknard/ComfyUI-Remover"
-            ],
-            "install_type": "git-clone",
-            "description": "Custom node for ComfyUI that makes parts of the image transparent (face, background...)"
-        },
-        {
-            "author": "adriflex",
-            "title": "ComfyUI_Blender_Texdiff",
-            "reference": "https://github.com/adriflex/ComfyUI_Blender_Texdiff",
-            "files": [
-                "https://github.com/adriflex/ComfyUI_Blender_Texdiff"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:Blender viewport color, Blender Viewport depth"
-        },
-        {
-            "author": "chaojie",
-            "title": "ComfyUI-RAFT",
-            "reference": "https://github.com/chaojie/ComfyUI-RAFT",
-            "files": [
-                "https://github.com/chaojie/ComfyUI-RAFT"
-            ],
-            "install_type": "git-clone",
-            "description": "This is an ComfyUI implementation of RAFT to generate motion brush"
-        },
-        {
-            "author": "DimaChaichan",
-            "title": "LAizypainter-Exporter-ComfyUI",
-            "reference": "https://github.com/DimaChaichan/LAizypainter-Exporter-ComfyUI",
-            "files": [
-                "https://github.com/DimaChaichan/LAizypainter-Exporter-ComfyUI"
-            ],
-            "install_type": "git-clone",
-            "description": "This exporter is a plugin for ComfyUI, which can export tasks for [a/LAizypainter](https://github.com/DimaChaichan/LAizypainter).\nLAizypainter is a Photoshop plugin with which you can send tasks directly to a Stable Diffusion server. More information about a [a/Task](https://github.com/DimaChaichan/LAizypainter?tab=readme-ov-file#task)"
-        },
-        {
-            "author": "Qais Malkawi",
-            "title": "ComfyUI-Qais-Helper",
-            "reference": "https://github.com/QaisMalkawi/ComfyUI-QaisHelper",
-            "files": [
-                "https://github.com/QaisMalkawi/ComfyUI-QaisHelper"
-            ],
-            "install_type": "git-clone",
-            "description": "This Extension adds a few custom QOL nodes that ComfyUI lacks by default."
-        },
-        {
-            "author": "longgui0318",
-            "title": "comfyui-mask-util",
-            "reference": "https://github.com/longgui0318/comfyui-mask-util",
-            "files": [
-                "https://github.com/longgui0318/comfyui-mask-util"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:Split Masks"
-        },
-        {
-            "author": "shiimizu",
-            "title": "ComfyUI PhotoMaker Plus",
-            "reference": "https://github.com/shiimizu/ComfyUI-PhotoMaker-Plus",
-            "files": [
-                "https://github.com/shiimizu/ComfyUI-PhotoMaker-Plus"
-            ],
-            "install_type": "git-clone",
-            "description": "ComfyUI reference implementation for [a/PhotoMaker](https://github.com/TencentARC/PhotoMaker) models. [w/WARN:The repository name has been changed. For those who have previously installed it, please delete custom_nodes/ComfyUI-PhotoMaker from disk and reinstall this.]"
-        },
-        {
-            "author": "darkpixel",
-            "title": "DarkPrompts",
-            "reference": "https://github.com/darkpixel/darkprompts",
-            "files": [
-                "https://github.com/darkpixel/darkprompts"
-            ],
-            "install_type": "git-clone",
-            "description": "Slightly better random prompt generation tools that allow combining and picking prompts from both file and text input sources."
         }
     ]
 }
