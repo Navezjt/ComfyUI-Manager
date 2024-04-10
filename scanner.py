@@ -247,25 +247,30 @@ def update_custom_nodes():
                 if is_rate_limit_exceeded():
                     return
 
-                # Parsing the URL
-                parsed_url = urlparse(url)
-                domain = parsed_url.netloc
-                path = parsed_url.path
-                path_parts = path.strip("/").split("/")
-                if len(path_parts) >= 2 and domain == "github.com":
-                    owner_repo = "/".join(path_parts[-2:])
-                    repo = g.get_repo(owner_repo)
+                print('.', end="")
+                sys.stdout.flush()
+                try:
+                    # Parsing the URL
+                    parsed_url = urlparse(url)
+                    domain = parsed_url.netloc
+                    path = parsed_url.path
+                    path_parts = path.strip("/").split("/")
+                    if len(path_parts) >= 2 and domain == "github.com":
+                        owner_repo = "/".join(path_parts[-2:])
+                        repo = g.get_repo(owner_repo)
 
-                    last_update = repo.pushed_at.strftime("%Y-%m-%d %H:%M:%S") if repo.pushed_at else 'N/A'
-                    github_stats[url] = {
-                        "stars": repo.stargazers_count,
-                        "last_update": last_update,
-                        "cached_time": datetime.datetime.now().timestamp(),
-                    }
-                    with open(GITHUB_STATS_CACHE_FILENAME, 'w', encoding='utf-8') as file:
-                        json.dump(github_stats, file, ensure_ascii=False, indent=4)
-                else:
-                    print(f"Invalid URL format for GitHub repository: {url}")
+                        last_update = repo.pushed_at.strftime("%Y-%m-%d %H:%M:%S") if repo.pushed_at else 'N/A'
+                        github_stats[url] = {
+                            "stars": repo.stargazers_count,
+                            "last_update": last_update,
+                            "cached_time": datetime.datetime.now().timestamp(),
+                        }
+                        with open(GITHUB_STATS_CACHE_FILENAME, 'w', encoding='utf-8') as file:
+                            json.dump(github_stats, file, ensure_ascii=False, indent=4)
+                    else:
+                        print(f"\nInvalid URL format for GitHub repository: {url}\n")
+                except Exception as e:
+                    print(f"\nERROR on {url}\n{e}")
 
             # resolve unresolved urls
             for url, title, preemptions, node_pattern in git_url_titles_preemptions:
@@ -275,8 +280,9 @@ def update_custom_nodes():
             # renew outdated cache
             outdated_urls = []
             for k, v in github_stats.items():
-                if (datetime.datetime.now().timestamp() - v['cached_time']) > 60*60*3:  # 3 hours
-                    outdated_urls += k
+                elapsed = (datetime.datetime.now().timestamp() - v['cached_time'])
+                if elapsed > 60*60*12:  # 12 hours
+                    outdated_urls.append(k)
 
             for url in outdated_urls:
                 renew_stat(url)
@@ -295,7 +301,7 @@ def update_custom_nodes():
         #     pass
 
     with concurrent.futures.ThreadPoolExecutor(11) as executor:
-        executor.submit(process_git_stats, git_url_titles_preemptions) # One single thread for `process_git_stats()`. Runs concurrently with `process_git_url_title()`.
+        executor.submit(process_git_stats, git_url_titles_preemptions)  # One single thread for `process_git_stats()`. Runs concurrently with `process_git_url_title()`.
         for url, title, preemptions, node_pattern in git_url_titles_preemptions:
             executor.submit(process_git_url_title, url, title, preemptions, node_pattern)
 
