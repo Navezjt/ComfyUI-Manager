@@ -5,10 +5,8 @@
 ![menu](misc/menu.jpg)
 
 ## NOTICE
-* 🏆 Join us for the [ComfyUI Workflow Contest](https://contest.openart.ai/), hosted by OpenArt AI (11.27.2023 - 12.15.2023). Our esteemed judge panel includes Scott E. Detweiler, Olivio Sarikas, MERJIC麦橘, among others. We're also thrilled to have the authors of ComfyUI Manager and AnimateDiff as our special guests!
-* If you wish to hide the "Share" button, click "Manager" and choose "Share: None" option.
+* V2.18 to V2.18.3 is not functioning due to a severe bug. Users on these versions are advised to promptly update to V2.18.4. Please navigate to the `ComfyUI/custom_nodes/ComfyUI-Manager` directory and execute `git pull` to update.
 * You can see whole nodes info on [ComfyUI Nodes Info](https://ltdrdata.github.io/) page.
-* Versions prior to V0.22.2 will no longer detect missing nodes unless using a local database. Please update ComfyUI-Manager to the latest version.
 
 ## Installation
 
@@ -278,6 +276,26 @@ NODE_CLASS_MAPPINGS.update({
     ```
       downgrade_blacklist = diffusers, kornia
     ```
+
+* Custom pip mapping
+  * When you create the `pip_overrides.json` file, it changes the installation of specific pip packages to installations defined by the user.
+    * Please refer to the `pip_overrides.json.template` file.
+    
+
+## Scanner
+When you run the `scan.sh` script:
+
+* It updates the `extension-node-map.json`.
+  * To do this, it pulls or clones the custom nodes listed in `custom-node-list.json` into `~/.tmp/default`.
+  * To skip this step, add the `--skip-update` option.
+  * If you want to specify a different path instead of `~/.tmp/default`, run `python scanner.py [path]` directly instead of `scan.sh`.
+
+* It updates the `github-stats.json`.
+  * This uses the GitHub API, so set your token with `export GITHUB_TOKEN=your_token_here` to avoid quickly reaching the rate limit and malfunctioning.
+  * To skip this step, add the `--skip-update-stat` option.
+
+* The `--skip-all` option applies both `--skip-update` and `--skip-stat-update`.
+
 
 ## Troubleshooting
 * If your `git.exe` is installed in a specific location other than system git, please install ComfyUI-Manager and run ComfyUI. Then, specify the path including the file name in `git_exe = ` in the ComfyUI-Manager/config.ini file that is generated.
