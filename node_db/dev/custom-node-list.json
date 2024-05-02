@@ -9,8 +9,86 @@
             "description": "If you see this message, your ComfyUI-Manager is outdated.\nDev channel provides only the list of the developing nodes. If you want to find the complete node list, please go to the Default channel."
         },
 
-
-
+        {
+            "author": "ZHO-ZHO-ZHO",
+            "title": "ComfyUI-PuLID-ZHO [WIP]",
+            "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-PuLID-ZHO",
+            "files": [
+                "https://github.com/ZHO-ZHO-ZHO/ComfyUI-PuLID-ZHO"
+            ],
+            "install_type": "git-clone",
+            "description": "Unofficial implementation of [a/PuLID](https://github.com/ToTheBeginning/PuLID)（diffusers） for ComfyUI"
+        },
+        {
+            "author": "longgui0318",
+            "title": "comfyui-one-more-step [WIP]",
+            "reference": "https://github.com/longgui0318/comfyui-one-more-step",
+            "files": [
+                "https://github.com/longgui0318/comfyui-one-more-step"
+            ],
+            "install_type": "git-clone",
+            "description": "[a/(OMS)mhh0318/OneMoreStep](https://github.com/mhh0318/OneMoreStep) comfyui support ."
+        },
+        {
+            "author": "unknown",
+            "title": "CLIPTextEncodeAndEnhancev4 (shirazdesigner)",
+            "reference": "https://github.com/shirazdesigner/CLIPTextEncodeAndEnhancev4",
+            "files": [
+                "https://github.com/shirazdesigner/CLIPTextEncodeAndEnhancev4"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:CLIPTextEncodeAndEnhance.\nNOTE:Translation:This is a wrapper that simply makes it easy to install an existing node via git."
+        },
+        {
+            "author": "umisetokikaze",
+            "title": "comfyui_mergekit [WIP]",
+            "reference": "https://github.com/umisetokikaze/comfyui_mergekit",
+            "files": [
+                "https://github.com/umisetokikaze/comfyui_mergekit"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:DefineSaveName, SetModels, get_skip, LoadLR, LoadTarget, SetTokenizer, Merge, SetLayer, SetModels"
+        },
+        {
+            "author": "Video3DGenResearch",
+            "title": "ComfyUI Batch Input Node",
+            "reference": "https://github.com/Video3DGenResearch/comfyui-batch-input-node",
+            "files": [
+                "https://github.com/Video3DGenResearch/comfyui-batch-input-node"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:BatchInputText"
+        },
+        {
+            "author": "kijai",
+            "title": "ComfyUI nodes to use DeepSeek-VL",
+            "reference": "https://github.com/kijai/ComfyUI-DeepSeek-VL",
+            "files": [
+                "https://github.com/kijai/ComfyUI-DeepSeek-VL"
+            ],
+            "install_type": "git-clone",
+            "description": "[a/https://huggingface.co/deepseek-ai](https://huggingface.co/deepseek-ai)"
+        },
+        {
+            "author": "GentlemanHu",
+            "title": "ComfyUI-Notifier",
+            "reference": "https://github.com/GentlemanHu/ComfyUI-Notifier",
+            "files": [
+                "https://github.com/GentlemanHu/ComfyUI-Notifier"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:GentlemanHu_Notifier"
+        },
+        {
+            "author": "nat-chan",
+            "title": "comfyui-in-memory-transceiver",
+            "reference": "https://github.com/nat-chan/comfyui-in-memory-transceiver",
+            "files": [
+                "https://github.com/nat-chan/comfyui-in-memory-transceiver"
+            ],
+            "install_type": "git-clone",
+            "description": "Why? When processing a large number of requests, the SaveImage and LoadImage nodes may be IO-limited, and using shared memory improves performance by passing images only through memory access, not through IO."
+        },
         {
             "author": "DrMWeigand",
             "title": "ComfyUI_LineBreakInserter",
@@ -150,16 +228,6 @@
             ],
             "install_type": "git-clone",
             "description": "Nodes:Aspect Size. Drift Johnsons Custom nodes for ComfyUI"
-        },
-        {
-            "author": "birnam",
-            "title": "Gen Data Tester",
-            "reference": "https://github.com/birnam/ComfyUI-GenData-Pack",
-            "files": [
-                "https://github.com/birnam/ComfyUI-GenData-Pack"
-            ],
-            "install_type": "git-clone",
-            "description": "This answers the itch for being able to easily paste CivitAI.com generated data (or other simple metadata) into Comfy in a way that makes it easy to test with multiple checkpoints."
         },
         {
             "author": "stavsap",
@@ -382,16 +450,6 @@
             "description": "Nodes:Musicgen"
         },
         {
-            "author": "Extraltodeus",
-            "title": "ComfyUI-variableCFGandAntiBurn [WIP]",
-            "reference": "https://github.com/Extraltodeus/ComfyUI-variableCFGandAntiBurn",
-            "files": [
-                "https://github.com/Extraltodeus/ComfyUI-variableCFGandAntiBurn"
-            ],
-            "install_type": "git-clone",
-            "description": "Nodes:Continuous CFG rescaler (pre CFG), Intermediary latent merge (post CFG), Intensity/Brightness limiter (post CFG), Dynamic renoising (post CFG), Automatic CFG scale (pre/post CFG), CFG multiplier per channel (pre CFG), Self-Attention Guidance delayed activation mod (post CFG)"
-        },
-        {
             "author": "shadowcz007",
             "title": "comfyui-CLIPSeg",
             "reference": "https://github.com/shadowcz007/comfyui-CLIPSeg",
@@ -542,16 +600,6 @@
             "description": "I was looking for a node to put in place to ensure my prompt etc where going as expected before the rest of the flow executed. To end the session, I just return the input image as None (see expected error). Recommend using it alongside PreviewImage, then output to the rest of the flow and Save Image."
         },
         {
-            "author": "11cafe",
-            "title": "11cafe/ComfyUI Model Manager [WIP]",
-            "reference": "https://github.com/11cafe/model-manager-comfyui",
-            "files": [
-                "https://github.com/11cafe/model-manager-comfyui"
-            ],
-            "install_type": "git-clone",
-            "description": "This answers the itch for being able to easily paste [a/CivitAI.com](CivitAI.com) generated data (or other simple metadata) into Comfy in a way that makes it easy to test with multiple checkpoints."
-        },
-        {
             "author": "birnam",
             "title": "Gen Data Tester [WIP]",
             "reference": "https://github.com/birnam/ComfyUI-GenData-Pack",
@@ -559,11 +607,11 @@
                 "https://github.com/birnam/ComfyUI-GenData-Pack"
             ],
             "install_type": "git-clone",
-            "description": "This answers the itch for being able to easily paste [a/CivitAI.com](CivitAI.com) generated data (or other simple metadata) into Comfy in a way that makes it easy to test with multiple checkpoints."
+            "description": "This answers the itch for being able to easily paste [a/CivitAI.com](https://civitai.com/) generated data (or other simple metadata) into Comfy in a way that makes it easy to test with multiple checkpoints."
         },
         {
             "author": "ZHO-ZHO-ZHO",
-            "title": "ComfyUI-AnyText（WIP）",
+            "title": "ComfyUI-AnyText [WIP]",
             "reference": "https://github.com/ZHO-ZHO-ZHO/ComfyUI-AnyText",
             "files": [
                 "https://github.com/ZHO-ZHO-ZHO/ComfyUI-AnyText"

@@ -442,12 +442,10 @@ async def fetch_customnode_list(request):
     json_obj = await populate_github_stats(json_obj, "github-stats.json")
 
     def is_ignored_notice(code):
-        global version
-
         if code is not None and code.startswith('#NOTICE_'):
             try:
                 notice_version = [int(x) for x in code[8:].split('.')]
-                return notice_version[0] < version[0] or (notice_version[0] == version[0] and notice_version[1] <= version[1])
+                return notice_version[0] < core.version[0] or (notice_version[0] == core.version[0] and notice_version[1] <= core.version[1])
             except Exception:
                 return False
         else:
@@ -792,12 +790,10 @@ async def fix_custom_node(request):
     return web.Response(status=400)
 
 
-@PromptServer.instance.routes.get("/customnode/install/git_url")
+@PromptServer.instance.routes.post("/customnode/install/git_url")
 async def install_custom_node_git_url(request):
-    res = False
-    if "url" in request.rel_url.query:
-        url = request.rel_url.query['url']
-        res = core.gitclone_install([url])
+    url = await request.text()
+    res = core.gitclone_install([url])
 
     if res:
         print(f"After restarting ComfyUI, please refresh the browser.")
@@ -806,12 +802,10 @@ async def install_custom_node_git_url(request):
     return web.Response(status=400)
 
 
-@PromptServer.instance.routes.get("/customnode/install/pip")
+@PromptServer.instance.routes.post("/customnode/install/pip")
 async def install_custom_node_git_url(request):
-    res = False
-    if "packages" in request.rel_url.query:
-        packages = request.rel_url.query['packages']
-        core.pip_install(packages.split(' '))
+    packages = await request.text()
+    core.pip_install(packages.split(' '))
 
     return web.Response(status=200)
 
@@ -868,50 +862,13 @@ async def update_comfyui(request):
 
     try:
         repo_path = os.path.dirname(folder_paths.__file__)
-
-        if not os.path.exists(os.path.join(repo_path, '.git')):
+        res = core.update_path(repo_path)
+        if res == "fail":
             print(f"ComfyUI update fail: The installed ComfyUI does not have a Git repository.")
             return web.Response(status=400)
-
-        # version check
-        repo = git.Repo(repo_path)
-
-        if repo.head.is_detached:
-            core.switch_to_default_branch(repo)
-
-        current_branch = repo.active_branch
-        branch_name = current_branch.name
-
-        if current_branch.tracking_branch() is None:
-            print(f"[ComfyUI-Manager] There is no tracking branch ({current_branch})")
-            remote_name = 'origin'
-        else:
-            remote_name = current_branch.tracking_branch().remote_name
-        remote = repo.remote(name=remote_name)
-
-        try:
-            remote.fetch()
-        except Exception as e:
-            if 'detected dubious' in str(e):
-                print(f"[ComfyUI-Manager] Try fixing 'dubious repository' error on 'ComfyUI' repository")
-                safedir_path = core.comfy_path.replace('\\', '/')
-                subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', safedir_path])
-                try:
-                    remote.fetch()
-                except Exception:
-                    print(f"\n[ComfyUI-Manager] Failed to fixing repository setup. Please execute this command on cmd: \n"
-                          f"-----------------------------------------------------------------------------------------\n"
-                          f'git config --global --add safe.directory "{safedir_path}"\n'
-                          f"-----------------------------------------------------------------------------------------\n")
-
-        commit_hash = repo.head.commit.hexsha
-        remote_commit_hash = repo.refs[f'{remote_name}/{branch_name}'].object.hexsha
-
-        if commit_hash != remote_commit_hash:
-            core.git_pull(repo_path)
-            core.execute_install_script("ComfyUI", repo_path)
+        elif res == "updated":
             return web.Response(status=201)
-        else:
+        else:  # skipped
             return web.Response(status=200)
     except Exception as e:
         print(f"ComfyUI update fail: {e}", file=sys.stderr)
@@ -1116,7 +1073,18 @@ def restart(self):
     except Exception as e:
         pass
 
-    return os.execv(sys.executable, [sys.executable] + sys.argv)
+    if '__COMFY_CLI_SESSION__' in os.environ:
+        with open(os.path.join(os.environ['__COMFY_CLI_SESSION__'] + '.reboot'), 'w') as file:
+            pass
+
+        print(f"\nRestarting...\n\n")
+        exit(0)
+
+    print(f"\nRestarting... [Legacy Mode]\n\n")
+    if sys.platform.startswith('win32'):
+        return os.execv(sys.executable, ['"' + sys.executable + '"', '"' + sys.argv[0] + '"'] + sys.argv[1:])
+    else:
+        return os.execv(sys.executable, [sys.executable] + sys.argv)
 
 
 def sanitize_filename(input_string):

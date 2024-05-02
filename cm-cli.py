@@ -5,6 +5,7 @@ import traceback
 import json
 import asyncio
 import subprocess
+import shutil
 
 sys.path.append(os.path.dirname(__file__))
 sys.path.append(os.path.join(os.path.dirname(__file__), "glob"))
@@ -19,11 +20,11 @@ print(f"\n-= ComfyUI-Manager CLI ({core.version_str}) =-\n")
 if not (len(sys.argv) == 2 and sys.argv[1] in ['save-snapshot', 'restore-dependencies', 'clear']) and len(sys.argv) < 3:
     print(f"\npython cm-cli.py [OPTIONS]\n\n"
           f"OPTIONS:\n"
-          f"    [install|uninstall|update|disable|enable|fix] node_name ... ?[--channel <channel name>] ?[--mode [remote|local|cache]]\n"
+          f"    [install|reinstall|uninstall|update|disable|enable|fix] node_name ... ?[--channel <channel name>] ?[--mode [remote|local|cache]]\n"
           f"    [update|disable|enable|fix] all ?[--channel <channel name>] ?[--mode [remote|local|cache]]\n"
           f"    [simple-show|show] [installed|enabled|not-installed|disabled|all|snapshot|snapshot-list] ?[--channel <channel name>] ?[--mode [remote|local|cache]]\n"
-          f"    save-snapshot\n"
-          f"    restore-snapshot <snapshot>\n"
+          f"    save-snapshot ?[--output <snapshot .json/.yaml>]\n"
+          f"    restore-snapshot <snapshot .json/.yaml>\n"
           f"    cli-only-mode [enable|disable]\n"
           f"    restore-dependencies\n"
           f"    clear\n")
@@ -107,10 +108,13 @@ def restore_dependencies():
 def restore_snapshot(snapshot_name):
     global processed_install
 
-    snapshot_path = os.path.join(core.comfyui_manager_path, 'snapshots', snapshot_name)
-    if not os.path.exists(snapshot_path):
-        print(f"ERROR: `{snapshot_path}` is not exists.")
-        exit(-1)
+    if os.path.exists(snapshot_name):
+        snapshot_path = os.path.abspath(snapshot_name)
+    else:
+        snapshot_path = os.path.join(core.comfyui_manager_path, 'snapshots', snapshot_name)
+        if not os.path.exists(snapshot_path):
+            print(f"ERROR: `{snapshot_path}` is not exists.")
+            exit(-1)
 
     try:
         cloned_repos = []
@@ -249,95 +253,148 @@ process_args()
 custom_node_map = load_custom_nodes()
 
 
-def lookup_node_path(node_name):
+def lookup_node_path(node_name, robust=False):
     # Currently, the node_name is used directly as the node_path, but in the future, I plan to allow nicknames.
+
+    if '..' in node_name:
+        print(f"ERROR: invalid node name '{node_name}'")
+        exit(-1)
+
     if node_name in custom_node_map:
         node_path = os.path.join(custom_nodes_path, node_name)
         return node_path, custom_node_map[node_name]
+    elif robust:
+        node_path = os.path.join(custom_nodes_path, node_name)
+        return node_path, None
 
     print(f"ERROR: invalid node name '{node_name}'")
     exit(-1)
 
 
-def install_node(node_name, is_all=False):
-    node_path, node_item = lookup_node_path(node_name)
-
-    if os.path.exists(node_path):
-        if not is_all:
-            print(f"[ SKIPPED ] {node_name:50} => Already installed")
-    elif os.path.exists(node_path+'.disabled'):
-        enable_node(node_name)
-    else:
-        res = core.gitclone_install(node_item['files'], instant_execution=True)
+def install_node(node_name, is_all=False, cnt_msg=''):
+    if '://' in node_name:
+        # install via urls
+        res = core.gitclone_install([node_name])
         if not res:
             print(f"ERROR: An error occurred while installing '{node_name}'.")
         else:
-            print(f"[INSTALLED] {node_name:50}")
+            print(f"{cnt_msg} [INSTALLED] {node_name:50}")
+    else:
+        node_path, node_item = lookup_node_path(node_name)
+
+        if os.path.exists(node_path):
+            if not is_all:
+                print(f"{cnt_msg} [ SKIPPED ] {node_name:50} => Already installed")
+        elif os.path.exists(node_path+'.disabled'):
+            enable_node(node_name)
+        else:
+            res = core.gitclone_install(node_item['files'], instant_execution=True, msg_prefix=f"[{cnt_msg}] ")
+            if not res:
+                print(f"ERROR: An error occurred while installing '{node_name}'.")
+            else:
+                print(f"{cnt_msg} [INSTALLED] {node_name:50}")
 
 
-def fix_node(node_name, is_all=False):
+def reinstall_node(node_name, is_all=False, cnt_msg=''):
     node_path, node_item = lookup_node_path(node_name)
+
     if os.path.exists(node_path):
-        res = core.gitclone_fix(node_item['files'], instant_execution=True)
+        shutil.rmtree(node_path)
+    if os.path.exists(node_path+'.disabled'):
+        shutil.rmtree(node_path+'.disabled')
+
+    install_node(node_name, is_all=is_all, cnt_msg=cnt_msg)
+
+
+def fix_node(node_name, is_all=False, cnt_msg=''):
+    node_path, node_item = lookup_node_path(node_name, robust=True)
+
+    files = node_item['files'] if node_item is not None else [node_path]
+
+    if os.path.exists(node_path):
+        print(f"{cnt_msg} [   FIXING  ]: {node_name:50} => Disabled")
+        res = core.gitclone_fix(files, instant_execution=True)
         if not res:
             print(f"ERROR: An error occurred while fixing '{node_name}'.")
     elif not is_all and os.path.exists(node_path+'.disabled'):
-        print(f"[  SKIPPED  ]: {node_name:50} => Disabled")
+        print(f"{cnt_msg} [  SKIPPED  ]: {node_name:50} => Disabled")
     elif not is_all:
-        print(f"[  SKIPPED  ]: {node_name:50} => Not installed")
+        print(f"{cnt_msg} [  SKIPPED  ]: {node_name:50} => Not installed")
 
 
-def uninstall_node(node_name, is_all=False):
-    node_path, node_item = lookup_node_path(node_name)
+def uninstall_node(node_name, is_all=False, cnt_msg=''):
+    node_path, node_item = lookup_node_path(node_name, robust=True)
+
+    files = node_item['files'] if node_item is not None else [node_path]
+
     if os.path.exists(node_path) or os.path.exists(node_path+'.disabled'):
-        res = core.gitclone_uninstall(node_item['files'])
+        res = core.gitclone_uninstall(files)
         if not res:
             print(f"ERROR: An error occurred while uninstalling '{node_name}'.")
         else:
-            print(f"[UNINSTALLED] {node_name:50}")
+            print(f"{cnt_msg} [UNINSTALLED] {node_name:50}")
     else:
-        print(f"[  SKIPPED  ]: {node_name:50} => Not installed")
+        print(f"{cnt_msg} [  SKIPPED  ]: {node_name:50} => Not installed")
 
 
-def update_node(node_name, is_all=False):
-    node_path, node_item = lookup_node_path(node_name)
-    res = core.gitclone_update(node_item['files'], skip_script=True)
+def update_node(node_name, is_all=False, cnt_msg=''):
+    node_path, node_item = lookup_node_path(node_name, robust=True)
+
+    files = node_item['files'] if node_item is not None else [node_path]
+
+    res = core.gitclone_update(files, skip_script=True, msg_prefix=f"[{cnt_msg}] ")
     post_install(node_path)
     if not res:
         print(f"ERROR: An error occurred while uninstalling '{node_name}'.")
 
 
-def enable_node(node_name, is_all=False):
+def update_comfyui():
+    res = core.update_path(comfy_path, instant_execution=True)
+    if res == 'fail':
+        print("Updating ComfyUI has failed.")
+    elif res == 'updated':
+        print("ComfyUI is updated.")
+    else:
+        print("ComfyUI is already up to date.")
+
+
+def enable_node(node_name, is_all=False, cnt_msg=''):
     if node_name == 'ComfyUI-Manager':
         return
 
-    node_path, _ = lookup_node_path(node_name)
+    node_path, node_item = lookup_node_path(node_name, robust=True)
 
-    if os.path.exists(node_path+'.disabled'):
-        current_name = node_path+'.disabled'
-        os.rename(current_name, node_path)
-        print(f"[ENABLED] {node_name:50}")
-    elif os.path.exists(node_path):
-        print(f"[SKIPPED] {node_name:50} => Already enabled")
-    elif not is_all:
-        print(f"[SKIPPED] {node_name:50} => Not installed")
+    files = node_item['files'] if node_item is not None else [node_path]
+
+    for x in files:
+        if os.path.exists(x+'.disabled'):
+            current_name = x+'.disabled'
+            os.rename(current_name, x)
+            print(f"{cnt_msg} [ENABLED] {node_name:50}")
+        elif os.path.exists(x):
+            print(f"{cnt_msg} [SKIPPED] {node_name:50} => Already enabled")
+        elif not is_all:
+            print(f"{cnt_msg} [SKIPPED] {node_name:50} => Not installed")
 
 
-def disable_node(node_name, is_all=False):
+def disable_node(node_name, is_all=False, cnt_msg=''):
     if node_name == 'ComfyUI-Manager':
         return
     
-    node_path, _ = lookup_node_path(node_name)
+    node_path, node_item = lookup_node_path(node_name, robust=True)
 
-    if os.path.exists(node_path):
-        current_name = node_path
-        new_name = node_path+'.disabled'
-        os.rename(current_name, new_name)
-        print(f"[DISABLED] {node_name:50}")
-    elif os.path.exists(node_path+'.disabled'):
-        print(f"[ SKIPPED] {node_name:50} => Already disabled")
-    elif not is_all:
-        print(f"[ SKIPPED] {node_name:50} => Not installed")
+    files = node_item['files'] if node_item is not None else [node_path]
+
+    for x in files:
+        if os.path.exists(x):
+            current_name = x
+            new_name = x+'.disabled'
+            os.rename(current_name, new_name)
+            print(f"{cnt_msg} [DISABLED] {node_name:50}")
+        elif os.path.exists(x+'.disabled'):
+            print(f"{cnt_msg} [ SKIPPED] {node_name:50} => Already disabled")
+        elif not is_all:
+            print(f"{cnt_msg} [ SKIPPED] {node_name:50} => Not installed")
 
 
 def show_list(kind, simple=False):
@@ -366,6 +423,38 @@ def show_list(kind, simple=False):
             else:
                 print(f"{prefix} {k:50}(author: {v['author']})")
 
+    # unregistered nodes
+    candidates = os.listdir(os.path.realpath(custom_nodes_path))
+
+    for k in candidates:
+        fullpath = os.path.join(custom_nodes_path, k)
+
+        if os.path.isfile(fullpath):
+            continue
+
+        if k in ['__pycache__']:
+            continue
+
+        states = set()
+        if k.endswith('.disabled'):
+            prefix = '[    DISABLED   ] '
+            states.add('installed')
+            states.add('disabled')
+            states.add('all')
+            k = k[:-9]
+        else:
+            prefix = '[    ENABLED    ] '
+            states.add('installed')
+            states.add('enabled')
+            states.add('all')
+
+        if k not in custom_node_map:
+            if kind in states:
+                if simple:
+                    print(f"{k:50}")
+                else:
+                    print(f"{prefix} {k:50}(author: N/A)")
+
 
 def show_snapshot(simple_mode=False):
     json_obj = core.get_current_snapshot()
@@ -383,9 +472,9 @@ def show_snapshot(simple_mode=False):
 
 
 def show_snapshot_list(simple_mode=False):
-    path = os.path.join(comfyui_manager_path, 'snapshots')
+    snapshot_path = os.path.join(comfyui_manager_path, 'snapshots')
 
-    files = os.listdir(path)
+    files = os.listdir(snapshot_path)
     json_files = [x for x in files if x.endswith('.json')]
     for x in sorted(json_files):
         print(x)
@@ -399,20 +488,34 @@ def cancel():
         os.remove(restore_snapshot_path)
 
 
+def save_snapshot():
+    output_path = None
+    for i in range(len(sys.argv)):
+        if sys.argv[i] == '--output':
+            if len(sys.argv) >= i:
+                output_path = sys.argv[i+1]
+
+    return core.save_snapshot_with_postfix('snapshot', output_path)
+
 def for_each_nodes(act, allow_all=True):
     global nodes
 
     is_all = False
     if allow_all and 'all' in nodes:
         is_all = True
-        nodes = [x for x in custom_node_map.keys() if os.path.exists(os.path.join(custom_nodes_path, x)) or os.path.exists(os.path.join(custom_nodes_path, x)+'.disabled')]
+        nodes = [x for x in custom_node_map.keys() if os.path.exists(os.path.join(custom_nodes_path, x)) or os.path.exists(os.path.join(custom_nodes_path, x) + '.disabled')]
 
+    nodes = [x for x in nodes if x.lower() not in ['comfy', 'comfyui', 'all']]
+
+    total = len(nodes)
+    i = 1
     for x in nodes:
         try:
-            act(x, is_all=is_all)
+            act(x, is_all=is_all, cnt_msg=f'{i}/{total}')
         except Exception as e:
             print(f"ERROR: {e}")
             traceback.print_exc()
+        i += 1
 
 
 op = sys.argv[1]
@@ -421,10 +524,18 @@ op = sys.argv[1]
 if op == 'install':
     for_each_nodes(install_node)
 
+elif op == 'reinstall':
+    for_each_nodes(reinstall_node)
+
 elif op == 'uninstall':
     for_each_nodes(uninstall_node)
 
 elif op == 'update':
+    for x in nodes:
+        if x.lower() in ['comfyui', 'comfy', 'all']:
+            update_comfyui()
+            break
+
     for_each_nodes(update_node, allow_all=True)
 
 elif op == 'disable':
@@ -459,13 +570,14 @@ elif op == 'cli-only-mode':
             pass
         print(f"\ncli-only-mode: enabled\n")
     elif sys.argv[2] == 'disable':
-        os.remove(cli_mode_flag)
+        if os.path.exists(cli_mode_flag):
+            os.remove(cli_mode_flag)
         print(f"\ncli-only-mode: disabled\n")
     else:
         print(f"\ninvalid value for cli-only-mode: {sys.argv[2]}\n")
 
 elif op == 'save-snapshot':
-    path = core.save_snapshot_with_postfix('snapshot')
+    path = save_snapshot()
     print(f"Current snapshot is saved as `{path}`")
 
 elif op == 'restore-snapshot':

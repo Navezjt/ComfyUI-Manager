@@ -14,6 +14,7 @@ import aiohttp
 import threading
 import json
 import time
+import yaml
 
 glob_path = os.path.join(os.path.dirname(__file__))  # ComfyUI-Manager/glob
 sys.path.append(glob_path)
@@ -21,7 +22,7 @@ sys.path.append(glob_path)
 import cm_global
 from manager_util import *
 
-version = [2, 21, 1]
+version = [2, 24, 1]
 version_str = f"V{version[0]}.{version[1]}" + (f'.{version[2]}' if len(version) > 2 else '')
 
 comfyui_manager_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -381,7 +382,7 @@ def execute_install_script(url, repo_path, lazy_mode=False, instant_execution=Fa
             with open(requirements_path, "r") as requirements_file:
                 for line in requirements_file:
                     package_name = remap_pip_package(line.strip())
-                    if package_name:
+                    if package_name and not package_name.startswith('#'):
                         install_cmd = [sys.executable, "-m", "pip", "install", package_name]
                         if package_name.strip() != "":
                             try_install_script(url, repo_path, install_cmd, instant_execution=instant_execution)
@@ -497,8 +498,8 @@ def is_valid_url(url):
         return False
 
 
-def gitclone_install(files, instant_execution=False):
-    print(f"Install: {files}")
+def gitclone_install(files, instant_execution=False, msg_prefix=''):
+    print(f"{msg_prefix}Install: {files}")
     for url in files:
         if not is_valid_url(url):
             print(f"Invalid git url: '{url}'")
@@ -776,10 +777,10 @@ def gitclone_set_active(files, is_disable):
     return True
 
 
-def gitclone_update(files, instant_execution=False, skip_script=False):
+def gitclone_update(files, instant_execution=False, skip_script=False, msg_prefix=""):
     import os
 
-    print(f"Update: {files}")
+    print(f"{msg_prefix}Update: {files}")
     for url in files:
         if url.endswith("/"):
             url = url[:-1]
@@ -808,6 +809,51 @@ def gitclone_update(files, instant_execution=False, skip_script=False):
         print("Update was successful.")
     return True
 
+
+def update_path(repo_path, instant_execution=False):
+    if not os.path.exists(os.path.join(repo_path, '.git')):
+        return "fail"
+
+    # version check
+    repo = git.Repo(repo_path)
+
+    if repo.head.is_detached:
+        switch_to_default_branch(repo)
+
+    current_branch = repo.active_branch
+    branch_name = current_branch.name
+
+    if current_branch.tracking_branch() is None:
+        print(f"[ComfyUI-Manager] There is no tracking branch ({current_branch})")
+        remote_name = 'origin'
+    else:
+        remote_name = current_branch.tracking_branch().remote_name
+    remote = repo.remote(name=remote_name)
+
+    try:
+        remote.fetch()
+    except Exception as e:
+        if 'detected dubious' in str(e):
+            print(f"[ComfyUI-Manager] Try fixing 'dubious repository' error on 'ComfyUI' repository")
+            safedir_path = comfy_path.replace('\\', '/')
+            subprocess.run(['git', 'config', '--global', '--add', 'safe.directory', safedir_path])
+            try:
+                remote.fetch()
+            except Exception:
+                print(f"\n[ComfyUI-Manager] Failed to fixing repository setup. Please execute this command on cmd: \n"
+                      f"-----------------------------------------------------------------------------------------\n"
+                      f'git config --global --add safe.directory "{safedir_path}"\n'
+                      f"-----------------------------------------------------------------------------------------\n")
+
+    commit_hash = repo.head.commit.hexsha
+    remote_commit_hash = repo.refs[f'{remote_name}/{branch_name}'].object.hexsha
+
+    if commit_hash != remote_commit_hash:
+        git_pull(repo_path)
+        execute_install_script("ComfyUI", repo_path, instant_execution=instant_execution)
+        return "updated"
+    else:
+        return "skipped"
 
 def lookup_customnode_by_url(data, target):
     for x in data['custom_nodes']:
@@ -937,15 +983,29 @@ def get_current_snapshot():
     }
 
 
-def save_snapshot_with_postfix(postfix):
-    now = datetime.now()
+def save_snapshot_with_postfix(postfix, path=None):
+    if path is None:
+        now = datetime.now()
 
-    date_time_format = now.strftime("%Y-%m-%d_%H-%M-%S")
-    file_name = f"{date_time_format}_{postfix}"
+        date_time_format = now.strftime("%Y-%m-%d_%H-%M-%S")
+        file_name = f"{date_time_format}_{postfix}"
 
-    path = os.path.join(comfyui_manager_path, 'snapshots', f"{file_name}.json")
-    with open(path, "w") as json_file:
-        json.dump(get_current_snapshot(), json_file, indent=4)
+        path = os.path.join(comfyui_manager_path, 'snapshots', f"{file_name}.json")
+    else:
+        file_name = path.replace('\\', '/').split('/')[-1]
+        file_name = file_name.split('.')[-2]
 
-    return file_name+'.json'
+    snapshot = get_current_snapshot()
+    if path.endswith('.json'):
+        with open(path, "w") as json_file:
+            json.dump(snapshot, json_file, indent=4)
+
+        return file_name + '.json'
+
+    elif path.endswith('.yaml'):
+        with open(path, "w") as yaml_file:
+            snapshot = {'custom_nodes': snapshot}
+            yaml.dump(snapshot, yaml_file, allow_unicode=True)
+
+        return path
 
