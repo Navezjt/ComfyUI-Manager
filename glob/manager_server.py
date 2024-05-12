@@ -508,7 +508,12 @@ def check_model_installed(json_obj):
         item['installed'] = 'None'
 
         if model_path is not None:
-            if os.path.exists(model_path):
+            if model_path.endswith('.zip'):
+                if os.path.exists(model_path[:-4]):
+                    item['installed'] = 'True'
+                else:
+                    item['installed'] = 'False'
+            elif os.path.exists(model_path):
                 item['installed'] = 'True'
             else:
                 item['installed'] = 'False'
@@ -546,6 +551,10 @@ async def get_snapshot_list(request):
 
 @PromptServer.instance.routes.get("/snapshot/remove")
 async def remove_snapshot(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the remove feature. Please contact the administrator.")
+        return web.Response(status=400)
+    
     try:
         target = request.rel_url.query["target"]
 
@@ -560,6 +569,10 @@ async def remove_snapshot(request):
 
 @PromptServer.instance.routes.get("/snapshot/restore")
 async def remove_snapshot(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the restore feature. Please contact the administrator.")
+        return web.Response(status=400)
+    
     try:
         target = request.rel_url.query["target"]
 
@@ -724,6 +737,10 @@ def copy_set_active(files, is_disable, js_path_name='.'):
 
 @PromptServer.instance.routes.post("/customnode/install")
 async def install_custom_node(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the installation of custom nodes. Please contact the administrator.")
+        return web.Response(status=400)
+
     json_data = await request.json()
 
     install_type = json_data['install_type']
@@ -762,6 +779,10 @@ async def install_custom_node(request):
 
 @PromptServer.instance.routes.post("/customnode/fix")
 async def fix_custom_node(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the fix feature. Please contact the administrator.")
+        return web.Response(status=400)
+
     json_data = await request.json()
 
     install_type = json_data['install_type']
@@ -792,6 +813,10 @@ async def fix_custom_node(request):
 
 @PromptServer.instance.routes.post("/customnode/install/git_url")
 async def install_custom_node_git_url(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the installation of custom nodes. Please contact the administrator.")
+        return web.Response(status=400)
+
     url = await request.text()
     res = core.gitclone_install([url])
 
@@ -804,6 +829,10 @@ async def install_custom_node_git_url(request):
 
 @PromptServer.instance.routes.post("/customnode/install/pip")
 async def install_custom_node_git_url(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the installation of pip package. Please contact the administrator.")
+        return web.Response(status=400)
+
     packages = await request.text()
     core.pip_install(packages.split(' '))
 
@@ -812,6 +841,10 @@ async def install_custom_node_git_url(request):
 
 @PromptServer.instance.routes.post("/customnode/uninstall")
 async def uninstall_custom_node(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the uninstallation of custom nodes. Please contact the administrator.")
+        return web.Response(status=400)
+
     json_data = await request.json()
 
     install_type = json_data['install_type']
@@ -872,7 +905,6 @@ async def update_comfyui(request):
             return web.Response(status=200)
     except Exception as e:
         print(f"ComfyUI update fail: {e}", file=sys.stderr)
-        pass
 
     return web.Response(status=400)
 
@@ -916,10 +948,17 @@ async def install_model(request):
                     model_url.startswith('https://github.com') or model_url.startswith('https://huggingface.co') or model_url.startswith('https://heibox.uni-heidelberg.de')):
                 model_dir = get_model_dir(json_data)
                 download_url(model_url, model_dir, filename=json_data['filename'])
+                if model_path.endswith('.zip'):
+                    res = core.unzip(model_path)
+                else:
+                    res = True
 
-                return web.json_response({}, content_type='application/json')
+                if res:
+                    return web.json_response({}, content_type='application/json')
             else:
                 res = download_url_with_agent(model_url, model_path)
+                if res and model_path.endswith('.zip'):
+                    res = core.unzip(model_path)
         else:
             print(f"Model installation error: invalid model type - {json_data['type']}")
 
@@ -927,7 +966,6 @@ async def install_model(request):
             return web.json_response({}, content_type='application/json')
     except Exception as e:
         print(f"[ERROR] {e}", file=sys.stderr)
-        pass
 
     return web.Response(status=400)
 
@@ -945,6 +983,10 @@ manager_terminal_hook = ManagerTerminalHook()
 
 @PromptServer.instance.routes.get("/manager/terminal")
 async def terminal_mode(request):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the terminal feature. Please contact the administrator.")
+        return web.Response(status=400)
+
     if "mode" in request.rel_url.query:
         if request.rel_url.query['mode'] == 'true':
             sys.__comfyui_manager_terminal_hook.add_hook('cm', manager_terminal_hook)
@@ -1068,6 +1110,10 @@ async def get_notice(request):
 
 @PromptServer.instance.routes.get("/manager/reboot")
 def restart(self):
+    if core.is_unsecure_features_disabled():
+        print(f"ERROR: The unsecure feature is disabled, restricting the reboot feature. Please contact the administrator.")
+        return web.Response(status=400)
+
     try:
         sys.stdout.close_log()
     except Exception as e:

@@ -2551,6 +2551,66 @@
       "reference": "https://huggingface.co/cvlab/zero123-weights",
       "filename": "zero123-165000.ckpt",
       "url": "https://huggingface.co/cvlab/zero123-weights/resolve/main/165000.ckpt"
+    },
+    {
+      "name": "InstantID/ip-adapter",
+      "type": "instantid",
+      "base": "SDXL",
+      "save_path": "instantid/SDXL",
+      "description": "ip-adapter model for cubiq/InstantID",
+      "reference": "https://huggingface.co/InstantX/InstantID",
+      "filename": "ip-adapter.bin",
+      "url": "https://huggingface.co/InstantX/InstantID/resolve/main/ip-adapter.bin"
+    },
+    {
+      "name": "InstantID/ControlNet",
+      "type": "controlnet",
+      "base": "SDXL",
+      "save_path": "controlnet/SDXL/instantid",
+      "description": "instantid controlnet model for cubiq/InstantID",
+      "reference": "https://huggingface.co/InstantX/InstantID",
+      "filename": "diffusion_pytorch_model.safetensors",
+      "url": "https://huggingface.co/InstantX/InstantID/resolve/main/ControlNetModel/diffusion_pytorch_model.safetensors"
+    },
+    {
+      "name": "MonsterMMORPG/insightface (for InstantID)",
+      "type": "insightface",
+      "base": "SDXL",
+      "save_path": "insightface/models",
+      "description": "MonsterMMORPG insightface model for cubiq/InstantID",
+      "reference": "https://huggingface.co/MonsterMMORPG/tools/tree/main",
+      "filename": "antelopev2.zip",
+      "url": "https://huggingface.co/MonsterMMORPG/tools/resolve/main/antelopev2.zip"
+    },
+    {
+      "name": "IC-Light/fc",
+      "type": "IC-Light",
+      "base": "SD1.5",
+      "save_path": "unet/IC-Light",
+      "description": "The default relighting model, conditioned on text and foreground",
+      "reference": "https://huggingface.co/lllyasviel/ic-light",
+      "filename": "iclight_sd15_fc.safetensors",
+      "url": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fc.safetensors"
+    },
+    {
+      "name": "IC-Light/fbc",
+      "type": "IC-Light",
+      "base": "SD1.5",
+      "save_path": "unet/IC-Light",
+      "description": "Relighting model conditioned with text, foreground, and background",
+      "reference": "https://huggingface.co/lllyasviel/ic-light",
+      "filename": "iclight_sd15_fbc.safetensors",
+      "url": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fbc.safetensors"
+    },
+    {
+      "name": "IC-Light/fcon",
+      "type": "IC-Light",
+      "base": "SD1.5",
+      "save_path": "unet/IC-Light",
+      "description": "Same as iclight_sd15_fc.safetensors, but trained with offset noise",
+      "reference": "https://huggingface.co/lllyasviel/ic-light",
+      "filename": "iclight_sd15_fcon.safetensors",
+      "url": "https://huggingface.co/lllyasviel/ic-light/resolve/main/iclight_sd15_fcon.safetensors"
     }
   ]
 }
