@@ -11,6 +11,38 @@
         
 
         {
+            "author": "AI2lab",
+            "title": "comfyUI-tool-2lab [REMOVED]",
+            "id": "tool2lab",
+            "reference": "https://github.com/AI2lab/comfyUI-tool-2lab",
+            "files": [
+                "https://github.com/AI2lab/comfyUI-tool-2lab"
+            ],
+            "install_type": "git-clone",
+            "description": "simple tool set for developing workflow and publish to web api server"
+        },
+        {
+            "author": "wibur0620",
+            "title": "ComfyUI Ollama (wibur) [REMOVED]",
+            "id": "ollama-wibur",
+            "reference": "https://github.com/wibur0620/comfyui-ollama-wibur",
+            "files": [
+                "https://github.com/wibur0620/comfyui-ollama-wibur"
+            ],
+            "install_type": "git-clone",
+            "description": "Custom ComfyUI Nodes for interacting with [a/Ollama](https://ollama.com/) using the ollama python client.\nIntegrate the power of LLMs into ComfyUI workflows easily or just experiment with GPT.\nNOTE: To use this properly, you would need a running Ollama server reachable from the host that is running ComfyUI."
+        },
+        {
+            "author": "IKHOR",
+            "title": "ikhor-nodes [REMOVED]",
+            "reference": "https://github.com/IKHOR/ComfyUI-IKHOR-Jam-Nodes",
+            "files": [
+                "https://github.com/IKHOR/ComfyUI-IKHOR-Jam-Nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:LoadFromS3, LoadBatchFromS3, SaveToS3, SaveBatchToS3"
+        },
+        {
             "author": "kijai",
             "title": "ComfyUI wrapper nodes for IC-light [DEPRECATED]",
             "reference": "https://github.com/kijai/ComfyUI-IC-Light-Wrapper",
@@ -59,16 +91,6 @@
             ],
             "install_type": "git-clone",
             "description": "Please note that the ImageTextOverlay project is no longer supported and has been moved to a new repository. For ongoing developments, contributions, and issues, please refer to the new repository at: [a/https://github.com/Big-Idea-Technology/ComfyUI-Book-Tools](https://github.com/Big-Idea-Technology/ComfyUI-Book-Tools)"
-        },
-        {
-            "author": "meimeilook",
-            "title": "ComfyUI_IPAdapter_plus.old [backward compatbility]",
-            "reference": "https://github.com/meimeilook/ComfyUI_IPAdapter_plus.old",
-            "files": [
-                "https://github.com/meimeilook/ComfyUI_IPAdapter_plus.old"
-            ],
-            "install_type": "git-clone",
-            "description": "This repo is created to provide backward compatibility for workflows configured with the old IPAdapter."
         },
         {
             "author": "mlinmg",

@@ -8,8 +8,198 @@
             "install_type": "git-clone",
             "description": "If you see this message, your ComfyUI-Manager is outdated.\nDev channel provides only the list of the developing nodes. If you want to find the complete node list, please go to the Default channel."
         },
+
         
-        
+        {
+            "author": "immersiveexperience",
+            "title": "ie-comfyui-color-nodes",
+            "id": "ie-color-nodes",
+            "reference": "https://github.com/immersiveexperience/ie-comfyui-color-nodes",
+            "files": [
+                "https://github.com/immersiveexperience/ie-comfyui-color-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Custom ComfyUI nodes for simple color correction."
+        },
+        {
+            "author": "tankucc1no",
+            "title": "ComfyUI-Dragdiffusion",
+            "id": "dragdiffusion",
+            "reference": "https://github.com/tankucc1no/ComfyUI-Dragdiffusion",
+            "files": [
+                "https://github.com/tankucc1no/ComfyUI-Dragdiffusion"
+            ],
+            "install_type": "git-clone",
+            "description": "Implementation of [a/Dragdiffusion](https://github.com/Yujun-Shi/DragDiffusion) in ComfyUI."
+        },
+        {
+            "author": "beyastard",
+            "title": "ComfyUI_BeySoft",
+            "reference": "https://github.com/beyastard/ComfyUI_BeySoft",
+            "files": [
+                "https://github.com/beyastard/ComfyUI_BeySoft"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:BeySoft"
+        },
+        {
+            "author": "christian-byrne",
+            "title": "🌌 Infinite Parallax Nodes [WIP]",
+            "reference": "https://github.com/christian-byrne/infinite-zoom-parallax-nodes",
+            "files": [
+                "https://github.com/christian-byrne/infinite-zoom-parallax-nodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Parallax Config, Load Parallax Frame, Save Parallax Object Layers, Layer Shifter for Parallax Outpainting, Save Parallax Frame, Shrink and Pad for Outpainting, Create Infinite Zoom Video"
+        },
+        {
+            "author": "flyingdogsoftware",
+            "title": "Gyre for ComfyUI",
+            "id": "gyre",
+            "reference": "https://github.com/flyingdogsoftware/gyre_for_comfyui",
+            "files": [
+                "https://github.com/flyingdogsoftware/gyre_for_comfyui"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:GyreLoopStart, GyreLoopEnd, GyreIfElse"
+        },
+        {
+            "author": "githubYiheng",
+            "title": "comfyui_median_filter",
+            "id": "median-filter",
+            "reference": "https://github.com/githubYiheng/comfyui_median_filter",
+            "files": [
+                "https://github.com/githubYiheng/comfyui_median_filter"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Apply Median Filter. [w/This has been updated to be equivalent to the comfyui_kmeans_filter node. Mistake?]"
+        },
+        {
+            "author": "nat-chan",
+            "title": "comfyui-eval [UNSAFE]",
+            "id": "evalnode",
+            "reference": "https://github.com/nat-chan/comfyui-eval",
+            "files": [
+                "https://github.com/nat-chan/comfyui-eval"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:EvalNode [w/Please do not use the node that executes arbitrary code and outputs in any type, as it is dangerous.]"
+        },
+        {
+            "author": "haofanwang",
+            "title": "ComfyUI-InstantStyle",
+            "id": "instantstyle",
+            "reference": "https://github.com/haofanwang/ComfyUI-InstantStyle",
+            "files": [
+                "https://github.com/haofanwang/ComfyUI-InstantStyle"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:PromptLoader, BaseModelLoader, InstantStyleLoader, InstantStyleGenerationNode"
+        },
+        {
+            "author": "jp0215",
+            "title": "comfyUI_padding-resize_node",
+            "reference": "https://github.com/jp0215/comfyUI_padding-resize_node",
+            "files": [
+                "https://github.com/jp0215/comfyUI_padding-resize_node/raw/main/PaddingNode.py",
+                "https://github.com/jp0215/comfyUI_padding-resize_node/raw/main/ResizeNode.py"
+            ],
+            "install_type": "copy",
+            "description": "Padding image to 8x: input image and mask, if the side length is not an integer multiple of 8, expand the side length to the smallest multiple of 8 greater than the original side length. Output padding image and mask. Resize to the origin: input the generated image and the original image, crop the generated image to the size of the original image, output the cropped image."
+        },
+        {
+            "author": "Quasimondo",
+            "title": "ComfyUI-QuasimondoNodes [WIP]",
+            "id": "quasimondo-nodes",
+            "reference": "https://github.com/Quasimondo/ComfyUI-QuasimondoNodes",
+            "files": [
+                "https://github.com/Quasimondo/ComfyUI-QuasimondoNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Custom Shader, Spring Mesh"
+        },
+        {
+            "author": "TSFSean",
+            "title": "ComfyUI-TSFNodes",
+            "id": "tsfnodes",
+            "reference": "https://github.com/TSFSean/ComfyUI-TSFNodes",
+            "files": [
+                "https://github.com/TSFSean/ComfyUI-TSFNodes"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:GyroOSC"
+        },
+        {
+            "author": "blib-la",
+            "title": "ComfyUI-Captain-Extensions",
+            "id": "captain",
+            "reference": "https://github.com/blib-la/ComfyUI-Captain-Extensions",
+            "files": [
+                "https://github.com/blib-la/ComfyUI-Captain-Extensions"
+            ],
+            "install_type": "git-clone",
+            "description": "ComfyUI extensions for better [a/Captain](https://github.com/blib-la/captain) integration."
+        },
+        {
+            "author": "ejektaflex",
+            "title": "ComfyUI-Ty",
+            "reference": "https://github.com/ejektaflex/ComfyUI-Ty",
+            "files": [
+                "https://github.com/ejektaflex/ComfyUI-Ty"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Lora Block Weight Regex Loader"
+        },
+        {
+            "author": "88IO",
+            "title": "ComfyUI Image Reordering Plugins [WIP]",
+            "reference": "https://github.com/88IO/ComfyUI-ImageReorder",
+            "files": [
+                "https://github.com/88IO/ComfyUI-ImageReorder"
+            ],
+            "install_type": "git-clone",
+            "description": "A custom node reorder multiple image frames based on indexes or curves."
+        },
+        {
+            "author": "christian-byrne",
+            "title": "Python Interpreter ComfyUI Node [UNSAFE]",
+            "reference": "https://github.com/christian-byrne/python-interpreter-node",
+            "files": [
+                "https://github.com/christian-byrne/python-interpreter-node"
+            ],
+            "install_type": "git-clone",
+            "description": "For debugging, parsing data, generating random values, converting types, testing custom nodes faster.\nReference and use variables in the code using the same names as the inputs in the UI\nWrapper class around tensors with operator overloading for doing common image manipulation tasks.I might remove this aspect\n[w/This extension allows you to run programs through Python code in your workflow, which may not be secure. Use with caution.]"
+        },
+        {
+            "author": "sofakid",
+            "title": "dandy [UNSAFE]",
+            "reference": "https://github.com/sofakid/dandy",
+            "files": [
+                "https://github.com/sofakid/dandy"
+            ],
+            "install_type": "git-clone",
+            "description": "Dandy is a JavaScript bridge for ComfyUI. It includes everything you need to make JavaScript enabled extensions, or just load and code in little editor nodes right in ComfyUI.[w/This code can cause security issues because it allows for the execution of arbitrary JavaScript input.]"
+        },
+        {
+            "author": "tachyon-beep",
+            "title": "comfyui-simplefeed [UNSAFE]",
+            "reference": "https://github.com/tachyon-beep/comfyui-simplefeed",
+            "files": [
+                "https://github.com/tachyon-beep/comfyui-simplefeed"
+            ],
+            "install_type": "git-clone",
+            "description": "A simple image feed for comfyUI which is easily configurable and easily extensible.\nUse the filter button to select which nodes write to the feed. Under settings, there are options that allow you: Position the feed. Set a max iamge count for the feed. Set oldest to newest or newest to oldest."
+        },
+        {
+            "author": "liusida",
+            "title": "ComfyUI-Sida-Remove-Image [UNSAFE]",
+            "reference": "https://github.com/liusida/ComfyUI-Sida-Remove-Image",
+            "files": [
+                "https://github.com/liusida/ComfyUI-Sida-Remove-Image"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes: LoadImageWithPrivacy, RemoveImage.[w/This extension is not secure because it provides the capability to delete files from arbitrary paths.]"
+        },
         {
             "author": "shadowcz007",
             "title": "ComfyUI-PuLID [TEST]",

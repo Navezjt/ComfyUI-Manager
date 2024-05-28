@@ -42,6 +42,36 @@ from comfy.cli_args import args
 import latent_preview
 
 
+is_local_mode = args.listen.startswith('127.')
+
+
+def is_allowed_security_level(level):
+    if level == 'high':
+        if is_local_mode:
+            return core.get_config()['security_level'].lower() in ['weak', 'normal']
+        else:
+            return core.get_config()['security_level'].lower() == 'weak'
+    elif level == 'middle':
+        return core.get_config()['security_level'].lower() in ['weak', 'normal']
+    else:
+        return True
+
+
+async def get_risky_level(files):
+    json_data1 = await core.get_data_by_mode('local', 'custom-node-list.json')
+    json_data2 = await core.get_data_by_mode('cache', 'custom-node-list.json', channel_url='https://github.com/ltdrdata/ComfyUI-Manager/raw/main/custom-node-list.json')
+
+    all_urls = set()
+    for x in json_data1['custom_nodes'] + json_data2['custom_nodes']:
+        all_urls.update(x['files'])
+
+    for x in files:
+        if x not in all_urls:
+            return "high"
+
+    return "middle"
+
+
 class ManagerFuncsInComfyUI(core.ManagerFuncs):
     def get_current_preview_method(self):
         if args.preview_method == latent_preview.LatentPreviewMethod.Auto:
@@ -171,16 +201,13 @@ def print_comfyui_version():
 print_comfyui_version()
 
 
-async def populate_github_stats(json_obj, filename, silent=False):
-    uri = os.path.join(core.comfyui_manager_path, filename)
-    with open(uri, "r", encoding='utf-8') as f:
-        github_stats = json.load(f)
+async def populate_github_stats(json_obj, json_obj_github):
     if 'custom_nodes' in json_obj:
         for i, node in enumerate(json_obj['custom_nodes']):
             url = node['reference']
-            if url in github_stats:
-                json_obj['custom_nodes'][i]['stars'] = github_stats[url]['stars']
-                json_obj['custom_nodes'][i]['last_update'] = github_stats[url]['last_update']
+            if url in json_obj_github:
+                json_obj['custom_nodes'][i]['stars'] = json_obj_github[url]['stars']
+                json_obj['custom_nodes'][i]['last_update'] = json_obj_github[url]['last_update']
             else:
                 json_obj['custom_nodes'][i]['stars'] = -1
                 json_obj['custom_nodes'][i]['last_update'] = -1
@@ -358,6 +385,10 @@ async def fetch_updates(request):
 
 @PromptServer.instance.routes.get("/customnode/update_all")
 async def update_all(request):
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required. Please contact the administrator.")
+        return web.Response(status=403)
+
     try:
         core.save_snapshot_with_postfix('autosave')
 
@@ -439,7 +470,8 @@ async def fetch_customnode_list(request):
         channel = core.get_config()['channel_url']
 
     json_obj = await core.get_data_by_mode(request.rel_url.query["mode"], 'custom-node-list.json')
-    json_obj = await populate_github_stats(json_obj, "github-stats.json")
+    json_obj_github = await core.get_data_by_mode(request.rel_url.query["mode"], 'github-stats.json', 'default')
+    json_obj = await populate_github_stats(json_obj, json_obj_github)
 
     def is_ignored_notice(code):
         if code is not None and code.startswith('#NOTICE_'):
@@ -551,9 +583,9 @@ async def get_snapshot_list(request):
 
 @PromptServer.instance.routes.get("/snapshot/remove")
 async def remove_snapshot(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the remove feature. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required. Please contact the administrator.")
+        return web.Response(status=403)
     
     try:
         target = request.rel_url.query["target"]
@@ -569,9 +601,9 @@ async def remove_snapshot(request):
 
 @PromptServer.instance.routes.get("/snapshot/restore")
 async def remove_snapshot(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the restore feature. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required.  Please contact the administrator.")
+        return web.Response(status=403)
     
     try:
         target = request.rel_url.query["target"]
@@ -737,11 +769,16 @@ def copy_set_active(files, is_disable, js_path_name='.'):
 
 @PromptServer.instance.routes.post("/customnode/install")
 async def install_custom_node(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the installation of custom nodes. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required.  Please contact the administrator.")
+        return web.Response(status=403)
 
     json_data = await request.json()
+
+    risky_level = await get_risky_level(json_data['files'])
+    if not is_allowed_security_level(risky_level):
+        print(f"ERROR: This installation is not allowed in this security_level.  Please contact the administrator.")
+        return web.Response(status=404)
 
     install_type = json_data['install_type']
 
@@ -779,9 +816,9 @@ async def install_custom_node(request):
 
 @PromptServer.instance.routes.post("/customnode/fix")
 async def fix_custom_node(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the fix feature. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required. Please contact the administrator.")
+        return web.Response(status=403)
 
     json_data = await request.json()
 
@@ -813,9 +850,9 @@ async def fix_custom_node(request):
 
 @PromptServer.instance.routes.post("/customnode/install/git_url")
 async def install_custom_node_git_url(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the installation of custom nodes. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('high'):
+        print(f"ERROR: To use this feature, you must set '--listen' to a local IP and set the security level to 'middle' or 'weak'. Please contact the administrator.")
+        return web.Response(status=403)
 
     url = await request.text()
     res = core.gitclone_install([url])
@@ -829,9 +866,9 @@ async def install_custom_node_git_url(request):
 
 @PromptServer.instance.routes.post("/customnode/install/pip")
 async def install_custom_node_git_url(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the installation of pip package. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('high'):
+        print(f"ERROR: To use this feature, you must set '--listen' to a local IP and set the security level to 'middle' or 'weak'. Please contact the administrator.")
+        return web.Response(status=403)
 
     packages = await request.text()
     core.pip_install(packages.split(' '))
@@ -841,9 +878,9 @@ async def install_custom_node_git_url(request):
 
 @PromptServer.instance.routes.post("/customnode/uninstall")
 async def uninstall_custom_node(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the uninstallation of custom nodes. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required.  Please contact the administrator.")
+        return web.Response(status=403)
 
     json_data = await request.json()
 
@@ -869,6 +906,10 @@ async def uninstall_custom_node(request):
 
 @PromptServer.instance.routes.post("/customnode/update")
 async def update_custom_node(request):
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required. Please contact the administrator.")
+        return web.Response(status=403)
+
     json_data = await request.json()
 
     install_type = json_data['install_type']
@@ -983,9 +1024,9 @@ manager_terminal_hook = ManagerTerminalHook()
 
 @PromptServer.instance.routes.get("/manager/terminal")
 async def terminal_mode(request):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the terminal feature. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('high'):
+        print(f"ERROR: To use this action, a security_level of `weak` is required. Please contact the administrator.")
+        return web.Response(status=403)
 
     if "mode" in request.rel_url.query:
         if request.rel_url.query['mode'] == 'true':
@@ -1110,9 +1151,9 @@ async def get_notice(request):
 
 @PromptServer.instance.routes.get("/manager/reboot")
 def restart(self):
-    if core.is_unsecure_features_disabled():
-        print(f"ERROR: The unsecure feature is disabled, restricting the reboot feature. Please contact the administrator.")
-        return web.Response(status=400)
+    if not is_allowed_security_level('middle'):
+        print(f"ERROR: To use this action, a security_level of `middle or below` is required.  Please contact the administrator.")
+        return web.Response(status=403)
 
     try:
         sys.stdout.close_log()
@@ -1618,8 +1659,9 @@ async def default_cache_update():
     b = get_cache("extension-node-map.json")
     c = get_cache("model-list.json")
     d = get_cache("alter-list.json")
+    e = get_cache("github-stats.json")
 
-    await asyncio.gather(a, b, c, d)
+    await asyncio.gather(a, b, c, d, e)
 
 
 threading.Thread(target=lambda: asyncio.run(default_cache_update())).start()
