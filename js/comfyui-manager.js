@@ -11,8 +11,7 @@ import {
 	showYouMLShareDialog
 } from "./comfyui-share-common.js";
 import { OpenArtShareDialog } from "./comfyui-share-openart.js";
-import { CustomNodesInstaller } from "./custom-nodes-downloader.js";
-import { AlternativesInstaller } from "./a1111-alter-downloader.js";
+import { CustomNodesManager } from "./custom-nodes-manager.js";
 import { SnapshotManager } from "./snapshot.js";
 import { ModelInstaller } from "./model-downloader.js";
 import { manager_instance, setManagerInstance, install_via_git_url, install_pip, rebootAPI, free_models, show_message } from "./common.js";
@@ -26,6 +25,7 @@ docStyle.innerHTML = `
 	height: 520px;
 	box-sizing: content-box;
 	z-index: 10000;
+	overflow-y: auto;
 }
 
 .cb-widget {
@@ -568,10 +568,10 @@ async function fetchUpdates(update_check_checkbox) {
 				async function() {
 					app.ui.dialog.close();
 
-					if(!CustomNodesInstaller.instance)
-						CustomNodesInstaller.instance = new CustomNodesInstaller(app, self);
-
-					await CustomNodesInstaller.instance.show(CustomNodesInstaller.ShowMode.UPDATE);
+					if(!CustomNodesManager.instance) {
+						CustomNodesManager.instance = new CustomNodesManager(app, self);
+					}
+					await CustomNodesManager.instance.show(CustomNodesManager.ShowMode.UPDATE);
 				}
 			);
 
@@ -714,12 +714,13 @@ class ManagerMenuDialog extends ComfyDialog {
 			[
 				$el("button.cm-button", {
 					type: "button",
-					textContent: "Install Custom Nodes",
+					textContent: "Custom Nodes Manager",
 					onclick:
 						() => {
-							if(!CustomNodesInstaller.instance)
-								CustomNodesInstaller.instance = new CustomNodesInstaller(app, self);
-							CustomNodesInstaller.instance.show(CustomNodesInstaller.ShowMode.NORMAL);
+							if(!CustomNodesManager.instance) {
+								CustomNodesManager.instance = new CustomNodesManager(app, self);
+							}
+							CustomNodesManager.instance.show(CustomNodesManager.ShowMode.NORMAL);
 						}
 				}),
 
@@ -728,9 +729,10 @@ class ManagerMenuDialog extends ComfyDialog {
 					textContent: "Install Missing Custom Nodes",
 					onclick:
 						() => {
-							if(!CustomNodesInstaller.instance)
-								CustomNodesInstaller.instance = new CustomNodesInstaller(app, self);
-							CustomNodesInstaller.instance.show(CustomNodesInstaller.ShowMode.MISSING_NODES);
+							if(!CustomNodesManager.instance) {
+								CustomNodesManager.instance = new CustomNodesManager(app, self);
+							}
+							CustomNodesManager.instance.show(CustomNodesManager.ShowMode.MISSING);
 						}
 				}),
 
@@ -768,9 +770,10 @@ class ManagerMenuDialog extends ComfyDialog {
 					textContent: "Alternatives of A1111",
 					onclick:
 						() => {
-							if(!AlternativesInstaller.instance)
-								AlternativesInstaller.instance = new AlternativesInstaller(app, self);
-							AlternativesInstaller.instance.show();
+							if(!CustomNodesManager.instance) {
+								CustomNodesManager.instance = new CustomNodesManager(app, self);
+							}
+							CustomNodesManager.instance.show(CustomNodesManager.ShowMode.ALTERNATIVES);
 						}
 				}),
 

@@ -8,14 +8,16 @@ import re
 import locale
 import platform
 import json
-
+import ast
 
 glob_path = os.path.join(os.path.dirname(__file__), "glob")
 sys.path.append(glob_path)
 
+import security_check
 from manager_util import *
 import cm_global
 
+security_check.security_check()
 
 cm_global.pip_downgrade_blacklist = ['torch', 'torchsde', 'torchvision', 'transformers', 'safetensors', 'kornia']
 
@@ -476,8 +478,9 @@ if os.path.exists(restore_snapshot_path):
                         for line in file:
                             package_name = remap_pip_package(line.strip())
                             if package_name and not is_installed(package_name):
-                                install_cmd = [sys.executable, "-m", "pip", "install", package_name]
-                                this_exit_code += process_wrap(install_cmd, repo_path)
+                                if not package_name.startswith('#'):
+                                    install_cmd = [sys.executable, "-m", "pip", "install", package_name]
+                                    this_exit_code += process_wrap(install_cmd, repo_path)
 
                 if os.path.exists(install_script_path) and f'{repo_path}/install.py' not in processed_install:
                     processed_install.add(f'{repo_path}/install.py')
@@ -541,7 +544,7 @@ if os.path.exists(script_list_path):
             executed.add(line)
 
             try:
-                script = eval(line)
+                script = ast.literal_eval(line)
 
                 if script[1].startswith('#') and script[1] != '#FORCE':
                     if script[1] == "#LAZY-INSTALL-SCRIPT":

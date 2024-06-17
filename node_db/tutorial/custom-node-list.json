@@ -189,6 +189,26 @@
             ],
             "install_type": "git-clone",
             "description": "Keeping it simple for starting. Single branch for now and will add development branch later."
+        },
+        {
+            "author": "jtong",
+            "title": "comfyui-jtong-workflow",
+            "reference": "https://github.com/jtong/comfyui-jtong-workflow",
+            "files": [
+                "https://github.com/jtong/comfyui-jtong-workflow"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:jtong.Highway, Example"
+        },
+        {
+            "author": "thinkthinking",
+            "title": "ComfyUI-Ye",
+            "reference": "https://github.com/thinkthinking/ComfyUI-Ye",
+            "files": [
+                "https://github.com/thinkthinking/ComfyUI-Ye"
+            ],
+            "install_type": "git-clone",
+            "description": "Nodes:Signature|Ye, CheckpointLoader|Ye, PrintHelloWorld|Ye."
         }
     ]
 }

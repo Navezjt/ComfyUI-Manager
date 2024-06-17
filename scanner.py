@@ -3,9 +3,10 @@ import re
 import os
 import json
 from git import Repo
-from torchvision.datasets.utils import download_url
 import concurrent
 import datetime
+import concurrent.futures
+import requests
 
 builtin_nodes = set()
 
@@ -13,6 +14,29 @@ import sys
 
 from urllib.parse import urlparse
 from github import Github
+
+
+def download_url(url, dest_folder, filename=None):
+    # Ensure the destination folder exists
+    if not os.path.exists(dest_folder):
+        os.makedirs(dest_folder)
+
+    # Extract filename from URL if not provided
+    if filename is None:
+        filename = os.path.basename(url)
+
+    # Full path to save the file
+    dest_path = os.path.join(dest_folder, filename)
+
+    # Download the file
+    response = requests.get(url, stream=True)
+    if response.status_code == 200:
+        with open(dest_path, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=1024):
+                if chunk:
+                    file.write(chunk)
+    else:
+        raise Exception(f"Failed to download file from {url}")
 
 
 # prepare temp dir
@@ -293,12 +317,16 @@ def update_custom_nodes():
                     if len(path_parts) >= 2 and domain == "github.com":
                         owner_repo = "/".join(path_parts[-2:])
                         repo = g.get_repo(owner_repo)
-
+                        owner = repo.owner
+                        now = datetime.datetime.now(datetime.timezone.utc)
+                        author_time_diff = now - owner.created_at
+                        
                         last_update = repo.pushed_at.strftime("%Y-%m-%d %H:%M:%S") if repo.pushed_at else 'N/A'
                         item = {
                             "stars": repo.stargazers_count,
                             "last_update": last_update,
-                            "cached_time": datetime.datetime.now().timestamp(),
+                            "cached_time": now.timestamp(),
+                            "author_account_age_days": author_time_diff.days,
                         }
                         return url, item
                     else:
@@ -453,7 +481,13 @@ def gen_json(node_info):
             git_url, title, preemptions, node_pattern = node_info[extension]
 
             with open(node_list_json_path, 'r', encoding='utf-8') as f:
-                node_list_json = json.load(f)
+                try:
+                    node_list_json = json.load(f)
+                except Exception as e:
+                    print(f"\nERROR: Invalid json format '{node_list_json_path}'")
+                    print("------------------------------------------------------")
+                    print(e)
+                    print("------------------------------------------------------")
 
             metadata_in_url = {}
             if git_url not in data:
